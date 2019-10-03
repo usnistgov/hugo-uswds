@@ -1,0 +1,33 @@
+{{ $currentPage := . }}
+{{ $scratch := newScratch }}
+{{ $scratch.Set "currentPage" $currentPage }}
+{{ $scratch.Set "section" .FirstSection }}
+<ul class="usa-sidenav">
+  {{ template "section-tree-nav" $scratch }}
+</ul>
+
+{{ define "section-tree-nav" }}
+  {{ $currentPage := .Get "currentPage" }}
+  {{ $page := .Get "section" }}
+  <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current{{ end }}" href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+    {{ if eq $page $currentPage }}
+    <div id="js-toc"></div>
+    {{ end }}
+  {{ $pages := $page.Pages }}
+  {{ if gt (len $pages) 0 }}
+    <ul class="usa-sidenav">
+      {{ range $pages }}
+        {{ $page := . }}
+        {{ if eq .Kind "section"}}
+          {{ $scratch := newScratch }}
+          {{ $scratch.Set "currentPage" $currentPage }}
+          {{ $scratch.Set "section" . }}
+          {{ template "section-tree-nav" $scratch }}
+        {{ else }}
+      <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current{{ end }}" href="{{ $page.RelPermalink }}">{{ $page.Title }}</a></li>
+        {{ end }}
+      {{ end }}
+    </ul>
+  {{ end }}
+  </li>
+{{ end }}
