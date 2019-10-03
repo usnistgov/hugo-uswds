@@ -3,7 +3,8 @@
 <html>
 <head>
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
-
+  {{ block "head" . }}
+  {{ end }}
   {{ $styleUSWDS := resources.Get "scss/uswds-custom.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS | minify }}
   {{ $secureStyle := $styleUSWDS | resources.Fingerprint "sha512" }}
   <link rel="stylesheet" href="{{ $styleUSWDS.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
@@ -43,6 +44,8 @@
   {{ $secureJS := $js | resources.Fingerprint "sha512" }}
   <script src="{{ $js.Permalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
 {{- end }}
+{{ block "foot" . }}
+{{ end }}
 </body>
 </html>
 {{ end }}
