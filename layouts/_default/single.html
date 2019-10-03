@@ -1,0 +1,16 @@
+{{ define "main" }}
+{{ partial "components/basic-header.html" . }}
+
+<main class="usa-layout-docs usa-section" id="main-content">
+  <div class="grid-container">
+    <div class="grid-row grid-gap">
+      <aside class="usa-layout-docs__sidenav desktop:grid-col-3">
+{{ partial "components/sidenav.html" . }}
+      </aside>
+      <div id="main-content" class="usa-layout-docs__main desktop:grid-col-9 usa-prose">
+        {{ .Content }}
+      </div>
+    </div>
+  </div>
+</main>
+{{ end }}

@@ -1,0 +1,69 @@
+{{ if or (not (isset .Params "render")) (.Params.render) }}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
+  <link rel="stylesheet" href="https://pages.nist.gov/nist-header-footer/css/nist-combined.css">
+  <script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+  <script src="https://pages.nist.gov/nist-header-footer/js/nist-header-footer.js" type="text/javascript" defer="defer"></script>
+
+  {{ $styleUSWDS := resources.Get "scss/uswds-custom.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS | minify }}
+  {{ $secureStyle := $styleUSWDS | resources.Fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $styleUSWDS.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
+
+  {{ range .Site.Params.custom_css -}}
+    {{ $style := resources.Get . | resources.Minify }}
+    {{ $secureStyle := $style | resources.Fingerprint "sha512" }}
+    <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
+  {{- end }}
+  {{ range .Page.Params.custom_css -}}
+    {{ $style := resources.Get . }}
+    {{ if $style }}
+      {{ $style := $style | resources.Minify }}
+      {{ $secureStyle := $style | resources.Fingerprint "sha512" }}
+      <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
+    {{ end }}
+  {{- end }}
+</head>
+<body>
+{{ block "main" . }}
+{{ end }}
+{{ $main := resources.Get "/js/uswds.js" }}
+
+{{ $js := slice $main | resources.Concat "/js/site.js" | minify }}
+{{ $secureJS := $js | resources.Fingerprint "sha512" }}
+<script type="text/javascript" src="{{ $js.Permalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js" integrity="sha384-S2Sj9dbj135Vzm4xwOrcyOA/FlODQj514E6Il+ayOB/Y0YClPg5BpCy7lG2G8wtV" crossorigin="anonymous"></script>
+{{ range .Site.Params.custom_js -}}
+  {{ $js := resources.Get . | resources.Minify }}
+  {{ $secureJS := $js | resources.Fingerprint "sha512" }}
+  <script src="{{ $js.Permalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
+{{- end }}
+{{ range .Page.Params.custom_js -}}
+  {{ $js := resources.Get . }}
+  {{ $js := $js | resources.Minify }}
+  {{ $secureJS := $js | resources.Fingerprint "sha512" }}
+  <script src="{{ $js.Permalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
+{{- end }}
+<script>
+  tocbot.init({
+  // Where to render the table of contents.
+  tocSelector: '#js-toc',
+  // Where to grab the headings to build the table of contents.
+  contentSelector: '#main-content',
+  // Which headings to grab inside of the contentSelector element.
+  headingSelector: 'h1, h2, h3',
+  // For headings inside relative or absolute positioned containers within content.
+  hasInnerContainers: true,
+  orderedList: false,
+  listClass: 'usa-sidenav',
+  listItemClass: 'usa-sidenav__item',
+  activeLinkClass: 'usa-current'
+});
+</script>
+</body>
+</html>
+{{ end }}
