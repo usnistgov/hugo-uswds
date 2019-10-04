@@ -13,7 +13,7 @@
       <ul class="usa-nav__primary usa-accordion">
         {{ $currentPage := . }}
         {{ range .Site.Menus.primary }}
-        <li class="usa-nav__primary-item{{if or ($currentPage.IsMenuCurrent "primary" .) ($currentPage.HasMenuCurrent "primary" .) }} usa-current{{end}}">
+        <li class="usa-nav__primary-item{{if or (or ($currentPage.IsMenuCurrent "primary" .) ($currentPage.HasMenuCurrent "primary" .)) ($currentPage.IsDescendant .Page) }} usa-current{{end}}">
           <a class="usa-nav__link" href="{{ .URL }}"><span>{{ .Name }}</span></a>
         </li>
         {{ end }}

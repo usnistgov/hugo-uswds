@@ -1,0 +1,2 @@
+{{ $class := .Get "class" }}
+<div{{ if $class }} class="{{$class}}"{{end}}>{{.Inner | markdownify}}</div>
