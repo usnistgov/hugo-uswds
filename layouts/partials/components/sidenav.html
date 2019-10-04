@@ -1,11 +1,16 @@
 {{ $currentPage := . }}
 {{ $scratch := newScratch }}
 {{ $scratch.Set "currentPage" $currentPage }}
-{{ $scratch.Set "section" .FirstSection }}
+{{ $pages := .FirstSection.Pages }}
+{{ if gt (len $pages) 0 }}
 <ul class="usa-sidenav">
-  {{ template "section-tree-nav" $scratch }}
+  {{ range $pages }}
+    {{ $page := . }}
+    {{ $scratch.Set "section" $page }}
+    {{ template "section-tree-nav" $scratch }}
+  {{ end }}
 </ul>
-
+{{ end }}
 {{ define "section-tree-nav" }}
   {{ $currentPage := .Get "currentPage" }}
   {{ $page := .Get "section" }}
