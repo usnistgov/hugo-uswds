@@ -1,8 +1,8 @@
-<section class="usa-hero" style="background-image: url('{{ .image | relURL }}')">
+<section class="usa-hero" style="background-image: url('{{ .BaseURL }}{{ .hero.image }}')">
   <div class="grid-container">
     <div class="usa-hero__callout">
-      <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">{{ .callout.text | safeHTML }}</span>{{ .callout.alt | safeHTML }}</h1>
-      <p>{{ .tagline | safeHTML }}</p><a class="usa-button" href="{{ .button.href | relURL }}">{{ .button.text | safeHTML }}</a>
+      <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">{{ .hero.callout.text | safeHTML }}</span>{{ .hero.callout.alt | safeHTML }}</h1>
+      <p>{{ .hero.tagline | safeHTML }}</p><a class="usa-button" href="{{ .button.href | relURL }}">{{ .hero.button.text | safeHTML }}</a>
     </div>
   </div>
 </section>
