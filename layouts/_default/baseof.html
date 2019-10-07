@@ -26,6 +26,8 @@
 <body>
 {{ block "main" . }}
 {{ end }}
+<p class="font-sans-sm text-center ">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentRepoPath }} <button onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ .File.Path }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
+
 {{ $main := resources.Get "/js/uswds.js" }}
 
 {{ $js := slice $main | resources.Concat "/js/site.js" | minify }}
