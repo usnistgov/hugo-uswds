@@ -11,15 +11,13 @@
 
   {{ range .Site.Params.custom_css -}}
     {{ $style := resources.Get . | resources.Minify }}
-    {{ $secureStyle := $style | resources.Fingerprint "sha512" }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
+    <link rel="stylesheet" href="{{ $style.Permalink }}">
   {{- end }}
   {{ range .Page.Params.custom_css -}}
     {{ $style := resources.Get . }}
     {{ if $style }}
       {{ $style := $style | resources.Minify }}
-      {{ $secureStyle := $style | resources.Fingerprint "sha512" }}
-      <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
+      <link rel="stylesheet" href="{{ $style.Permalink }}">
     {{ end }}
   {{- end }}
 </head>

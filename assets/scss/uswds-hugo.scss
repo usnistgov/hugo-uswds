@@ -1,0 +1,8 @@
+$theme-font-path:   '{{ .Site.BaseURL }}fonts';
+$theme-image-path:  '{{ .Site.BaseURL }}img';
+$theme-hero-image:  '{{ .Site.BaseURL }}img/hero.png';
+
+@import 'uswds';
+@import 'hugo-sidenav';
+@import 'hugo-markdown';
+@import 'hugo-syntax';

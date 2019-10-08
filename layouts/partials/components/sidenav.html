@@ -14,7 +14,7 @@
 {{ define "section-tree-nav" }}
   {{ $currentPage := .Get "currentPage" }}
   {{ $page := .Get "section" }}
-  <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current  bg-primary-lighter{{ end }}" href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+  <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current  bg-primary-lighter{{ end }}" href="{{ $page.RelPermalink }}">{{if isset $page "navtitle" }}{{ $page.NavTitle }}{{ else }}{{ $page.Title }}{{ end }}</a>
     {{ if eq $page $currentPage }}
     <div id="js-toc"></div>
     {{ end }}
@@ -29,7 +29,7 @@
           {{ $scratch.Set "section" . }}
           {{ template "section-tree-nav" $scratch }}
         {{ else }}
-      <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current bg-primary-lighter{{ end }}" href="{{ $page.RelPermalink }}">{{ $page.Title }}</a>
+      <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current bg-primary-lighter{{ end }}" href="{{ $page.RelPermalink }}">{{if isset $page "navtitle" }}{{ $page.NavTitle }}{{ else }}{{ $page.Title }}{{ end }}</a>
         {{ if eq $page $currentPage }}
         <div id="js-toc"></div>
         {{ end }}
