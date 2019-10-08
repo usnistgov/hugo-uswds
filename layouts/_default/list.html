@@ -7,7 +7,21 @@
 {{ partial "components/sidenav.html" . }}
       </aside>
       <div id="main-content" class="usa-layout-docs__main desktop:grid-col-9 usa-prose">
-        {{ .Content }}
+        <article>
+          <header>
+            {{ if .Params.heading }}<h1>{{ .Params.heading }}</h1>{{ end }}
+          </header>
+          {{ .Content }}
+        </article>
+        {{ $pages := .Pages }}
+        {{ if gt (len $pages) 0 }}
+        <h1>This section contains the following topics:</h1>
+        <ul>
+        {{ range $index, $page := .Pages }}
+          <li><a class="usa-link" href="{{.Permalink}}"><b>{{.Title}}{{ if .Description }}:{{end}}</b></a>{{ if .Description }} {{ .Description }}{{end}}</li>
+        {{ end }}
+        </ul>
+        {{ end }}
       </div>
     </div>
   </div>

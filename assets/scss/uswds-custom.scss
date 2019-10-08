@@ -1,4 +1,1 @@
-$theme-font-path:   '{{ "/" | relURL }}fonts';
-$theme-image-path:  '{{ "/" | relURL }}img';
-
-@import 'uswds';
+@import 'uswds-hugo';

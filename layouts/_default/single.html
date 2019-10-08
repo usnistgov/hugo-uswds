@@ -8,6 +8,7 @@
 {{ partial "components/sidenav.html" . }}
       </aside>
       <div id="main-content" class="usa-layout-docs__main desktop:grid-col-9 usa-prose">
+        {{ if .Params.heading }}{{ .Params.heading }}{{ end }}
         {{ .Content }}
       </div>
     </div>

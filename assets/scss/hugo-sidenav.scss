@@ -1,0 +1,44 @@
+
+.usa-sidenav {
+  position: sticky;
+  top: 0;
+}
+
+.usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist a {
+  padding-left: 5rem;
+}
+
+.usa-sidenav {
+  a {
+    padding-left: 1rem;
+  }
+  .usa-sidenav {
+    a {
+      padding-left: 2rem;
+    }
+    .usa-sidenav {
+      a {
+        padding-left: 3rem;
+      }
+      .usa-sidenav {
+        a {
+          padding-left: 4rem;
+        }
+        .usa-sidenav {
+          a {
+            padding-left: 5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist a {
+  padding-left: 5rem;
+}
+
+/* fix extra line */
+div#js-toc ul.usa-sidenav {
+  border-bottom: none;
+}

@@ -3,33 +3,36 @@
 <html>
 <head>
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
-
+  {{ block "head" . }}
+  {{ end }}
   {{ $styleUSWDS := resources.Get "scss/uswds-custom.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS | minify }}
   {{ $secureStyle := $styleUSWDS | resources.Fingerprint "sha512" }}
   <link rel="stylesheet" href="{{ $styleUSWDS.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
 
   {{ range .Site.Params.custom_css -}}
     {{ $style := resources.Get . | resources.Minify }}
-    {{ $secureStyle := $style | resources.Fingerprint "sha512" }}
-    <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
+    <link rel="stylesheet" href="{{ $style.Permalink }}">
   {{- end }}
   {{ range .Page.Params.custom_css -}}
     {{ $style := resources.Get . }}
     {{ if $style }}
       {{ $style := $style | resources.Minify }}
-      {{ $secureStyle := $style | resources.Fingerprint "sha512" }}
-      <link rel="stylesheet" href="{{ $style.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
+      <link rel="stylesheet" href="{{ $style.Permalink }}">
     {{ end }}
   {{- end }}
 </head>
 <body>
 {{ block "main" . }}
 {{ end }}
+<p class="font-sans-sm text-center ">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentRepoPath }} <button onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ .File.Path }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
+
 {{ $main := resources.Get "/js/uswds.js" }}
 
 {{ $js := slice $main | resources.Concat "/js/site.js" | minify }}
 {{ $secureJS := $js | resources.Fingerprint "sha512" }}
 <script type="text/javascript" src="{{ $js.Permalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js" integrity="sha384-S2Sj9dbj135Vzm4xwOrcyOA/FlODQj514E6Il+ayOB/Y0YClPg5BpCy7lG2G8wtV" crossorigin="anonymous"></script>
+
 {{ range .Site.Params.custom_js -}}
   {{ $js := resources.Get . | resources.Minify }}
   {{ $secureJS := $js | resources.Fingerprint "sha512" }}
@@ -41,6 +44,8 @@
   {{ $secureJS := $js | resources.Fingerprint "sha512" }}
   <script src="{{ $js.Permalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
 {{- end }}
+{{ block "foot" . }}
+{{ end }}
 </body>
 </html>
 {{ end }}
