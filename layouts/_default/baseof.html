@@ -5,7 +5,7 @@
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
   {{ block "head" . }}
   {{ end }}
-  {{ $styleUSWDS := resources.Get "scss/uswds-custom.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS | minify }}
+  {{ $styleUSWDS := resources.Get "scss/uswds-hugo.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS | minify }}
   {{ $secureStyle := $styleUSWDS | resources.Fingerprint "sha512" }}
   <link rel="stylesheet" href="{{ $styleUSWDS.Permalink }}" integrity="{{ $secureStyle.Data.Integrity }}">
 
@@ -44,6 +44,22 @@
   {{ $secureJS := $js | resources.Fingerprint "sha512" }}
   <script src="{{ $js.Permalink }}" integrity="{{ $secureJS.Data.Integrity }}"></script>
 {{- end }}
+<script>
+tocbot.init({
+  // Where to render the table of contents.
+  tocSelector: '#js-toc',
+  // Where to grab the headings to build the table of contents.
+  contentSelector: '#main-content',
+  // Which headings to grab inside of the contentSelector element.
+  headingSelector: '{{if and (isset $.Params "sidenav") ((isset $.Params.sidenav "headingselectors")) }}{{ .Params.sidenav.headingselectors }}{{ else }}h2, h3, h4{{ end }}',
+  // For headings inside relative or absolute positioned containers within content.
+  hasInnerContainers: true,
+  orderedList: false,
+  listClass: 'usa-sidenav',
+  listItemClass: 'usa-sidenav__item bg-primary-lighter',
+  activeLinkClass: 'usa-current'
+});
+</script>
 {{ block "foot" . }}
 {{ end }}
 </body>
