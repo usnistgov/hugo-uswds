@@ -39,6 +39,29 @@
 }
 
 /* fix extra line */
-div#js-toc ul.usa-sidenav {
+ul.usa-sidenav ul.usa-sidenav {
   border-bottom: none;
+}
+
+.toc {
+ overflow-y:auto
+}
+.toc>.toc-list {
+ overflow:hidden;
+ position:relative
+}
+a.toc-link {
+ height:100%
+}
+.is-collapsible {
+ max-height:1000px;
+ overflow:hidden;
+ transition:all 300ms ease-in-out
+}
+.is-collapsed {
+ max-height:0
+}
+.is-position-fixed {
+ position:fixed !important;
+ top:0
 }

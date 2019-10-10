@@ -20,6 +20,10 @@ The files in `assets/scss/lib` are from:
 
 * [_normalize.scss](https://github.com/necolas/normalize.css), copyright Nicolas Gallagher and Jonathan Neal, under the [MIT license](https://github.com/necolas/normalize.css/blob/master/LICENSE.md).
 
+This project also uses the following Javascript libraries:
+
+* [Tocbot](https://tscanlin.github.io/tocbot/), copyright Tim Scanlin, under the [MIT license](https://github.com/tscanlin/tocbot/blob/master/LICENSE).
+
 #### Full license text for the MIT licensed files:
 
 ```

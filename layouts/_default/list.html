@@ -1,3 +1,7 @@
+{{ define "head" }}
+{{ partial "head.html" . }}
+{{ end }}
+
 {{ define "main" }}
 {{ partial "components/basic-header.html" . }}
 <main class="usa-layout-docs usa-section" id="main-content">
@@ -9,7 +13,7 @@
       <div id="main-content" class="usa-layout-docs__main desktop:grid-col-9 usa-prose">
         <article>
           <header>
-            {{ if .Params.heading }}<h1>{{ .Params.heading }}</h1>{{ end }}
+            {{ if isset .Params "heading" }}<h1>{{ .Params.heading }}</h1>{{else}}<h1>{{ .Title }}</h1>{{ end }}
           </header>
           {{ .Content }}
         </article>
@@ -18,7 +22,7 @@
         <h1>This section contains the following topics:</h1>
         <ul>
         {{ range $index, $page := .Pages }}
-          <li><a class="usa-link" href="{{.Permalink}}"><b>{{.Title}}{{ if .Description }}:{{end}}</b></a>{{ if .Description }} {{ .Description }}{{end}}</li>
+          <li><a class="usa-link" href="{{.Permalink}}"><b>{{.Title}}{{ if .Description }}:{{end}}</b></a>{{ if .Description }} {{ .Description | markdownify }}{{end}}</li>
         {{ end }}
         </ul>
         {{ end }}
@@ -26,4 +30,8 @@
     </div>
   </div>
 </main>
+{{ end }}
+
+{{ define "foot" }}
+{{ partial "foot.html" . }}
 {{ end }}
