@@ -1,0 +1,6 @@
+<!-- Unique ID for the maps within the page -->
+{{- $guid := printf "map-%d" .Ordinal -}}
+<img src="{{ .Get "src" }}" width="{{ .Get "width" }}" height="{{ .Get "height" }}" usemap="#{{ $guid }}"{{ with .Get "alt" }} alt="{{ . }}"{{ end }} />
+<map name="{{ $guid }}">
+  {{- .Inner -}}
+</map>
