@@ -6,4 +6,5 @@ $theme-hero-image:  '{{ .Site.BaseURL }}img/hero.png';
 @import 'hugo-sidenav';
 @import 'hugo-markdown';
 @import 'hugo-syntax';
+@import 'hugo-imagemap';
 @import 'uswds-custom';
