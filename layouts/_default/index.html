@@ -5,9 +5,15 @@
 {{ define "main" }}
 {{ partial "components/extended-header.html" . }}
 {{$baseurl := .Site.BaseURL}}
+{{ if isset .Params "hero"}}
 {{ partial "components/hero.html" (dict "hero" .Params.hero "BaseURL" $baseurl) }}
+{{ end }}
+{{ if isset .Params "intro"}}
 {{ partial "components/tagline.html" .Params.intro }}
+{{ end }}
+{{ if isset .Params "graphicList"}}
 {{ partial "components/graphic-list.html" .Params.graphicList }}
+{{ end }}
 
 <section id="index-content" class="usa-section">
   <div class="grid-container">
