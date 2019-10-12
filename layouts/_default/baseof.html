@@ -1,4 +1,3 @@
-{{ if or (not (isset .Params "render")) (.Params.render) }}
 <!DOCTYPE html>
 <html>
 <head>
@@ -79,10 +78,11 @@ tocbot.init({
   // Where to grab the headings to build the table of contents.
   contentSelector: '#main-content',
   // Which headings to grab inside of the contentSelector element.
-  headingSelector: '{{if and (isset $.Params "sidenav") ((isset $.Params.sidenav "headingselectors")) }}{{ .Params.sidenav.headingselectors }}{{ else }}h2, h3, h4{{ end }}',
+  headingSelector: '{{ if .Params.sidenav.headingselectors }}{{ .Params.sidenav.headingselectors }}{{ else }}h2, h3, h4{{ end }}',
+  includeHtml: '{{ if .Params.sidenav.includeHtml }}{{ .Params.sidenav.includeHtml }}{{ else }}false{{ end }}',
   // For headings inside relative or absolute positioned containers within content.
   hasInnerContainers: true,
-  orderedList: false,
+  orderedList:  '{{ if .Params.sidenav.orderedList }}{{ .Params.sidenav.orderedList }}{{ else }}false{{ end }}',
   listClass: 'usa-sidenav',
   listItemClass: 'usa-sidenav__item bg-primary-lighter',
   activeLinkClass: 'usa-current'
@@ -93,4 +93,3 @@ tocbot.init({
 {{ end }}
 </body>
 </html>
-{{ end }}
