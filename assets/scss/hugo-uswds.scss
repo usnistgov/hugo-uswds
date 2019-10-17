@@ -2,14 +2,14 @@ $theme-font-path:   '{{ .Site.BaseURL }}fonts';
 $theme-image-path:  '{{ .Site.BaseURL }}img';
 $theme-hero-image:  '{{ .Site.BaseURL }}img/hero.png';
 
-$theme-global-paragraph-styles: false;
+$theme-global-paragraph-styles: true;
 $theme-global-link-styles:      true;
 $theme-global-content-styles:   true;
 
-@import 'uswds-hugo-theme';
+@import 'hugo-uswds-theme';
 @import 'uswds';
 @import 'hugo-sidenav';
 @import 'hugo-markdown';
 @import 'hugo-syntax';
 @import 'hugo-imagemap';
-@import 'uswds-custom';
+@import 'hugo-uswds-custom';

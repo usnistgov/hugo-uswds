@@ -17,7 +17,7 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
 
-  {{ $uswdsCSS := resources.Get "scss/uswds-hugo.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS }}
+  {{ $uswdsCSS := resources.Get "scss/hugo-uswds.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS }}
   {{ $siteCSS := slice $uswdsCSS }}
   {{ range .Site.Params.custom_css -}}
     {{ $style := resources.Get . }}
