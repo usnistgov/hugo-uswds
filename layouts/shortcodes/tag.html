@@ -1,0 +1,2 @@
+{{ $class := .Get "class" }}
+<span class="usa-tag{{ if $class }} {{$class}}{{end}}">{{.Inner | markdownify}}</span>
