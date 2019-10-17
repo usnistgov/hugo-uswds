@@ -79,10 +79,11 @@ tocbot.init({
   contentSelector: '#main-content',
   // Which headings to grab inside of the contentSelector element.
   headingSelector: '{{ if .Params.sidenav.headingselectors }}{{ .Params.sidenav.headingselectors }}{{ else }}h2, h3, h4{{ end }}',
-  includeHtml: '{{ if .Params.sidenav.includeHtml }}{{ .Params.sidenav.includeHtml }}{{ else }}false{{ end }}',
+  includeHtml: {{ if .Params.sidenav.includeHtml }}{{ .Params.sidenav.includeHtml }}{{ else }}false{{ end }},
+  collapseDepth: {{ if .Params.sidenav.collapseDepth }}{{ .Params.sidenav.collapseDepth }}{{ else }}0{{ end }},
   // For headings inside relative or absolute positioned containers within content.
   hasInnerContainers: true,
-  orderedList:  '{{ if .Params.sidenav.orderedList }}{{ .Params.sidenav.orderedList }}{{ else }}false{{ end }}',
+  orderedList: {{ if .Params.sidenav.orderedList }}{{ .Params.sidenav.orderedList }}{{ else }}false{{ end }},
   listClass: 'usa-sidenav',
   listItemClass: 'usa-sidenav__item bg-primary-lighter',
   activeLinkClass: 'usa-current'

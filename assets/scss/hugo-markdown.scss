@@ -2,3 +2,8 @@
 table {
   @extend .usa-table;
 }
+
+p code {
+  background-color: color('base-lightest');
+  padding: units('2px')
+}

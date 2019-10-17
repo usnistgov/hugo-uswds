@@ -8,10 +8,10 @@
 <main class="usa-layout-docs usa-section" id="main-content">
   <div class="grid-container">
     <div class="grid-row grid-gap">
-      <aside class="usa-layout-docs__sidenav desktop:grid-col-3">
+      <aside class="usa-layout-docs__sidenav widescreen:grid-col-2 desktop:grid-col-3">
 {{ partial "components/sidenav.html" . }}
       </aside>
-      <div id="main-content" class="usa-layout-docs__main desktop:grid-col-9 usa-prose">
+      <div id="main-content" class="usa-layout-docs__main widescreen:grid-col-10 desktop:grid-col-9">
         {{ with .Params.alert }}{{ partial "components/alert.html" . }}{{ end }}
         {{ if isset .Params "heading" }}<h1>{{ .Params.heading }}</h1>{{else}}<h1>{{ .Title }}</h1>{{ end }}
         {{ .Content }}
