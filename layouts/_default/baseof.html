@@ -44,7 +44,7 @@
 {{ block "main" . }}
 {{ partial "head.html" . }}
 {{ end }}
-<p class="font-sans-sm text-center ">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentRepoPath }} <button onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ .File.Path }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
+<p class="font-sans-sm text-center" style="margin: 2px auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentRepoPath }} <button onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js" integrity="sha384-S2Sj9dbj135Vzm4xwOrcyOA/FlODQj514E6Il+ayOB/Y0YClPg5BpCy7lG2G8wtV" crossorigin="anonymous"></script>
 
