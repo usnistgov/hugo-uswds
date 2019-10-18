@@ -3,7 +3,8 @@
 {{ end }}
 
 {{ define "main" }}
-{{ partial "components/extended-header.html" . }}
+{{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
+{{ partial "components/header-extended.html" . }}
 {{ with .Params.alert }}{{ partial "components/alert.html" . }}{{ end }}
 {{$baseurl := .Site.BaseURL}}
 {{ if isset .Params "hero"}}
