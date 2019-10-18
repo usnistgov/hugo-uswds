@@ -12,8 +12,8 @@
 {{ partial "components/sidenav.html" . }}
       </aside>
       <div id="main-content" class="usa-layout-docs__main widescreen:grid-col-10 desktop:grid-col-9">
+        {{ with .Params.alert }}{{ partial "components/alert.html" . }}{{ end }}
         <article>
-          {{ with .Params.alert }}{{ partial "components/alert.html" . }}{{ end }}
           <header>
             {{ if isset .Params "heading" }}<h1>{{ .Params.heading }}</h1>{{else}}<h1>{{ .Title }}</h1>{{ end }}
           </header>

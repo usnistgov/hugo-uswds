@@ -13,9 +13,12 @@
       </aside>
       <div id="main-content" class="usa-layout-docs__main widescreen:grid-col-10 desktop:grid-col-9">
         {{ with .Params.alert }}{{ partial "components/alert.html" . }}{{ end }}
-        {{ if isset .Params "heading" }}<h1>{{ .Params.heading }}</h1>{{else}}<h1>{{ .Title }}</h1>{{ end }}
-        {{ .Content }}
-
+        <article>
+          <header>
+            {{ if isset .Params "heading" }}<h1>{{ .Params.heading }}</h1>{{else}}<h1>{{ .Title }}</h1>{{ end }}
+          </header>
+          {{ .Content }}
+        </article>
       </div>
     </div>
   </div>

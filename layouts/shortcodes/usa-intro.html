@@ -1,0 +1,2 @@
+{{ $class := .Get "class" }}
+<p class="usa-intro{{ if $class }} {{$class}}{{end}}">{{.Inner | markdownify}}</p>

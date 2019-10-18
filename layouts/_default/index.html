@@ -5,23 +5,25 @@
 {{ define "main" }}
 {{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
 {{ partial "components/header-extended.html" . }}
-{{ with .Params.alert }}{{ partial "components/alert.html" . }}{{ end }}
-{{$baseurl := .Site.BaseURL}}
-{{ if isset .Params "hero"}}
-{{ partial "components/hero.html" (dict "hero" .Params.hero "BaseURL" $baseurl) }}
-{{ end }}
-{{ if isset .Params "intro"}}
-{{ partial "components/tagline.html" .Params.intro }}
-{{ end }}
-{{ if isset .Params "graphicList"}}
-{{ partial "components/graphic-list.html" .Params.graphicList }}
-{{ end }}
+<main id="main-content">
+  {{ with .Params.alert }}
+  <section id="index-alert" class="usa-section padding-y-0">
+    <div class="grid-container">
+      {{ partial "components/alert.html" . }}
+    </div>
+  </section>
+  {{ end }}
+  {{$baseurl := .Site.BaseURL }}
+  {{ with .Params.hero }}{{ partial "components/hero.html" (dict "hero" . "BaseURL" $baseurl) }}{{ end }}
+  {{ with .Params.intro }}{{ partial "components/tagline.html" . }}{{ end }}
+  {{ with .Params.graphicList }}{{ partial "components/graphic-list.html" . }}{{ end }}
 
-<section id="index-content" class="usa-section">
-  <div class="grid-container">
-  {{ .Content }}
-  </div>
-</section>
+  <section id="index-content" class="usa-section">
+    <div class="grid-container">
+    {{ .Content }}
+    </div>
+  </section>
+</main>
 {{ end }}
 
 {{ define "foot" }}
