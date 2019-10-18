@@ -34,13 +34,19 @@
 /* NameVariableClass */ .chroma .vc { color: #008080 }
 /* NameVariableGlobal */ .chroma .vg { color: #008080 }
 /* NameVariableInstance */ .chroma .vi { color: #008080 }
-/* LiteralString */ .chroma .s { color: #dd1144 }
+/* LiteralString */ .chroma .s {
+  color: color('green-cool-40'); /* #dd1144 */
+  @include u-text('bold');
+}
 /* LiteralStringAffix */ .chroma .sa { color: #dd1144 }
 /* LiteralStringBacktick */ .chroma .sb { color: #dd1144 }
 /* LiteralStringChar */ .chroma .sc { color: #dd1144 }
 /* LiteralStringDelimiter */ .chroma .dl { color: #dd1144 }
 /* LiteralStringDoc */ .chroma .sd { color: #dd1144 }
-/* LiteralStringDouble */ .chroma .s2 { color: #dd1144 }
+/* LiteralStringDouble */ .chroma .s2 {
+  color: color('green-cool-40'); /* #dd1144 */
+  @include u-text('bold');
+}
 /* LiteralStringEscape */ .chroma .se { color: #dd1144 }
 /* LiteralStringHeredoc */ .chroma .sh { color: #dd1144 }
 /* LiteralStringInterpol */ .chroma .si { color: #dd1144 }
@@ -77,21 +83,22 @@
 /* GenericUnderline */ .chroma .gl { text-decoration: underline }
 /* TextWhitespace */ .chroma .w { color: #bbbbbb }
 
+.chroma .p {
+}
+
 div.highlight {
   display: flex;
 }
 
 div.highlight > pre.chroma {
   padding: 4px 10px;
-  background-color: #f0f0f0;
+  background-color: color('gray-cool-3');
   white-space: pre-wrap;
   white-space: -moz-pre-wrap;
   white-space: -pre-wrap;
   white-space: -o-pre-wrap;
   word-wrap: break-word;
   width: max-content;
-  margin-left: auto !important;
-  margin-right: auto !important;
 }
 
 div.highlight > div.chroma > table {
@@ -104,7 +111,7 @@ div.highlight  > div.chroma {
 }
 
 div.highlight td {
-  background-color: #f0f0f0;
+  background-color: color('gray-cool-3');
 }
 
 div.highlight td:nth-child(2) {
