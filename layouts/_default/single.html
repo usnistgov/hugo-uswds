@@ -8,10 +8,13 @@
 <main class="usa-layout-docs usa-section" id="main-content">
   <div class="grid-container">
     <div class="grid-row grid-gap">
+{{ $firstSection := .Page.FirstSection.Pages }}
+{{ if and .Page.FirstSection (gt (len .Page.FirstSection.Pages) 0) }}
       <aside class="usa-layout-docs__sidenav widescreen:grid-col-2 desktop:grid-col-3">
-{{ partial "components/sidenav.html" . }}
+    {{ partial "components/sidenav.html" . }}
       </aside>
-      <div id="main-content" class="usa-layout-docs__main widescreen:grid-col-10 desktop:grid-col-9">
+{{ end -}}
+      <div id="main-content" class="usa-layout-docs__main {{ if and .Page.FirstSection (gt (len .Page.FirstSection.Pages) 0) }}widescreen:grid-col-10 desktop:grid-col-9{{else}}widescreen:grid-col-12 desktop:grid-col-12{{end}}">
         {{ with .Params.alert }}{{ partial "components/alert.html" . }}{{ end }}
         <article>
           <header>

@@ -1,13 +1,18 @@
 
-.usa-sidenav {
+aside > .usa-sidenav {
   position: sticky;
   top: 0;
 }
 
+aside .usa-sidenav .subnav-top-level  {
+  @include u-text('bold');
+  background-color: color('base-lightest');
+}
+/*
 .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist a {
   padding-left: 5rem;
 }
-
+*/
 .usa-sidenav {
   a {
     padding-left: 1rem;
@@ -28,21 +33,32 @@
           a {
             padding-left: 5rem;
           }
+          .usa-sidenav {
+            a {
+              padding-left: 6rem;
+            }
+            .usa-sidenav {
+              a {
+                padding-left: 7rem;
+              }
+            }
+          }
         }
       }
     }
   }
 }
-
+/*
 .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist a {
   padding-left: 5rem;
 }
+*/
 
 /* fix extra line */
 ul.usa-sidenav ul.usa-sidenav {
   border-bottom: none;
 }
-
+/*
 .toc {
  overflow-y:auto
 }
@@ -50,6 +66,7 @@ ul.usa-sidenav ul.usa-sidenav {
  overflow:hidden;
  position:relative
 }
+*/
 a.toc-link {
  height:100%
 }
@@ -64,4 +81,12 @@ a.toc-link {
 .is-position-fixed {
  position:fixed !important;
  top:0
+}
+
+.usa-sidenav .active-page {
+  background-color: color('primary-lighter');
+}
+
+div#js-toc > ul.usa-sidenav {
+  border: units(2px) solid color('primary-lighter');
 }

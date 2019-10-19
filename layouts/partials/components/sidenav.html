@@ -1,42 +1,47 @@
-{{ $currentPage := . }}
-{{ $scratch := newScratch }}
-{{ $scratch.Set "currentPage" $currentPage }}
-{{ $pages := .FirstSection.Pages }}
-{{ if gt (len $pages) 0 }}
+{{ $currentPage := .Page }}
+{{ $firstSection := .Page.FirstSection }}
+{{ $pages := $firstSection.Pages }}
+{{- if gt (len $pages) 0 }}
 <ul class="usa-sidenav">
+  {{ if .Site.Params.sidenav.includeTopLevel | default true }}
+    <li>{{ template "sidenav-anchor" (dict "page" $firstSection "currentPage" .Page "extraClasses" "subnav-top-level") }}</li>
+  {{ end }}
+
   {{ range $pages }}
-    {{ $page := . }}
-    {{ $scratch.Set "section" $page }}
-    {{ template "section-tree-nav" $scratch }}
+    {{ template "sidenav-item" (dict "page" . "currentPage" $currentPage) }}
   {{ end }}
 </ul>
-{{ end }}
-{{ define "section-tree-nav" }}
-  {{ $currentPage := .Get "currentPage" }}
-  {{ $page := .Get "section" }}
-  <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current  bg-primary-light{{ end }}" href="{{ $page.Permalink }}">{{if $page.Params.sidenav.title }}{{ $page.Params.sidenav.title }}{{ else }}{{ $page.Title }}{{ end }}</a>
-    {{ if eq $page $currentPage }}
-    <div id="js-toc"></div>
-    {{ end }}
-  {{ $pages := $page.Pages }}
-  {{ if gt (len $pages) 0 }}
+{{ end -}}
+
+{{ define "sidenav-item" }}
+  {{ $currentPage := .currentPage }}
+  <li>{{ template "sidenav-anchor" (dict "page" .page "currentPage" $currentPage "extraClasses" .page.Kind) }}
+
+  {{ if eq .page.Kind "section"}}
+    {{ $pages := .page.Pages }}
+    {{ if gt (len $pages) 0 }}
     <ul class="usa-sidenav">
       {{ range $pages }}
-        {{ $page := . }}
-        {{ if eq .Kind "section"}}
-          {{ $scratch := newScratch }}
-          {{ $scratch.Set "currentPage" $currentPage }}
-          {{ $scratch.Set "section" . }}
-          {{ template "section-tree-nav" $scratch }}
-        {{ else }}
-      <li><a class="usa-sidenav__item{{ if eq $page $currentPage }} usa-current bg-primary-light{{ end }}" href="{{ $page.Permalink }}">{{if $page.Params.sidenav.title }}{{ $page.Params.sidenav.title }}{{ else }}{{ $page.Title }}{{ end }}</a>
-        {{ if eq $page $currentPage }}
-        <div id="js-toc"></div>
-        {{ end }}
-      </li>
-        {{ end }}
+        {{ template "sidenav-item" (dict "page" . "currentPage" $currentPage) }}
       {{ end }}
     </ul>
+    {{ end }}
   {{ end }}
   </li>
+{{ end }}
+
+{{ define "sidenav-anchor" }}
+  {{ $page := .page }}
+  {{ $currentPage := .currentPage }}
+  {{ $extraClasses := (print " " .extraClasses) }}
+
+  {{ if eq $page $currentPage }}
+    {{ $extraClasses = (print $extraClasses " active-page usa-current") }}
+  {{ end }}
+
+  <a class="usa-sidenav__item{{ with $extraClasses }}{{ . }}{{ end }}" href="{{ $page.Permalink }}">{{if $page.Params.sidenav.title }}{{ $page.Params.sidenav.title }}{{ else }}{{ $page.Title }}{{ end }}</a>
+
+  {{ if eq $page $currentPage }}
+    <div id="js-toc"></div>
+  {{ end }}
 {{ end }}

@@ -1,3 +1,4 @@
+{{ if not (.Site.Params.header.project_name) }}{{ errorf "Site.Params.header.project_name must be set in the site configuration file."}}{{ end }}
 <a class="usa-skipnav" href="#main-content">Skip to main content</a>
 <div class="usa-overlay"></div>
 <header class="usa-header usa-header--basic">

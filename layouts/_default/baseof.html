@@ -90,7 +90,8 @@ tocbot.init({
   hasInnerContainers: true,
   orderedList: {{ if .Params.sidenav.orderedList }}{{ .Params.sidenav.orderedList }}{{ else }}false{{ end }},
   listClass: 'usa-sidenav',
-  listItemClass: 'usa-sidenav__item bg-primary-lighter',
+  listItemClass: 'toc-item',
+  extraLinkClasses: 'usa-sidenav__item',
   activeLinkClass: 'usa-current'
 });
 </script>
