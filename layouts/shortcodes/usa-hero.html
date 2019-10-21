@@ -1,0 +1,16 @@
+{{ $image := .Get "image" }}
+{{ $calloutText := .Get "calloutText" }}
+{{ if not ($calloutText) }}{{ errorf "missing value for param 'calloutText': %s" .Position }}{{ end }}
+{{ $calloutAltText := .Get "calloutAltText" }}
+{{ $buttonURL := .Get "buttonURL"}}
+{{ if not ($buttonURL) }}{{ errorf "missing value for param 'buttonURL': %s" .Position }}{{ end }}
+{{ $buttonText := .Get "buttonText"}}
+{{ if not ($buttonText) }}{{ errorf "missing value for param 'buttonText': %s" .Position }}{{ end }}
+<section class="usa-hero"{{ with $image }} style="background-image: url('{{ .Site.BaseURL }}{{ . }}')"{{ end }}>
+  <div class="grid-container">
+    <div class="usa-hero__callout">
+      <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">{{ $calloutText | markdownify }}</span>{{ with $calloutAltText }} {{ . | markdownify }}{{end}}</h1>
+      <p>{{ .Inner }}</p><a class="usa-button" href="{{ $buttonURL | relURL }}">{{ $buttonText | markdownify }}</a>
+    </div>
+  </div>
+</section>

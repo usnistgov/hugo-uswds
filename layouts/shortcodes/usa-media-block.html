@@ -1,0 +1,13 @@
+{{ $image := .Get "image" }}
+{{ if not ($image) }}{{ errorf "missing value for param 'image': %s" .Position }}{{ end }}
+{{ $imageAlt := .Get "imageAlt" }}
+{{ if not ($imageAlt) }}{{ errorf "missing value for param 'imageAlt': %s" .Position }}{{ end }}
+{{ $title := .Get "title" }}
+{{ if not ($title) }}{{ errorf "missing value for param 'title': %s" .Position }}{{ end }}
+<div class="usa-media-block tablet:grid-col-6 margin-y-4">
+  <img class="usa-media-block__img"  src="{{ $image | relURL }}" alt="{{ $imageAlt }}">
+  <div class="usa-media-block__body">
+    <h3 class="usa-graphic-list__heading">{{ $title }}</h3>
+    {{ .Inner }}
+  </div>
+</div>

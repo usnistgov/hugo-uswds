@@ -1,0 +1,7 @@
+{{ $class := .Get "class" | default "grid-col"}}
+{{ if not (findRE "grid-col" $class) }}
+  {{ $class = (print $class " grid-col") }}
+{{end}}
+<div class="{{$class}}">
+  {{- .Inner -}}
+</div>

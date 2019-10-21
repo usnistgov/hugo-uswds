@@ -3,7 +3,13 @@
 {{ $pages := $firstSection.Pages }}
 {{- if gt (len $pages) 0 }}
 <ul class="usa-sidenav">
-  {{ if .Site.Params.sidenav.includeTopLevel | default true }}
+  {{ $includeTopLevel := true }}
+  {{ with .Site.Params.sidenav }}
+    {{ if isset . "includetoplevel" }}
+      {{ $includeTopLevel = .includetoplevel }}
+    {{ end }}
+  {{ end }}
+  {{ if $includeTopLevel }}
     <li>{{ template "sidenav-anchor" (dict "page" $firstSection "currentPage" .Page "extraClasses" "subnav-top-level") }}</li>
   {{ end }}
 
@@ -39,9 +45,15 @@
     {{ $extraClasses = (print $extraClasses " active-page usa-current") }}
   {{ end }}
 
-  <a class="usa-sidenav__item{{ with $extraClasses }}{{ . }}{{ end }}" href="{{ $page.Permalink }}">{{if $page.Params.sidenav.title }}{{ $page.Params.sidenav.title }}{{ else }}{{ $page.Title }}{{ end }}</a>
+  <a class="usa-sidenav__item{{ with $extraClasses }}{{ . }}{{ end }}" href="{{ $page.Permalink }}">{{ with $page.Params.sidenav.title }}{{ . }}{{ else }}{{ $page.Title }}{{ end }}</a>
 
-  {{ if eq $page $currentPage }}
+  {{ $tocEnabled := true }}
+  {{ with $currentPage.Params.sidenav.toc }}
+    {{ if isset . "enabled" }}
+      {{ $tocEnabled = .enabled }}
+    {{ end }}
+  {{ end }}
+  {{ if and (eq $page $currentPage) ($tocEnabled) }}
     <div id="js-toc"></div>
   {{ end }}
 {{ end }}

@@ -1,0 +1,25 @@
+<ul class="usa-nav__primary usa-accordion">
+  {{ $currentPage := . }}
+  {{ range .Site.Menus.primary }}
+    {{ if .HasChildren }}
+      {{- $guid := printf "nav-%d" .KeyName -}}
+      <li class="usa-nav__primary-item">
+        <button class="usa-accordion__button usa-nav__link{{ if $currentPage.HasMenuCurrent "primary" . }} usa-current{{ end }}" aria-expanded="false" aria-controls="{{ $guid }}"><span>{{ .Name }}</span></button>
+        <ul id="{{ $guid }}" class="usa-nav__submenu">
+          <li class="usa-nav__submenu-item">
+            <a href="{{ .URL }}">{{ .Name }}</a>
+          </li>
+          {{ range .Children }}
+          <li class="usa-nav__submenu-item">
+            <a href="{{ .URL }}">{{ .Name }}</a>
+          </li>
+          {{end}}
+        </ul>
+      </li>
+    {{ else }}
+      <li class="usa-nav__primary-item">
+        <a class="usa-nav__link" href="{{ .URL }}"><span>{{ .Name }}</span></a>
+      </li>
+    {{ end }}
+  {{ end }}
+</ul>

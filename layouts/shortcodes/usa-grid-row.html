@@ -1,0 +1,5 @@
+{{ if not (eq .Parent.Name "usa-grid-container") }}{{ errorf "A usa-grid-row must be a child of a usa-grid-container: %s" .Position }}{{ end }}
+{{ $class := .Get "class" }}
+<div class="grid-row{{ if $class }} {{$class}}{{end}}">
+  {{- .Inner -}}
+</div>

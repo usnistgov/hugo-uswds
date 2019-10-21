@@ -10,14 +10,7 @@
   <nav aria-label="Primary navigation" class="usa-nav">
     <div class="usa-nav__inner">
       <button class="usa-nav__close"><img src="{{"/img/close.svg" | relURL }}" alt="close"></button>
-      <ul class="usa-nav__primary usa-accordion">
-        {{ $currentPage := . }}
-        {{ range .Site.Menus.primary }}
-        <li class="usa-nav__primary-item{{if or ($currentPage.IsMenuCurrent "primary" .) ($currentPage.HasMenuCurrent "primary" .) }} usa-current{{end}}">
-          <a class="usa-nav__link" href="{{ .URL }}"><span>{{ .Name }}</span></a>
-        </li>
-        {{ end }}
-      </ul>
+      {{ partial "components/header-primary-nav.html" . }}
       <div class="usa-nav__secondary">
         {{ if .Site.Menus.secondary }}
         <ul class="usa-nav__secondary-links">

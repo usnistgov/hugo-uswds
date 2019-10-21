@@ -1,0 +1,5 @@
+{{ $id := .Get "id" | default (printf "section-%d" .Ordinal) }}
+{{ $class := .Get "class" }}
+<section id="{{ $id }}" class="usa-section{{ if $class }} {{$class}}{{end}}">
+  {{- .Inner -}}
+</section>

@@ -28,30 +28,38 @@
   <link rel="stylesheet" href="{{ $siteCSSmin.Permalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
 
 {{ block "head" . }}
-{{ partial "head.html" . }}
+  {{ partial "head.html" . }}
 {{ end }}
 
-  {{ if (isset .Page.Params "custom_css" ) and (.Page.Params.custom_css "!=" nil) }}
-  {{ range .Page.Params.custom_css -}}
-    {{ $style := resources.Get . }}
-    {{ $pageCSSmin := $style | minify }}
-    {{ $pageCSSminSecure := $pageCSSmin | resources.Fingerprint "sha512" }}
-    <link rel="stylesheet" href="{{ $pageCSSmin.Permalink }}" integrity="{{ $pageCSSminSecure.Data.Integrity }}" />
-  {{- end }}
-  {{ end }}
+{{ with .Page.Params.custom_css }}
+{{ range . -}}
+  {{ $style := resources.Get . }}
+  {{ $pageCSSmin := $style | minify }}
+  {{ $pageCSSminSecure := $pageCSSmin | resources.Fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $pageCSSmin.Permalink }}" integrity="{{ $pageCSSminSecure.Data.Integrity }}" />
+{{- end }}
+{{ end }}
 </head>
 <body>
 {{ block "main" . }}
-{{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
-{{ partial "components/header-basic.html" . }}
+  {{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
+  {{ partial "components/header-basic.html" . }}
 <main class="usa-layout-docs usa-section" id="main-content">
-{{ .Content }}
+  {{ .Content }}
 </main>
 {{ end }}
 
 <p class="font-sans-sm text-center" style="margin: 2px auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentRepoPath }} <button onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
 
+{{ $tocEnabled := true }}
+{{ with .Page.Params.sidenav.toc }}
+  {{ if isset . "enabled" }}
+    {{ $tocEnabled = .enabled }}
+  {{ end }}
+{{ end }}
+{{ if $tocEnabled }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js" integrity="sha384-S2Sj9dbj135Vzm4xwOrcyOA/FlODQj514E6Il+ayOB/Y0YClPg5BpCy7lG2G8wtV" crossorigin="anonymous"></script>
+{{end}}
 
 {{ $uswdsJS := resources.Get "/js/uswds.js" }}
 {{ $rwdImgMaps := resources.Get "/js/jquery.rwdImageMaps.js" }}
@@ -64,8 +72,8 @@
 {{ $siteJSminSecure := $siteJSmin | resources.Fingerprint "sha512" }}
 <script type="text/javascript" src="{{ $siteJSmin.Permalink }}" integrity="{{ $siteJSminSecure.Data.Integrity }}"></script>
 
-{{ if (isset .Page.Params "custom_js" ) and (.Page.Params.custom_js "!=" nil) }}
-{{ range .Page.Params.custom_js -}}
+{{ with .Page.Params.custom_js }}
+{{ range . -}}
   {{ $js := resources.Get . }}
   {{ $pageJSmin := $js | minify }}
   {{ $pageJSminSecure := $pageJSmin | resources.Fingerprint "sha512" }}
@@ -74,26 +82,50 @@
 {{ end }}
 
 <script>
+{{ if .HasShortcode "imagemap" }}
 $(document).ready(function(e) {
     $('img[usemap]').rwdImageMaps();
 });
+{{ end }}
+{{ $tocEnabled := true }}
+{{- with .Page.Params.sidenav.toc -}}
+  {{ if isset . "enabled" }}
+    {{ $tocEnabled = .enabled }}
+  {{ end }}
+{{- end -}}
+{{- if $tocEnabled -}}
+  {{ $headingselectors := "h2,h3,h4" }}
+  {{ $includeHtml := false }}
+  {{ $collapseDepth := 0 }}
+  {{ with .Params.sidenav.toc }}
+    {{ if isset . "headingselectors" }}
+      {{ $headingselectors = .headingselectors }}
+    {{ end }}
+    {{ with .includehtml }}
+      {{ $includeHtml = . }}
+    {{ end }}
+    {{ if isset . "collapsedepth" }}
+      {{ $collapseDepth = .collapsedepth }}
+    {{ end }}
+  {{ end }}
 tocbot.init({
   // Where to render the table of contents.
   tocSelector: '#js-toc',
   // Where to grab the headings to build the table of contents.
   contentSelector: '#main-content',
   // Which headings to grab inside of the contentSelector element.
-  headingSelector: '{{ if .Params.sidenav.headingselectors }}{{ .Params.sidenav.headingselectors }}{{ else }}h2, h3, h4{{ end }}',
-  includeHtml: {{ if .Params.sidenav.includeHtml }}{{ .Params.sidenav.includeHtml }}{{ else }}false{{ end }},
-  collapseDepth: {{ if .Params.sidenav.collapseDepth }}{{ .Params.sidenav.collapseDepth }}{{ else }}0{{ end }},
+  headingSelector: '{{ $headingselectors }}',
+  includeHtml: {{ $includeHtml }},
+  collapseDepth: {{- $collapseDepth -}},
   // For headings inside relative or absolute positioned containers within content.
   hasInnerContainers: true,
-  orderedList: {{ if .Params.sidenav.orderedList }}{{ .Params.sidenav.orderedList }}{{ else }}false{{ end }},
+  orderedList: false,
   listClass: 'usa-sidenav',
   listItemClass: 'toc-item',
   extraLinkClasses: 'usa-sidenav__item',
   activeLinkClass: 'usa-current'
 });
+{{- end -}}
 </script>
 {{ block "foot" . }}
 {{ partial "foot.html" . }}
