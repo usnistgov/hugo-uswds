@@ -1,3 +1,4 @@
-<div class="grid-container">
+{{ $class := .Get "class" }}
+<div class="grid-container{{ with $class }} {{ . }}{{ end }}">
   {{- .Inner -}}
 </div>

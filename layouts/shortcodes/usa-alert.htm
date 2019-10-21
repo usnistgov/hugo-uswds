@@ -1,0 +1,18 @@
+{{ $type := .Get "type" | default "info" }}
+{{ $validTypes := slice "info" "error" "warning" "success" }}
+{{ if not (in $validTypes $type ) }}
+  {{ errorf "Invalid type %#v. Must be one of: info, error, warning, or success" $type }}
+{{ end }}
+{{ $heading := .Get "heading" }}
+{{ if not ($heading) }}{{ errorf "missing value for param 'heading': %s" .Position }}{{ end }}
+{{ $class := .Get "class" }}
+<div class="usa-alert usa-alert--{{ $type }}" >
+  <div class="usa-alert__body">
+    <h1 class="usa-alert__heading">{{ $heading | markdownify }}</h3>
+    {{ if $class }}
+    {{- .Inner | replaceRE "<p>" (printf "<p class=\"usa-alert__text %s\">" $class) | safeHTML -}}
+    {{ else }}
+    {{- .Inner | replaceRE "<p>" "<p class=\"usa-alert__text\">" | safeHTML -}}
+    {{ end }}
+  </div>
+</div>
