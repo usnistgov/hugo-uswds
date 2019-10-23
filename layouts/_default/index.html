@@ -6,13 +6,6 @@
 {{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
 {{ partial "components/header-extended.html" . }}
 <main id="main-content">
-  {{ with .Params.alert }}
-  <section id="index-alert" class="usa-section padding-y-0">
-    <div class="grid-container">
-      {{ partial "components/alert.html" . }}
-    </div>
-  </section>
-  {{ end }}
   {{ if or (.HasShortcode "usa-section") (.HasShortcode "usa-grid-container") (.HasShortcode "usa-hero") (.HasShortcode "usa-tagline") }}
     {{- .Content -}}
   {{ else }}

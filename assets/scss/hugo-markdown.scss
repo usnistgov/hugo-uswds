@@ -3,7 +3,18 @@ table {
   @extend .usa-table;
 }
 
+/* Code highlighting */
+/* ----------------- */
 li code, p code {
   background-color: color('base-lightest');
   padding: units('2px')
+}
+
+/* fix code highlighting in alerts */
+@each $name, $bgcolor in $alerts {
+  .usa-alert--#{$name} {
+    p code {
+      background-color: color($name+'-light');
+    }
+  }
 }

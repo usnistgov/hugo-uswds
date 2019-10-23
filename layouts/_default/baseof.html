@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   {{ range .AlternativeOutputFormats -}}
-      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Page.Title | safeHTML }}
   {{ end -}}
 
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
@@ -49,7 +49,7 @@
 </main>
 {{ end }}
 
-<p class="font-sans-sm text-center" style="margin: 2px auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentRepoPath }} <button onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
+<p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentrepopath }} <button onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
 
 {{ $tocEnabled := true }}
 {{ with .Page.Params.sidenav.toc }}

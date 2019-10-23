@@ -6,13 +6,19 @@
 {{ $heading := .Get "heading" }}
 {{ if not ($heading) }}{{ errorf "missing value for param 'heading': %s" .Position }}{{ end }}
 {{ $class := .Get "class" }}
-<div class="usa-alert usa-alert--{{ $type }}" >
+{{ $bodyClass := .Get "body-class" }}
+<div class="usa-alert usa-alert--{{ $type }}{{ if $class }} {{$class}}{{end}}" >
   <div class="usa-alert__body">
     <h1 class="usa-alert__heading">{{ $heading | markdownify }}</h3>
-    {{ if $class }}
-    {{- .Inner | replaceRE "<p>" (printf "<p class=\"usa-alert__text %s\">" $class) | safeHTML -}}
+    {{ $markdown := .Inner | markdownify }}
+    {{ if findRE "<p>" $markdown }}
+      {{ if $bodyClass }}
+      {{- $markdown | replaceRE "<p>" (printf "<p class=\"usa-alert__text %s\">" $bodyClass) | safeHTML -}}
+      {{ else }}
+      {{- .Inner | markdownify | replaceRE "<p>" "<p class=\"usa-alert__text\">" | safeHTML -}}
+      {{ end }}
     {{ else }}
-    {{- .Inner | replaceRE "<p>" "<p class=\"usa-alert__text\">" | safeHTML -}}
+    <p class="usa-alert__text{{ if $bodyClass }} {{$bodyClass}}{{end}}">{{ $markdown }}</p>
     {{ end }}
   </div>
 </div>

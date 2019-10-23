@@ -12,15 +12,7 @@
     <nav aria-label="Primary navigation" class="usa-nav">
       <button class="usa-nav__close"><img src="{{"/img/close.svg" | relURL }}" alt="close"></button>
       {{ partial "components/header-primary-nav.html" . }}
-      <form class="usa-search usa-search--small" action="https://search.usa.gov/search">
-        <input id="affiliate" name="affiliate" type="hidden" value="{{ .Site.Params.searchAffiliate }}" />
-        <input name="utf8" type="hidden" value="&#x2713;" />
-        <div role="search">
-          <label class="usa-sr-only" for="basic-search-field-small">Search</label>
-          <input class="usa-input" id="query" id="basic-search-field-small" type="search" name="query">
-          <button class="usa-button" type="submit"><span class="usa-sr-only">Search</span></button>
-        </div>
-      </form>
+      {{ partial "components/header-search.html" . }}
     </nav>
   </div>
 </header>
