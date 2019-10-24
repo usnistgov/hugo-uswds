@@ -1,6 +1,7 @@
 /* Background */ .chroma { // done
   background-color: color('gray-cool-2');
   color: color('gray-70');
+  @include u-font-family('mono')
 }
 /* Error */ .chroma .err { // done
   color: color('white');
@@ -299,6 +300,10 @@
 
 .chroma .p { // done
   color: color('gray-70');  /*#000080*/
+}
+
+.chroma code {
+  font-family: inherit !important;
 }
 
 div.highlight {

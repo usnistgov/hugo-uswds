@@ -5,6 +5,67 @@ table {
 
 /* Code highlighting */
 /* ----------------- */
+code,
+kbd,
+pre,
+samp {
+  @include typeset('mono');
+}
+
+h1 {
+  code,
+  kbd,
+  pre,
+  samp {
+    @include typeset('mono', 13);
+  }
+}
+
+h2 {
+  code,
+  kbd,
+  pre,
+  samp {
+    @include typeset('mono', 11);
+  }
+}
+
+h3 {
+  code,
+  kbd,
+  pre,
+  samp {
+    @include typeset('mono', 8);
+  }
+}
+
+h4 {
+  code,
+  kbd,
+  pre,
+  samp {
+    @include typeset('mono', 5);
+  }
+}
+
+h5 {
+  code,
+  kbd,
+  pre,
+  samp {
+    @include typeset('mono', 4);
+  }
+}
+
+h6 {
+  code,
+  kbd,
+  pre,
+  samp {
+    @include typeset('mono', 2);
+  }
+}
+
 li code, p code {
   background-color: color('base-lightest');
   padding: units('2px')

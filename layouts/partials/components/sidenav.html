@@ -1,14 +1,16 @@
 {{ $currentPage := .Page }}
 {{ $firstSection := .Page.FirstSection }}
-{{ $pages := $firstSection.Pages }}
-{{- if gt (len $pages) 0 }}
-<ul class="usa-sidenav">
-  {{ $includeTopLevel := true }}
-  {{ with .Site.Params.sidenav }}
-    {{ if isset . "includetoplevel" }}
-      {{ $includeTopLevel = .includetoplevel }}
-    {{ end }}
+
+{{ $includeTopLevel := true }}
+{{ with .Site.Params.sidenav }}
+  {{ if isset . "includetoplevel" }}
+    {{ $includeTopLevel = .includetoplevel }}
   {{ end }}
+{{ end }}
+
+{{ $pages := $firstSection.Pages }}
+{{- if or (gt (len $pages) 0) ($includeTopLevel) }}
+<ul class="usa-sidenav">
   {{ if $includeTopLevel }}
     <li>{{ template "sidenav-anchor" (dict "page" $firstSection "currentPage" .Page "extraClasses" "subnav-top-level") }}</li>
   {{ end }}
