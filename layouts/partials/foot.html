@@ -1,0 +1,5 @@
+<script>
+$(document).ready(function () {
+  $('a[href*="//"]{{ if .Site.IsServer }}:not([href*="http://localhost:1313/"]){{ end }}:not([href*="{{ .Site.BaseURL }}"]):not([href^="#"]):not([href^="/"])').addClass('usa-link usa-link--external');
+});
+</script>
