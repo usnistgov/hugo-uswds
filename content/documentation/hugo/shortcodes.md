@@ -5,7 +5,6 @@ sidenav:
   toc:
     includehtml: true
 ---
-
 This theme provides the following Hugo shortcodes.
 
 ## `callout` Shortcode
