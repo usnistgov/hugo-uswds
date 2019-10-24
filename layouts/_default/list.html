@@ -21,7 +21,7 @@
           </header>
           {{ .Content }}
         </article>
-        {{ if not (.Site.Params.suppressTopicLists | default false) }}
+        {{ if not (or (.Site.Params.suppresstopiclists | default false) (.Page.Params.suppresstopiclist | default false)) }}
           {{ $pages := .Pages }}
           {{ if gt (len $pages) 0 }}
           <h1>This section contains the following topics:</h1>

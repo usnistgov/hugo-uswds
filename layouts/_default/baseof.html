@@ -64,7 +64,7 @@
 {{ $uswdsJS := resources.Get "/js/uswds.js" }}
 {{ $rwdImgMaps := resources.Get "/js/jquery.rwdImageMaps.js" }}
 {{ $siteJS := slice $uswdsJS $rwdImgMaps }}
-{{ range .Site.Params.custom_css -}}
+{{ range .Site.Params.custom_js -}}
   {{ $js := resources.Get . }}
   {{ $siteJS = $siteJS | append $js }}
 {{- end }}
@@ -97,7 +97,7 @@ $(document).ready(function(e) {
   {{ $headingselectors := "h2,h3,h4" }}
   {{ $includeHtml := false }}
   {{ $collapseDepth := 0 }}
-  {{ with .Params.sidenav.toc }}
+  {{ with .Page.Params.sidenav.toc }}
     {{ if isset . "headingselectors" }}
       {{ $headingselectors = .headingselectors }}
     {{ end }}
