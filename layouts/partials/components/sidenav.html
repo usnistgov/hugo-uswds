@@ -1,6 +1,8 @@
 {{ $currentPage := .Page }}
-{{ $firstSection := .Page.FirstSection }}
+{{ $page := .Page.FirstSection }}
 
+{{/* includeTopLevel is used to determine if the top-level section should appear
+     in the side navigation */}}
 {{ $includeTopLevel := true }}
 {{ with .Site.Params.sidenav }}
   {{ if isset . "includetoplevel" }}
@@ -8,29 +10,79 @@
   {{ end }}
 {{ end }}
 
-{{ $pages := $firstSection.Pages }}
+{{ $renderDepth := -1 }}
+{{ if eq $page $currentPage }}
+  {{ with .Site.Params.sidenav }}
+    {{ if isset . "activerenderdepth" }}
+      {{ $renderDepth = .activerenderdepth }}
+      <p class="font-mono-3xs">A(site): {{ $renderDepth }}
+    {{ end }}
+  {{ end }}
+  {{ with $page.Params.sidenav }}
+    {{ if isset . "activerenderdepth" }}
+      {{ $renderDepth = .activerenderdepth }}
+      <p class="font-mono-3xs">A(page): {{ $renderDepth }}
+    {{ end }}
+  {{ end }}
+{{ else }}
+  {{/* if this page is not the current page, then the page must be an ancestor */}}
+  {{ with .Site.Params.sidenav }}
+    {{ if isset . "inactiverenderdepth" }}
+      {{ $renderDepth = .inactiverenderdepth }}
+      <p class="font-mono-3xs">I(site): {{ $renderDepth }}
+    {{ end }}
+  {{ end }}
+  {{ with $page.Params.sidenav }}
+    {{ if isset . "inactiverenderdepth" }}
+      {{ $renderDepth = .inactiverenderdepth }}
+      <p class="font-mono-3xs">I(page): {{ $renderDepth }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $pages := $page.Pages }}
 {{- if or (gt (len $pages) 0) ($includeTopLevel) }}
 <ul class="usa-sidenav">
   {{ if $includeTopLevel }}
-    <li>{{ template "sidenav-anchor" (dict "page" $firstSection "currentPage" .Page "extraClasses" "subnav-top-level") }}</li>
+    <li>{{ template "sidenav-anchor" (dict "page" $page "currentPage" .Page "extraClasses" "subnav-top-level") }}</li>
   {{ end }}
 
   {{ range $pages }}
-    {{ template "sidenav-item" (dict "page" . "currentPage" $currentPage) }}
+    {{ $nextPage := . }}
+    {{ $pageRenderDepth := partial "components/calculate-render-depth.html" (dict "page" $nextPage "currentPage" $currentPage "renderDepth" $renderDepth) }}
+
+    {{- /* <p class="font-mono-3xs" title="VisitedPage: {{ $nextPage }}, CurrentPage: {{ $currentPage }}, CurrentRenderDepth: {{ $renderDepth }}, IsAncestor: {{ $nextPage.IsAncestor $currentPage }}">PRD: {{ $pageRenderDepth }}</p> */ -}}
+
+    {{ if or (eq $pageRenderDepth -1) (gt $pageRenderDepth 0) (and ($nextPage.IsAncestor $currentPage) (eq $nextPage.Kind "section")) }}
+      {{ template "sidenav-item" (dict "page" . "currentPage" $currentPage "renderDepth" $pageRenderDepth) }}
+    {{ end }}
   {{ end }}
 </ul>
 {{ end -}}
 
 {{ define "sidenav-item" }}
   {{ $currentPage := .currentPage }}
-  <li>{{ template "sidenav-anchor" (dict "page" .page "currentPage" $currentPage "extraClasses" .page.Kind) }}
+  {{ $page := .page }}
+  {{ $renderDepth := .renderDepth }}
 
-  {{ if eq .page.Kind "section"}}
+  <li>{{ template "sidenav-anchor" (dict "page" $page "currentPage" $currentPage "extraClasses" $page.Kind) }}
+
+  {{- /* <p class="font-mono-3xs" title="VisitedPage: {{ $page }}, CurrentPage: {{ $currentPage }}, IsCurrent: {{ eq $page $currentPage }}, IsAncestor: {{ $page.IsAncestor $currentPage }}, InSection: {{ $page.InSection $currentPage }}, IsDescendant: {{ $page.IsDescendant $currentPage }}">RD: {{ $renderDepth }}, Kind: {{ $page.Kind }}</p> */ -}}
+
+  {{ if and (eq $page.Kind "section") (or ($page.IsAncestor $currentPage) (eq $renderDepth -1) (gt $renderDepth 0)) }}
     {{ $pages := .page.Pages }}
     {{ if gt (len $pages) 0 }}
     <ul class="usa-sidenav">
+
       {{ range $pages }}
-        {{ template "sidenav-item" (dict "page" . "currentPage" $currentPage) }}
+        {{ $nextPage := . }}
+        {{ $pageRenderDepth := partial "components/calculate-render-depth.html" (dict "page" $nextPage "currentPage" $currentPage "renderDepth" $renderDepth) }}
+
+        {{- /* <p class="font-mono-3xs" title="VisitedPage: {{ $nextPage }}, CurrentPage: {{ $currentPage }}, CurrentRenderDepth: {{ $renderDepth }}">mPRD: {{ $pageRenderDepth }}</p> */ -}}
+
+        {{ if or (eq $pageRenderDepth -1) (gt $pageRenderDepth 0) (eq $nextPage $currentPage)}}
+          {{ template "sidenav-item" (dict "page" $nextPage "currentPage" $currentPage "renderDepth" $pageRenderDepth) }}
+        {{ end }}
       {{ end }}
     </ul>
     {{ end }}
