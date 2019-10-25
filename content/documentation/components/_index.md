@@ -14,7 +14,7 @@ The following USWDS components are supported by this theme.
 
 {{% usa-tag %}}Component Definition{{% /usa-tag %}} [Alert](https://designsystem.digital.gov/components/alert/)
 
-Alerts are supported by the [usa-alert](../hugo/shortcodes/#usa-alert) shortcode.
+Alerts are supported by the [usa-alert](../hugo/shortcodes/#usa-alert-shortcode) shortcode.
 
 ### Layout Grid
 
@@ -24,9 +24,9 @@ This theme uses Grid layouts as part of the default [page templates](../hugo/tem
 
 The following Hugo shortcodes can be used to customize the grid layout used on a given page.
 
-- [usa-grid-container](../hugo/shortcodes/#usa-grid-container): Can be used to center the content on the screen, with a maximum width of desktop (1024px).
-- [usa-grid-row](../hugo/shortcodes/#usa-grid-row): Used with the `usa-grid-column` shortcode to support more fine-grained layouts.
-- [usa-grid-column](../hugo/shortcodes/#usa-grid-column): Used to layout the spacing of individual columns with a `usa-grid-row` shortcode.
+- [usa-grid-container](../hugo/shortcodes/#usa-grid-container-shortcode): Can be used to center the content on the screen, with a maximum width of desktop (1024px).
+- [usa-grid-row](../hugo/shortcodes/#usa-grid-row-shortcode): Used with the `usa-grid-column` shortcode to support more fine-grained layouts.
+- [usa-grid-column](../hugo/shortcodes/#usa-grid-column-shortcode): Used to layout the spacing of individual columns with a `usa-grid-row` shortcode.
 
 ### Header
 
@@ -60,15 +60,15 @@ A [subset](https://github.com/usnistgov/hugo-uswds/tree/master/static/img) of [F
 
 {{% usa-tag %}}Component Definition{{% /usa-tag %}} [Search](https://designsystem.digital.gov/components/search/)
 
-The search component is supported in the [Basic](/documentation/components/#basic-header) and [Extended](/documentation/components/#extended-header) Headers provided by the default [templates](../hugo/templates/). The default search used by these headers is provided by the `layouts/partials/header-search.html` [template](https://github.com/usnistgov/hugo-uswds/blob/master/layouts/partials/components/header-search.html). This template can by [overriden](../hugo/templates/#the-header-search-html-template) to provide a custom search.
+The search component is supported in the [Basic](#basic-header) and [Extended](#extended-header) Headers provided by the default [templates](../hugo/templates/). The default search used by these headers is provided by the `layouts/partials/header-search.html` [template](https://github.com/usnistgov/hugo-uswds/blob/master/layouts/partials/components/header-search.html). This template can by [overriden](../hugo/templates/#the-header-search-html-template) to provide a custom search.
 
 ### Side Navigation
 
 {{% usa-tag %}}Component Definition{{% /usa-tag %}}  [Side Navigation](https://designsystem.digital.gov/components/sidenav/)
 
-The generation of side navigation can be customized using [site](../hugo/configuration-parameters/#site-wide-configuration) and [page](../hugo/configuration-parameters/#page-specific-configurations) parameters.
+The generation of side navigation can be customized using [site](../hugo/configuration-parameters/#site-wide-configuration) and [page](../hugo/configuration-parameters/#page-specific-configuration) parameters.
 
-The [list](../templates/#list-template) and [page](../templates/#page-template) templates support auto generation of side navigation.
+The [list](../hugo/templates/#list-template) and [page](../hugo/templates/#page-template) templates support auto generation of side navigation.
 
 A few enhancements have also been made over the side navigation provided by USWDS. This theme uses [Tocbot](https://tscanlin.github.io/tocbot/) to automatically generate a table of contents for each page in the side navigation. The entries in the table of contents are based on the headings within the page. The behavior of the table of contents can be customized by the [page parameters](../hugo/configuration-parameters/#page-specific-configuration): `sidenav.toc.enabled`, `sidenav.toc.headingselectors`, `sidenav.toc.includeHtml`, and `sidenav.toc.collapseDepth`.
 

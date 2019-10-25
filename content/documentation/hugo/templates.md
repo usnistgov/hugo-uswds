@@ -21,8 +21,8 @@ This template provides the following features:
 
 - Inclusion of JQuery, which is required by the JavaScripts used in this site.
 - Compilation of the site [CSS](https://www.w3.org/Style/CSS/) using [Sass](https://sass-lang.com/documentation/syntax). The theme's Sass files can be [customized](../customizing-css-and-js/#sass-customizations). Compiled Cascading Style Sheets (CSS) is minified to improve page load speed.
-- Inclusion of extra [site-wide](../customizing-css/#site-wide-css-resources) and [page-specific](../customizing-css-and-js/#page-specific-css-resources) CSS resources. These CSS resources are also minified to improve page load speed.
-- Inclusion of extra [site-wide](../customizing-css-and-js/#site-wide-css-resources) and [page-specific](../customizing-css/#page-specific-css-resources) JavaScript (JS) resources. These JS resources are also minified to improve page load speed.
+- Inclusion of extra [site-wide](../customizing-css-and-js/#site-wide-css-resources) and [page-specific](../customizing-css-and-js/#page-specific-css-resources) CSS resources. These CSS resources are also minified to improve page load speed.
+- Inclusion of extra [site-wide](../customizing-css-and-js/#site-wide-css-resources) and [page-specific](../customizing-css-and-js/#page-specific-css-resources) JavaScript (JS) resources. These JS resources are also minified to improve page load speed.
 - Optional inclusion of the USWDS "official government website" [banner](https://designsystem.digital.gov/components/header/). This can be controlled using the `usabanner` [page parameter](../configuration-parameters/#other-parameters-1), which allows the banner to be selectively displayed on specific pages.
 - Additional arbitrary HTML can be included in the  [header](#the-head-html-template) and [footer](#the-foot-html-template) of all pages.
 - Display of the date the page was last modified at the bottom of each page. If Git is used as the source revision control system, this date will be based on the Git metadata for the page.

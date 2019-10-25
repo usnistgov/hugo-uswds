@@ -13,7 +13,7 @@ The following subsections describe the configurations that are relevant to this 
 
 This theme uses two different menus: primary and secondary.
 
-The primary and secondary menus are used by the Extended Header [template](#the-header-extended-html-template), while only the primary menu is used by the Basic Header [template](#the-header-basic-html-template).
+The primary and secondary menus are used by the Extended Header [template](../templates/#the-header-extended-html-template), while only the primary menu is used by the Basic Header [template](../templates/#the-header-basic-html-template).
 
 Hugo supports [configuring navigation](https://gohugo.io/content-management/menus/) in both the site configuration and in the [front matter](#primary-and-secondary-navigation-1) of an indvidual page. Typically, menu items that do not pertain to page resources are configured in the site configuration file, while menu entries for a page resource is configured in that page. The latter allows the menu entry to follow the page.
 
