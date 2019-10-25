@@ -5,7 +5,7 @@
 {{ define "main" }}
 {{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
 {{ partial "components/header-extended.html" . }}
-<main id="main-content">
+<main id="main-content" class="usa-layout-docs">
   {{ if or (.HasShortcode "usa-section") (.HasShortcode "usa-grid-container") (.HasShortcode "usa-hero") (.HasShortcode "usa-tagline") }}
     {{- .Content -}}
   {{ else }}
