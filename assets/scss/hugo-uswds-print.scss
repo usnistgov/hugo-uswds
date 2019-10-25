@@ -1,5 +1,20 @@
 
 @media print {
+  body {
+    overflow-x: visible;
+  }
+
+  article, details, figcaption, figure, hgroup, main, section, summary {
+    display: inline !important;
+  }
+
+  article > header {
+    display: inline !important;
+  }
+
+  .grid-row {
+    display: inline !important;
+  }
 
   .usa-navbar {
     .usa-logo {
