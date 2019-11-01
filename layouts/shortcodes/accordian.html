@@ -1,0 +1,4 @@
+{{- $bordered := .Get "bordered" | default false -}}
+<div class="usa-accordion{{if $bordered}}  usa-accordion--bordered{{end}}">
+  {{ .Inner }}
+</div>

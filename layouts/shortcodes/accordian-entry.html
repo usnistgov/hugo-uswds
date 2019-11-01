@@ -1,0 +1,26 @@
+{{- if ne .Parent.Name "accordian" -}}
+{{- errorf "accordian-entry must be used within an accordian shortcode" -}}
+{{- end -}}
+
+{{/* this is the index of the entry within the containing accordian */}}
+{{- $entryIndex := .Ordinal -}}
+
+{{- /* Recreate a unique identifier for the entry within the page
+       using the parent's identifer */ -}}
+{{- $guid := printf "accordian-%d" .Parent.Ordinal -}}
+
+{{- $entryId := printf "%s-%s-tab" $guid $entryIndex -}}
+
+{{- $heading := .Get "heading" }}
+{{- if not ($heading) -}}{{- errorf "missing value for param 'heading': %s" .Position -}}{{- end -}}
+{{- $headingLevel := .Get "heading-level" | default 2 -}}
+<h{{$headingLevel}} class="usa-accordion__heading">
+  <button class="usa-accordion__button"
+    aria-expanded="true"
+    aria-controls="{{ $entryId }}">
+    {{- $heading | markdownify }}
+  </button>
+</h2>
+<div id="{{ $entryId }}" class="usa-accordion__content usa-prose">
+  {{ .Inner | markdownify }}
+</div>

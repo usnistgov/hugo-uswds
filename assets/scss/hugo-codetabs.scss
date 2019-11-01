@@ -1,0 +1,118 @@
+div.hugo-codetabs {
+  list-style-type: none;
+  ul {
+    list-style-type: none;
+    display: flex;
+    margin-bottom: 0;
+//    border: 2px solid red;
+
+    li.hugo-tab {
+      margin-bottom: 0;
+//      border: 2px solid red;
+
+      button {
+        $button-vertical-offset: 53%; // XXX: Magic number
+
+        @include button-unstyled;
+        color: color($nav-link-color);
+        font-weight: font-weight('normal');
+        line-height: line-height($theme-navigation-font-family, 2);
+        padding: units(1.5) units(2);
+        text-decoration: none;
+//        border-top: units(1px) solid color('primary');
+//        border-left: units(1px) solid color('primary');
+//        border-right: units(1px) solid color('primary');
+
+//        @include at-media($theme-header-min-width) {
+//          @include primary-nav-link;
+//          font-size: font-size($theme-navigation-font-family, '2xs');
+//          font-weight: font-weight('bold');
+//        }
+
+        &:hover {
+          color: color('primary');
+          background-color: color('base-lightest');
+          text-decoration: none;
+
+//          @include at-media($theme-header-min-width) {
+//            background-color: transparent;
+//          }
+        }
+
+        &[aria-expanded=false] { /* stylelint-disable-line selector-no-qualifying-type */
+//          @include add-background-svg('plus-alt');
+//          background-position: right 0 center;
+//          background-size: units($nav-link-accordion-icon-size);
+
+//          @include at-media($theme-header-min-width) {
+            @include add-background-svg('angle-arrow-down');
+            background-size: units($nav-link-arrow-icon-size);
+            background-position: right units(2) top $button-vertical-offset;
+//          }
+
+          &:hover {
+//            @include at-media($theme-header-min-width) {
+              @include add-background-svg('angle-arrow-down-primary');
+//            }
+          }
+        }
+
+        &[aria-expanded=true] { /* stylelint-disable-line selector-no-qualifying-type */
+          pointer-events: none;
+//          @include add-background-svg('minus-alt');
+//          background-position: right 0 center;
+//          background-size: units($nav-link-accordion-icon-size);
+
+//          @include at-media($theme-header-min-width) {
+            @include add-background-svg('angle-arrow-up-white');
+            @include add-knockout-font-smoothing;
+            background-size: units($nav-link-arrow-icon-size);
+            background-color: color('primary-darker');
+            background-position: right units(2) top $button-vertical-offset;
+            color: color('white');
+//          }
+
+          &:hover {
+            color: color('primary');
+            background-color: color('base-lightest');
+            @include add-background-svg('angle-arrow-up-primary');
+          }
+        }
+      }
+    }
+  }
+
+  div.hugo-tab-content {
+//    border: 2px solid red;
+    display: block;
+    box-sizing: content-box;
+
+    div.hugo-tab-content-item {
+      box-sizing: content-box;
+      .highlight {
+        > .chroma {
+          margin-top: 0;
+          width: inherit;
+          overflow: hidden;
+          &:hover {
+            overflow: scroll;
+          }
+        }
+//        border: 2px solid black;
+        display: block;
+      }
+    }
+
+  }
+
+  .usa-accordion__button {
+    span {
+      margin-right: 0;
+      padding-right: units(2);
+      @include at-media($theme-header-min-width) {
+        margin-right: 0;
+        padding-right: units(2);
+      }
+    }
+  }
+}
