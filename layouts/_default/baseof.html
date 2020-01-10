@@ -81,12 +81,20 @@
 {{- end }}
 {{ end }}
 
-<script>
-{{ if .HasShortcode "imagemap" }}
-$(document).ready(function(e) {
-    $('img[usemap]').rwdImageMaps();
-});
+{{ if .HasShortcode "mermaid" }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js" integrity="sha256-JEqEejGt4tR35L0a1zodzsV0/PJ6GIf7J4yDtywdrH8=" crossorigin="anonymous"></script>
 {{ end }}
+
+<script>
+
+$(document).ready(function(e) {
+  {{ if .HasShortcode "mermaid" }}
+  mermaid.initialize();
+  {{ end }}
+  {{ if .HasShortcode "imagemap" }}
+  $('img[usemap]').rwdImageMaps();
+  {{ end }}
+});
 {{ $tocEnabled := true }}
 {{- with .Page.Params.sidenav.toc -}}
   {{ if isset . "enabled" }}

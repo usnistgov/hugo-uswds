@@ -1,0 +1,9 @@
+blockquote {
+    margin-left: 0px;
+    padding-left: units(1);
+    border-left: units(0.5) solid color('base-light');
+}
+
+div.mermaid svg {
+    width: 100%;
+}
