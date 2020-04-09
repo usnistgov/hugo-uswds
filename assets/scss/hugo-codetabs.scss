@@ -1,6 +1,6 @@
 div.hugo-codetabs {
   list-style-type: none;
-  ul {
+  > ul {
     list-style-type: none;
     display: flex;
     margin-bottom: 0;

@@ -1,0 +1,14 @@
+{{- /* Create a unique identifier for the tab group within the page */ -}}
+{{- $guid := printf "tabs-%d" .Ordinal -}}
+<div id="{{ $guid }}" class="hugo-codetabs usa-accordion">
+  <ul>
+  {{- range .Params -}}
+    {{- $tabName := . -}}
+    {{- $tabId := printf "%s-%s-tab" $guid ((lower $tabName) | anchorize) -}}
+    <li class="hugo-tab"><button class="usa-accordion__button" aria-expanded="true" aria-controls="{{ $tabId }}"><span>{{ $tabName }}</span></button></li>
+  {{- end -}}
+  </ul>
+  <div id="{{ printf "%s-content" $guid }}" class="hugo-tab-content">
+    {{- .Inner -}}
+  </div>
+</div>
