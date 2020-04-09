@@ -1,0 +1,18 @@
+{{- if ne .Parent.Name "tabs" -}}
+{{- errorf "codetab must be used within a codetabs shortcode" -}}
+{{- end -}}
+
+{{/* this is the index of the tab within the containing codetabs */}}
+{{- $tabIndex := .Ordinal -}}
+
+{{- /* Recreate a unique identifier for the tab group within the page
+       using the parent's identifer */ -}}
+{{- $guid := printf "tabs-%d" .Parent.Ordinal -}}
+
+{{- /* Get the tab's name from the parent */ -}}
+{{- $tabName := .Parent.Get $tabIndex -}}
+{{- $tabId := printf "%s-%s-tab" $guid ((lower $tabName) | anchorize) -}}
+
+<div id="{{ $tabId }}" class="hugo-tab-content-item">
+{{- .Inner -}}
+</div>
