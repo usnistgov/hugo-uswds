@@ -12,15 +12,10 @@ div.highlight {
   }
   > pre.chroma {
     padding: 0.5rem;
-    white-space: pre-wrap;
-    white-space: -moz-pre-wrap;
-    white-space: -pre-wrap;
-    white-space: -o-pre-wrap;
-    word-wrap: break-word;
     width: max-content;
   }
-  > div.chroma, pre.chroma {
-    width: max-content !important;
+  > div.chroma, > pre.chroma {
+    overflow-x: auto;
   }
 
   /* LineTableTD */ .lntd {
@@ -36,25 +31,13 @@ div.highlight {
     &:nth-child(1) > pre {
       padding-right: 0;
     }
-    &:nth-child(2) {
-      > pre {
-        white-space: pre-wrap;
-        white-space: -moz-pre-wrap;
-        white-space: -pre-wrap;
-        white-space: -o-pre-wrap;
-        word-wrap: break-word;
-        width: max-content;
-      }
-    }
   }
   /* LineTable */ .lntable {
     border-spacing: 0;
     padding: 0;
     margin: 0;
     border: 0;
-    width: auto;
-    overflow: auto;
-    display: table;
+    display: block;
   }
 
   td.lntd {
