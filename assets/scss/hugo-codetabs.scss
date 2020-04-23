@@ -93,10 +93,6 @@ div.hugo-codetabs {
         > .chroma {
           margin-top: 0;
           width: inherit;
-          overflow: hidden;
-          &:hover {
-            overflow: scroll;
-          }
         }
 //        border: 2px solid black;
         display: block;
