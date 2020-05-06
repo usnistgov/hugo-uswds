@@ -1,0 +1,24 @@
+{{- $page := .page -}}
+{{- $activePage := .activePage -}}
+
+
+{{- $renderDepth := -1 -}}
+
+{{- $pageSettings := partial "components/get-nav-settings.html" (dict "page" $page) -}}
+
+{{- if eq $page $activePage -}}
+  {{- $renderDepth = -2 -}}
+{{- else if $page.InSection $activePage -}}
+  {{- $renderDepth = -3 -}}
+{{- else if and (eq $page.Kind "section") ($page.IsAncestor $activePage) }}
+  {{- /* page is in focus */ -}}
+  {{- $renderDepth = -10 -}}
+{{- else if and ($page.IsDescendant $activePage) (eq $activePage.Kind "section") }}
+  {{- /* page is child of active page. */ -}}
+  {{- $renderDepth = partial "components/calculate-active-render-depth.html" (dict "page" $page "activePage" $activePage) -}}
+{{- else -}}
+  {{- /* page is an inactive cousin of active page. */ -}}
+  {{- $renderDepth = partial "components/calculate-inactive-render-depth.html" (dict "page" $page "activePage" $activePage "parentOffset" 0) -}}
+{{- end -}}
+
+{{- return $renderDepth -}}

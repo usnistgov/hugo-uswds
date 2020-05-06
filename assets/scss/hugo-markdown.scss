@@ -68,7 +68,11 @@ h6 {
 
 li code, p code {
   background-color: color('base-lightest');
-  padding: units('2px')
+  padding: 0 units('2px') 0 units('2px');
+  -webkit-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+  box-shadow: 1px 1px 3px 0px rgba(0,0,0,0.75);
+  margin: 0 2px 0 2px;
 }
 
 /* fix code highlighting in alerts */

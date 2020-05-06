@@ -1,0 +1,21 @@
+{{- $page := .page -}}
+{{- $activePage := .activePage -}}
+{{- $parentOffset := .parentOffset -}}
+
+{{- $renderDepth := -10 }}
+
+{{- if not ($page.IsAncestor $activePage) }}
+    {{- $parent := $page.Parent }}
+    {{- $renderDepth = partial "components/calculate-inactive-render-depth.html" (dict "page" $parent "activePage" $activePage "parentOffset" (add 1 $parentOffset)) -}}
+{{- else -}}
+    {{- $pageSettings := partial "components/get-nav-settings.html" (dict "page" $page) -}}
+    {{- $renderDepth = $pageSettings.inactiveRenderDepth }}
+    {{- if gt $renderDepth -1 -}}
+        {{- $renderDepth = sub (add 1 $renderDepth) $parentOffset }}
+        {{- if lt $renderDepth 0 -}}
+            {{- $renderDepth = 0 }}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- return $renderDepth -}}
