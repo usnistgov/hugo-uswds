@@ -1,0 +1,22 @@
+{{- /* Get the rendering depth of the current page (page). */ -}}
+
+{{- $page := .page -}}
+{{- $activePage := .activePage -}}
+
+{{- $renderDepth := -1 }}
+
+{{- if eq $activePage $page -}}
+    {{- $pageSettings := partial "components/get-nav-settings.html" (dict "page" $page) -}}
+    {{- $renderDepth = $pageSettings.activeRenderDepth }}
+    {{ if gt $renderDepth -1 -}}
+        {{- $renderDepth = add $renderDepth 1 -}}
+    {{- end -}}
+{{- else -}}
+    {{- $parent := $page.Parent }}
+    {{- $renderDepth = partial "components/calculate-active-render-depth.html" (dict "page" $parent "activePage" $activePage) -}}
+    {{- if gt $renderDepth 0 }}
+        {{- $renderDepth = sub $renderDepth 1 -}}
+    {{- end -}}
+{{- end -}}
+
+{{- return $renderDepth -}}

@@ -6,12 +6,18 @@ div.highlight {
     display: table;
   }
 */
+  -webkit-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.75);
+  box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.75);
+  border: units('1px') solid color('base-light');
+  background-color: color('gray-cool-2');
 
   pre {
     padding: 0;
+    margin: 0;
   }
   > pre.chroma {
-    padding: 0.5rem;
+    padding: 0 0.5rem;
     width: max-content;
   }
   > div.chroma, > pre.chroma {
@@ -23,6 +29,7 @@ div.highlight {
     padding: 0;
     margin: 0;
     border: 0;
+    background-color: inherit;
 
     >pre {
       margin: 0;
@@ -30,6 +37,11 @@ div.highlight {
 
     &:nth-child(1) > pre {
       padding-right: 0;
+      border-right: units('1px') solid color('base-lighter');
+    }
+
+    &:nth-child(2) {
+      padding: 0 0.25rem;
     }
   }
   /* LineTable */ .lntable {
@@ -38,11 +50,6 @@ div.highlight {
     margin: 0;
     border: 0;
     display: block;
-  }
-
-  td.lntd {
-      background-color: inherit;
-      padding: 0.5rem 0;
   }
 
   /* LineNumbersTable */ .lnt {
@@ -64,7 +71,6 @@ div.highlight {
     // "light" styles
     // ==============
     /* Background */
-    background-color: color('gray-cool-2');
     color: color('gray-70');
 
     /* Error */ .err {
