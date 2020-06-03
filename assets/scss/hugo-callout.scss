@@ -1,0 +1,11 @@
+
+div.callout {
+//    @include u-border(1px);
+    @include u-padding-x(1.5);
+    @include u-padding-y(0.5);
+    @include u-bg('primary-lighter');
+    border: units('1px') solid color('base-light');
+    -webkit-box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 1px 0px rgba(0,0,0,0.5);
+}

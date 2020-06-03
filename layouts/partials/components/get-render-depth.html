@@ -8,7 +8,7 @@
 
 {{- if eq $page $activePage -}}
   {{- $renderDepth = -2 -}}
-{{- else if $page.InSection $activePage -}}
+{{- else if ($page.InSection $activePage) -}}
   {{- $renderDepth = -3 -}}
 {{- else if and (eq $page.Kind "section") ($page.IsAncestor $activePage) }}
   {{- /* page is in focus */ -}}

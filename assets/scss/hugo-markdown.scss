@@ -3,6 +3,12 @@ table {
   @extend .usa-table;
 }
 
+blockquote {
+  margin-left: 0px;
+  padding-left: units(1);
+  border-left: units(2px) solid color('base-light');
+}
+
 /* Code highlighting */
 /* ----------------- */
 code,

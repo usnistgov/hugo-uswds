@@ -2,7 +2,7 @@
 {{- $activePage := .activePage -}}
 {{- $parentOffset := .parentOffset -}}
 
-{{- $renderDepth := -10 }}
+{{- $renderDepth := -1 }}
 
 {{- if not ($page.IsAncestor $activePage) }}
     {{- $parent := $page.Parent }}

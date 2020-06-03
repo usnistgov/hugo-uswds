@@ -1,2 +1,4 @@
 {{ $class := .Get "class" }}
-<p{{ if $class }} class="{{$class}}"{{else}} class="padding-y-05 padding-x-105 border-base-dark border-width-1px border-solid bg-base-lighter"{{end}}>{{.Inner | markdownify}}</p>
+<div{{ if $class }} class="{{$class}} callout"{{else}} class="callout"{{end}}>
+    {{ .Inner | markdownify }}
+</div>
