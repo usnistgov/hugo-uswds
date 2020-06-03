@@ -80,8 +80,8 @@
       {{- end -}}
     {{- end }}
   </li>
-  {{- else -}}
-    {{- $extraClasses = printf "%s bg-secondary-darker" $extraClasses -}}
+  {{- else if eq $debug 1 -}}
+    {{- $extraClasses = printf "%s bg-secondary-darker other" $extraClasses -}}
   <li {{ if eq $debug 1 -}}title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $currentPage "extraClasses" $extraClasses) }}"{{ end }}>
     {{- template "sidenav-anchor" (dict "page" $page "currentPage" $currentPage "extraClasses" $extraClasses) -}}
   </li>
