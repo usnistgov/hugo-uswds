@@ -1,29 +1,90 @@
 
-@mixin generate-sidenav-nesting($left-padding-width, $depth, $i: 1){
+@mixin generate-sidenav-nesting($list-selector,$left-padding-width, $depth, $i: 1){
   @if $i <= $depth {
-    .usa-sidenav {
-      a {
+    ul.#{$list-selector} {
+      a.usa-sidenav__item {
         padding-left: #{$left-padding-width * $i}rem;
       }
-      @include generate-sidenav-nesting($left-padding-width, $depth, $i + 1);
+      @include generate-sidenav-nesting($list-selector,$left-padding-width, $depth, $i + 1);
     }
   }
 }
 
-aside.usa-layout-docs__sidenav {
+nav.usa-layout-docs__sidenav {
   ul.usa-sidenav {
     a.subnav-top-level  {
       @include u-text('bold');
       background-color: color('base-lightest');
       padding-left: 0.90rem;
     }
-    @include generate-sidenav-nesting(0.90, 12);
+    @include generate-sidenav-nesting('usa-sidenav__sublist',0.90, 12);
   }
 }
 
 /* fix extra line */
 ul.usa-sidenav ul.usa-sidenav {
   border-bottom: none;
+}
+ 
+.usa-sidenav .active-page, .usa-sidenav_sublist .active-page {
+  background-color: color('primary-lighter');
+}
+
+nav.toc-container {
+  @include u-position('sticky');
+  @include u-top(3);
+  max-height: 95vh;
+
+  p {
+    @include typeset($theme-sidenav-font-family, "sm", 3);
+    @include u-text('base-dark','bold');
+    
+    padding: units(1) units($sidenav-level-1-inset);
+    padding-left: .9rem;
+    background-color: color('base-lightest');
+  }
+
+  div#js-toc {
+    @include u-overflow-y('hidden');
+//    @include u-position('sticky');
+//    @include u-top(3);
+    @include generate-sidenav-nesting('usa-sidenav',0.90, 6);
+  
+    border-left: units(1px) solid color('base-light');
+    max-height: 95vh;
+
+    .usa-sidenav {
+      border: none;
+
+      .usa-sidenav__item {
+        border: none;
+      }
+
+      .usa-current {
+        @include u-text('primary');
+
+        &:after {
+          background-color: inherit;
+        }
+      }
+
+      a:not(.usa-button):not(button.schema-link) {
+        @include u-padding-y('05');
+      }
+    }
+    /*
+    div.usa-sidenav {
+      a.subnav-top-level {
+        @include u-text('bold');
+        background-color: color('base-lightest');
+        padding-left: 0.90rem;
+      }
+
+      div#js-toc {
+      }
+    }
+*/
+  }
 }
 
 a.toc-link {
@@ -40,12 +101,4 @@ a.toc-link {
  .is-position-fixed {
   position:fixed !important;
   top:0
- }
- 
- .usa-sidenav .active-page {
-   background-color: color('primary-lighter');
- }
- 
- div#js-toc > ul.usa-sidenav {
-   border: units(2px) solid color('primary-lighter');
  }
