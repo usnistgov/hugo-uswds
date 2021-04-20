@@ -1,92 +1,51 @@
 
-aside > .usa-sidenav {
-  position: sticky;
-  top: 0;
-}
-
-aside .usa-sidenav .subnav-top-level  {
-  @include u-text('bold');
-  background-color: color('base-lightest');
-}
-/*
-.usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist a {
-  padding-left: 5rem;
-}
-*/
-.usa-sidenav {
-  a {
-    padding-left: 1rem;
-  }
-  .usa-sidenav {
-    a {
-      padding-left: 2rem;
-    }
+@mixin generate-sidenav-nesting($left-padding-width, $depth, $i: 1){
+  @if $i <= $depth {
     .usa-sidenav {
       a {
-        padding-left: 3rem;
+        padding-left: #{$left-padding-width * $i}rem;
       }
-      .usa-sidenav {
-        a {
-          padding-left: 4rem;
-        }
-        .usa-sidenav {
-          a {
-            padding-left: 5rem;
-          }
-          .usa-sidenav {
-            a {
-              padding-left: 6rem;
-            }
-            .usa-sidenav {
-              a {
-                padding-left: 7rem;
-              }
-            }
-          }
-        }
-      }
+      @include generate-sidenav-nesting($left-padding-width, $depth, $i + 1);
     }
   }
 }
-/*
-.usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist .usa-sidenav__sublist a {
-  padding-left: 5rem;
+
+aside.usa-layout-docs__sidenav {
+  ul.usa-sidenav {
+    a.subnav-top-level  {
+      @include u-text('bold');
+      background-color: color('base-lightest');
+      padding-left: 0.90rem;
+    }
+    @include generate-sidenav-nesting(0.90, 12);
+  }
 }
-*/
 
 /* fix extra line */
 ul.usa-sidenav ul.usa-sidenav {
   border-bottom: none;
 }
-/*
-.toc {
- overflow-y:auto
-}
-.toc>.toc-list {
- overflow:hidden;
- position:relative
-}
-*/
+
 a.toc-link {
- height:100%
-}
-.is-collapsible {
- max-height:1000px;
- overflow:hidden;
- transition:all 300ms ease-in-out
-}
-.is-collapsed {
- max-height:0
-}
-.is-position-fixed {
- position:fixed !important;
- top:0
-}
-
-.usa-sidenav .active-page {
-  background-color: color('primary-lighter');
-}
-
-div#js-toc > ul.usa-sidenav {
-  border: units(2px) solid color('primary-lighter');
-}
+  height:100%
+ }
+ .is-collapsible {
+  max-height:1000px;
+  overflow:hidden;
+  transition:all 300ms ease-in-out
+ }
+ .is-collapsed {
+  max-height:0
+ }
+ .is-position-fixed {
+  position:fixed !important;
+  top:0
+ }
+ 
+ .usa-sidenav .active-page {
+   background-color: color('primary-lighter');
+ }
+ 
+ div#js-toc > ul.usa-sidenav {
+   border: units(2px) solid color('primary-lighter');
+ }
