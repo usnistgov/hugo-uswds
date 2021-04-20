@@ -1,6 +1,6 @@
 # hugo-uswds
 
-An open-source implementation of the [The United States Web Design System (USWDS) 2.2.1](https://designsystem.digital.gov/) using the [Hugo](https://gohugo.io/) open-source static site generator.
+An open-source implementation of the [The United States Web Design System ](https://designsystem.digital.gov/) (USWDS) version 2.11.1 using the [Hugo](https://gohugo.io/) open-source static site generator.
 
 Implementation of the USWDS is currently incomplete, but suffecient to support a number of websites hosted at NIST. [Contributions](CONTRIBUTING.md) to improve this project are welcome.
 

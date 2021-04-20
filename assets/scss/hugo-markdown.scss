@@ -82,10 +82,28 @@ li code, p code {
 }
 
 /* fix code highlighting in alerts */
-@each $name, $bgcolor in $alerts {
-  .usa-alert--#{$name} {
-    p code {
-      background-color: color($name+'-light');
-    }
+.usa-alert--success {
+  p code {
+    background-color: color('success-light');
+  }
+}
+.usa-alert--warning {
+  p code {
+    background-color: color('warning-light');
+  }
+}
+.usa-alert--error {
+  p code {
+    background-color: color('error-light');
+  }
+}
+.usa-alert--info {
+  p code {
+    background-color: color('info-light');
+  }
+}
+.usa-alert--emergency {
+  p code {
+    background-color: color('emergency');
   }
 }
