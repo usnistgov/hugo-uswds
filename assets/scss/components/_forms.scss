@@ -8,8 +8,8 @@
 }
 
 .usa-form {
-  @include at-media('mobile-lg') {
-    max-width: units('mobile');
+  @include at-media("mobile-lg") {
+    max-width: units("mobile");
   }
 
   .usa-input,
@@ -20,18 +20,37 @@
     max-width: none;
   }
 
-  .usa-input--small {
-    max-width: units(8);
-  }
-
-  .usa-input--medium {
-    max-width: units(15);
+  .usa-input,
+  .usa-input-group {
+    &--2xs {
+      max-width: 5ex;
+    }
+    &--xs {
+      max-width: 9ex;
+    }
+    &--sm,
+    &--small {
+      max-width: 13ex;
+    }
+    &--md,
+    &--medium {
+      max-width: 20ex;
+    }
+    &--lg {
+      max-width: 30ex;
+    }
+    &--xl {
+      max-width: 40ex;
+    }
+    &--2xl {
+      max-width: 50ex;
+    }
   }
 
   .usa-button {
     margin-top: units(1);
 
-    @include at-media('mobile-lg') {
+    @include at-media("mobile-lg") {
       margin-top: units(3);
     }
   }
@@ -42,13 +61,13 @@
 }
 
 .usa-form--large {
-  @include at-media('mobile-lg') {
-    max-width: units('mobile-lg');
+  @include at-media("mobile-lg") {
+    max-width: units("mobile-lg");
   }
 }
 
 .usa-form__note {
-  @include typeset($theme-form-font-family, '2xs', 3);
+  @include typeset($theme-form-font-family, "2xs", 3);
   float: right;
   margin: units(0.5) 0 units(2);
 }

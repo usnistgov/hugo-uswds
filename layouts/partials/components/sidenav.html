@@ -70,7 +70,7 @@
       {{- $pages := .page.Pages -}}
       {{- if gt (len $pages) 0 }}
         {{- if or (le $pageRenderDepth -1) (gt $pageRenderDepth 1) (eq $debug 1) -}}
-    <ul class="usa-sidenav">
+    <ul class="usa-sidenav__sublist">
           {{- range $pages -}}
             {{- $nextPage := . -}}
             {{- template "sidenav-item" (dict "page" $nextPage "activePage" $currentPage "debug" $debug) -}}
@@ -98,16 +98,6 @@
   {{- end -}}
 
   <a class="usa-sidenav__item{{ with $extraClasses }}{{ . }}{{ end }}" href="{{ $page.Permalink }}">{{ with $page.Params.sidenav.title }}{{ . }}{{ else }}{{ $page.Title }}{{ end }}</a>
-
-  {{- $tocEnabled := true -}}
-  {{- with $currentPage.Params.sidenav.toc -}}
-    {{- if isset . "enabled" -}}
-      {{- $tocEnabled = .enabled -}}
-    {{- end -}}
-  {{- end -}}
-  {{- if and (eq $page $currentPage) ($tocEnabled) -}}
-    <div id="js-toc"></div>
-  {{- end -}}
 {{- end -}}
 
 {{- define "sidenav-anchor-debug" -}}

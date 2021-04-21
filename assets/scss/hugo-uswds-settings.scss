@@ -1,0 +1,30 @@
+$theme-global-paragraph-styles: true;
+$theme-global-link-styles:      true;
+$theme-global-content-styles:   true;
+
+$theme-utility-breakpoints: (
+  // 160px:
+  "card": false,
+  // 240px:
+  "card-lg": false,
+  // 320px:
+  "mobile": false,
+  // 480px:
+  "mobile-lg": true,
+  // 640px:
+  "tablet": true,
+  // 800px:
+  "tablet-lg": false,
+  // 1024px:
+  "desktop": true,
+  // 1200px:
+  "desktop-lg": false,
+  // 1400px:
+  "widescreen": true
+);
+
+$theme-site-max-width: 'widescreen';
+$theme-grid-container-max-width: 'widescreen';
+$theme-banner-max-width: 'widescreen';
+$theme-header-max-width: 'widescreen';
+$theme-text-measure: 'none';

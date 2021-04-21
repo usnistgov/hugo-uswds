@@ -1,11 +1,8 @@
-$theme-font-path:   '{{ .Site.BaseURL }}fonts';
-$theme-image-path:  '{{ .Site.BaseURL }}img';
-$theme-hero-image:  '{{ .Site.BaseURL }}img/hero.png';
+$theme-font-path:   '{{ $.Site.BaseURL }}fonts';
+$theme-image-path:  '{{ $.Site.BaseURL }}img';
+$theme-hero-image:  '{{ $.Site.BaseURL }}img/hero.png';
 
-$theme-global-paragraph-styles: true;
-$theme-global-link-styles:      true;
-$theme-global-content-styles:   true;
-
+@import 'hugo-uswds-settings';
 @import 'hugo-uswds-theme';
 @import 'uswds';
 @import 'hugo-callout';

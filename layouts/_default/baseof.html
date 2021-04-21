@@ -41,18 +41,19 @@
 {{ end }}
 </head>
 <body>
+
 {{ block "main" . }}
   {{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
   {{ partial "components/header-basic.html" . }}
-<main class="usa-layout-docs usa-section" id="main-content">
-  {{ .Content }}
-</main>
+  <main class="usa-layout-docs usa-section" id="main-content">
+    {{ .Content }}
+  </main>
 {{ end }}
 
 <p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentrepopath }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
 
-{{ $tocEnabled := true }}
-{{ with .Page.Params.sidenav.toc }}
+{{ $tocEnabled := false }}
+{{ with .Page.Params.toc }}
   {{ if isset . "enabled" }}
     {{ $tocEnabled = .enabled }}
   {{ end }}
@@ -61,7 +62,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.12.0/tocbot.min.js" integrity="sha384-roIHE2HuL+PZHzo8X7MgpHu256WMUJvsKqI2GaUJY3moVp06oLtx0QvZnvZJdcCb" crossorigin="anonymous"></script>
 {{end}}
 
-{{ $uswdsJS := resources.Get "/js/uswds.js" }}
+{{ $uswdsJS := resources.Get "/js/uswds.min.js" }}
 {{ $rwdImgMaps := resources.Get "/js/jquery.rwdImageMaps.js" }}
 {{ $siteJS := slice $uswdsJS $rwdImgMaps }}
 {{ range .Site.Params.custom_js -}}
@@ -96,7 +97,7 @@ $(document).ready(function(e) {
   {{ end }}
 });
 {{ $tocEnabled := true }}
-{{- with .Page.Params.sidenav.toc -}}
+{{- with .Page.Params.toc -}}
   {{ if isset . "enabled" }}
     {{ $tocEnabled = .enabled }}
   {{ end }}
@@ -105,7 +106,7 @@ $(document).ready(function(e) {
   {{ $headingselectors := "h2,h3,h4" }}
   {{ $includeHtml := false }}
   {{ $collapseDepth := 0 }}
-  {{ with .Page.Params.sidenav.toc }}
+  {{ with .Page.Params.toc }}
     {{ if isset . "headingselectors" }}
       {{ $headingselectors = .headingselectors }}
     {{ end }}
@@ -117,22 +118,38 @@ $(document).ready(function(e) {
     {{ end }}
   {{ end }}
 tocbot.init({
-  // Where to render the table of contents.
   tocSelector: '#js-toc',
-  // Where to grab the headings to build the table of contents.
   contentSelector: '#main-content',
-  // Which headings to grab inside of the contentSelector element.
   headingSelector: '{{ $headingselectors }}',
   includeHtml: {{ $includeHtml }},
   collapseDepth: {{- $collapseDepth -}},
-  // For headings inside relative or absolute positioned containers within content.
+  hasInnerContainers: true,
+  orderedList: false,
+
+  listClass: 'usa-sidenav',
+//  activeListItemClass: 'usa-current',
+  extraLinkClasses: 'usa-sidenav__item',
+  activeLinkClass: 'usa-current',
+
+  headingsOffset: 1,
+  scrollSmoothOffset: 0
+});
+/*
+tocbot.init({
+  tocSelector: '#js-toc',
+  contentSelector: '#main-content',
+  headingSelector: 'h1,h2.toc1,h3.toc2',
+  includeHtml: false,
+  collapseDepth: 0,
   hasInnerContainers: true,
   orderedList: false,
   listClass: 'usa-sidenav',
-  listItemClass: 'toc-item',
   extraLinkClasses: 'usa-sidenav__item',
-  activeLinkClass: 'usa-current'
+  activeLinkClass: 'usa-current',
+  headingsOffset: 1,
+  scrollSmoothOffset: 20
 });
+*/
 {{- end -}}
 </script>
 {{ block "foot" . }}
