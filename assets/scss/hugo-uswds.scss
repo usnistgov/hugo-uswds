@@ -1,3 +1,7 @@
+$theme-font-path:   '{{ $.Site.BaseURL }}fonts';
+$theme-image-path:  '{{ $.Site.BaseURL }}img';
+$theme-hero-image:  '{{ $.Site.BaseURL }}img/hero.png';
+
 @import 'hugo-uswds-settings';
 @import 'hugo-uswds-theme';
 @import 'uswds';
