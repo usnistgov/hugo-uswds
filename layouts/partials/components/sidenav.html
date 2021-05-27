@@ -9,7 +9,7 @@
 
 {{ $activePage := .Page }}
 {{ $page := .Page.FirstSection }}
-{{ $debug := 0 }}
+{{ $debug := false }}
 
 {{- /* includeTopLevel is used to determine if the top-level section should appear in the side navigation */ -}}
 {{ $includeTopLevel := true }}
@@ -17,21 +17,28 @@
   {{ if isset . "includetoplevel" }}
     {{ $includeTopLevel = .includetoplevel }}
   {{ end }}
+  {{ if isset . "debug" }}
+    {{ $debug = .debug }}
+  {{ end }}
 {{ end }}
 
 {{- $pages := $page.Pages -}}
 
-
+{{- with $activePage.Params.sidenav -}}
+  {{- if isset . "debug" -}}
+    {{- $debug = .debug -}}
+  {{- end -}}
+{{- end -}}
 
 {{- /* if the nav hierarchy has pages or if include top level, render them */ -}}
 {{- if or ($includeTopLevel) (and (ne $activePage $activePage.FirstSection) (gt (len $pages) 0)) -}}
 <ul class="usa-sidenav">
   {{- if $includeTopLevel }}
-    {{- template "sidenav-item" (dict "page" $page "activePage" $activePage "extraClasses" "subnav-top-level" "debug" $debug) -}}
+    {{- template "sidenav-item" (dict "page" $page "activePage" $activePage "parentRenderDepth" -1 "extraClasses" "subnav-top-level" "debug" $debug) -}}
   {{- else -}}
     {{- range $pages -}}
       {{- $nextPage := . -}}
-      {{- template "sidenav-item" (dict "page" . "activePage" $activePage "debug" $debug) -}}
+      {{- template "sidenav-item" (dict "page" . "activePage" $activePage "parentRenderDepth" -1 "debug" $debug) -}}
     {{- end -}}
   {{- end -}}
 </ul>
@@ -42,8 +49,9 @@
 {{- /* = Rendering of sidenav items = */ -}}
 {{- /* ============================== */ -}}
 {{- define "sidenav-item" -}}
-  {{- $currentPage := .activePage -}}
+  {{- $activePage := .activePage -}}
   {{- $page := .page -}}
+  {{- $parentRenderDepth := .parentRenderDepth -}}
   {{- $debug := .debug -}}
 
   {{- $pageEnabled := true -}}
@@ -59,41 +67,48 @@
     {{- $extraClasses = printf "subnav-top-level %s" $extraClasses -}}
   {{- end -}}
 
-  {{- $pageRenderDepth := partial "components/get-render-depth.html" (dict "page" $page "activePage" $currentPage) -}}
+  {{- $pageRenderDepth := partial "components/get-render-depth.html" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth) -}}
 
-  {{- /* add page to sidenav if the page is enabled }*/ -}}
-  {{- if and ($pageEnabled) (or ($page.IsAncestor $currentPage) (le $pageRenderDepth -1) (gt $pageRenderDepth 0)) -}}
-<li {{ if eq $debug 1 -}}title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $currentPage "extraClasses" $extraClasses) }}"{{ end }}>
-  {{- template "sidenav-anchor" (dict "page" $page "currentPage" $currentPage "extraClasses" $extraClasses) -}}
+  {{- /* add page to sidenav if the page is enabled.
+       * A page is active if all of the following are true:
+       * - Params.enabled is not false
+       * - one of the following are true:
+       *    - the page is an ancestor of the active page
+       *    - the render depth is less than 0
+       *    - the render depth is greater than 0
+       */ -}}
+  {{- if and ($pageEnabled) (or ($page.IsAncestor $activePage) (le $pageRenderDepth -1) (gt $pageRenderDepth 0)) -}}
+<li {{ if $debug -}}title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth "extraClasses" $extraClasses) }}"{{ end }}>
+    {{- template "sidenav-anchor" (dict "page" $page "activePage" $activePage "extraClasses" $extraClasses) -}}
 
     {{- if and (eq $page.Kind "section") -}}
       {{- $pages := .page.Pages -}}
       {{- if gt (len $pages) 0 }}
-        {{- if or (le $pageRenderDepth -1) (gt $pageRenderDepth 1) (eq $debug 1) -}}
+        {{- if or ($page.IsAncestor $activePage) (le $pageRenderDepth -1) (gt $pageRenderDepth 1) ($debug) -}}
     <ul class="usa-sidenav__sublist">
           {{- range $pages -}}
             {{- $nextPage := . -}}
-            {{- template "sidenav-item" (dict "page" $nextPage "activePage" $currentPage "debug" $debug) -}}
+            {{- template "sidenav-item" (dict "page" $nextPage "activePage" $activePage "parentRenderDepth" $pageRenderDepth "debug" $debug) -}}
           {{- end }}
     </ul>
         {{- end -}}
       {{- end -}}
     {{- end }}
   </li>
-  {{- else if eq $debug 1 -}}
+  {{- else if $debug -}}
     {{- $extraClasses = printf "%s bg-secondary-darker other" $extraClasses -}}
-  <li {{ if eq $debug 1 -}}title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $currentPage "extraClasses" $extraClasses) }}"{{ end }}>
-    {{- template "sidenav-anchor" (dict "page" $page "currentPage" $currentPage "extraClasses" $extraClasses) -}}
+  <li {{ if $debug -}}title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth "extraClasses" $extraClasses) }}"{{ end }}>
+    {{- template "sidenav-anchor" (dict "page" $page "activePage" $activePage "extraClasses" $extraClasses) -}}
   </li>
   {{- end -}}
 {{- end -}}
 
 {{- define "sidenav-anchor" -}}
   {{- $page := .page -}}
-  {{- $currentPage := .currentPage -}}
+  {{- $activePage := .activePage -}}
   {{- $extraClasses := (print " " .extraClasses) -}}
 
-  {{- if eq $page $currentPage -}}
+  {{- if eq $page $activePage -}}
     {{- $extraClasses = (print $extraClasses " active-page usa-current") -}}
   {{- end -}}
 
@@ -103,22 +118,24 @@
 {{- define "sidenav-anchor-debug" -}}
   {{- $page := .page -}}
   {{- $activePage := .activePage -}}
+  {{- $parentRenderDepth := .parentRenderDepth -}}
   {{- $extraClasses := (print " " .extraClasses) -}}
-  {{- $settings := partial "components/get-nav-settings.html" (dict "page" $page) -}}
 
-  {{- $pageRenderDepth := partial "components/get-render-depth.html" (dict "page" $page "activePage" $activePage) -}}
-
+  {{- $pageRenderDepth := partial "components/get-render-depth.html" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth) -}}
 
   VisitedPage: ({{ $page.Kind }}){{ $page }}
   activePage: ({{ $activePage.Kind }}){{ $activePage }}
   currentSection: {{ $page.CurrentSection }}
-  IsCurrent: {{ eq $page $activePage }}
-  IsAncestor: {{ $page.IsAncestor $activePage }} (of active page's section: {{ $page.IsAncestor $activePage.CurrentSection }})
+  IsActivePage: {{ eq $page $activePage }}
   InSection: {{ $page.InSection $activePage }}
-  IsDescendant: {{ and ($page.IsDescendant $activePage) (eq $activePage.Kind "section") }} (of page's section: {{ $page.CurrentSection.IsDescendant $activePage }})
-  RD: {{ $pageRenderDepth }}
+  IsAncestor: {{ and (eq $page.Kind "section") ($page.IsAncestor $activePage) }}
+  InFocus: {{ $page.IsDescendant $activePage }}
+  IsActiveBranch: {{ and ($page.IsDescendant $activePage) (eq $activePage.Kind "section") }} (decendant of page's section: {{ $page.CurrentSection.IsDescendant $activePage }})
+  **IsAncestor: {{ $page.IsAncestor $activePage }} (of active page's section: {{ $page.IsAncestor $activePage.CurrentSection }})
+  IsDescendant: {{ $page.IsDescendant $activePage }}
+  Parent RD: {{ $parentRenderDepth }}
+  Page RD: {{ $pageRenderDepth }}
   Sidenav: {{ $page.Params.sidenav }}
-  Settings: {{ $settings }}
   Extra Classes: {{ $extraClasses }}
 
   Parent: {{ $page.Parent }}

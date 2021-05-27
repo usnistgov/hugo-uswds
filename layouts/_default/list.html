@@ -1,10 +1,10 @@
 {{ define "head" }}
-{{ partial "head.html" . }}
+{{ partialCached "head.html" . }}
 {{ end }}
 
 {{ define "main" }}
-{{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
-{{ partial "components/header-basic.html" . }}
+{{ with .Params.usabanner }}{{ partialCached "components/banner.html" . }}{{ end }}
+{{ partialCached "components/header-basic.html" . }}
 <main class="usa-layout-docs padding-top-2">
   <div class="grid-container grid-container-widescreen">
     <div class="grid-row grid-gap">
@@ -68,5 +68,5 @@
 {{ end }}
 
 {{ define "foot" }}
-{{ partial "foot.html" . }}
+{{ partialCached "foot.html" . }}
 {{ end }}

@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="{{ $siteCSSmin.Permalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
 
 {{ block "head" . }}
-  {{ partial "head.html" . }}
+  {{ partialCached "head.html" . }}
 {{ end }}
 
 {{ with .Page.Params.custom_css }}
@@ -43,8 +43,8 @@
 <body>
 
 {{ block "main" . }}
-  {{ with .Params.usabanner }}{{ partial "components/banner.html" . }}{{ end }}
-  {{ partial "components/header-basic.html" . }}
+  {{ with .Params.usabanner }}{{ partialCached "components/banner.html" . }}{{ end }}
+  {{ partialCached "components/header-basic.html" . }}
   <main class="usa-layout-docs usa-section" id="main-content">
     {{ .Content }}
   </main>
@@ -153,7 +153,7 @@ tocbot.init({
 {{- end -}}
 </script>
 {{ block "foot" . }}
-{{ partial "foot.html" . }}
+{{ partialCached "foot.html" . }}
 {{ end }}
 </body>
 </html>

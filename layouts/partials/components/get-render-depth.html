@@ -1,24 +1,54 @@
 {{- $page := .page -}}
 {{- $activePage := .activePage -}}
+{{- $parentRenderDepth := .parentRenderDepth -}}
 
 
-{{- $renderDepth := -1 -}}
+{{- $renderDepth := -100 -}}
 
-{{- $pageSettings := partial "components/get-nav-settings.html" (dict "page" $page) -}}
-
-{{- if eq $page $activePage -}}
-  {{- $renderDepth = -2 -}}
-{{- else if ($page.InSection $activePage) -}}
-  {{- $renderDepth = -3 -}}
-{{- else if and (eq $page.Kind "section") ($page.IsAncestor $activePage) }}
-  {{- /* page is in focus */ -}}
+{{- /* derive the current render depth based on the parent */ -}}
+{{- if and (eq $page.Kind "section") ($page.IsAncestor $activePage) }}
+  {{- /* page is a parent of the active page */ -}}
   {{- $renderDepth = -10 -}}
-{{- else if and ($page.IsDescendant $activePage) (eq $activePage.Kind "section") }}
-  {{- /* page is child of active page. */ -}}
-  {{- $renderDepth = partial "components/calculate-active-render-depth.html" (dict "page" $page "activePage" $activePage) -}}
+{{- else if lt $parentRenderDepth 0 -}}
+  {{- /* the default render depth is unlimited (.e.g., -1) */ -}}
+  {{- $renderDepth = -10000 }}
+{{- else if eq $parentRenderDepth 0 -}}
+  {{- /* the parent is zero (.i.e., not displayed), so we are too */ -}}
+  {{- $renderDepth = 0 }}
 {{- else -}}
-  {{- /* page is an inactive cousin of active page. */ -}}
-  {{- $renderDepth = partial "components/calculate-inactive-render-depth.html" (dict "page" $page "activePage" $activePage "parentOffset" 0) -}}
+  {{- /* decrement the parent */ -}}
+  {{- $renderDepth = sub $parentRenderDepth 1 -}}
+{{- end -}}
+
+{{- if isset .page.Params "sidenav" -}}
+  {{- /* apply page settings to sidenav */ -}}
+  {{- if or (and (eq $page.Kind "section") ($page.IsAncestor $activePage)) (eq $page $activePage) -}}
+    {{- /* the page is the current page or a ancestor section */ -}}
+    {{- $renderDepth = -2 -}}
+
+    {{- /* override with page settings */ -}}
+    {{- with $page.Params.sidenav -}}
+      {{- if isset . "activerenderdepth" -}}
+          {{- $renderDepth = .activerenderdepth -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else if and ($page.IsDescendant $activePage) (eq $activePage.Kind "section") }}
+    {{- /* page is a descendent of the active page. */ -}}
+    {{- /* override with page settings */ -}}
+    {{- with $page.Params.sidenav -}}
+      {{- if isset . "focusrenderdepth" -}}
+          {{- $renderDepth = .focusrenderdepth -}}
+      {{- end -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* page is an inactive cousin of active page. */ -}}
+    {{- /* override with page settings */ -}}
+    {{- with $page.Params.sidenav -}}
+      {{- if isset . "inactiverenderdepth" -}}
+          {{- $renderDepth = .inactiverenderdepth -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
 {{- return $renderDepth -}}

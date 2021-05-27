@@ -11,8 +11,8 @@
     </div>
     <nav aria-label="Primary navigation" class="usa-nav">
       <button class="usa-nav__close"><img src="{{"/img/close.svg" | relURL }}" alt="close"></button>
-      {{ partial "components/header-primary-nav.html" . }}
-      {{ partial "components/header-search.html" . }}
+      {{ partialCached "components/header-primary-nav.html" . }}
+      {{ partialCached "components/header-search.html" . }}
     </nav>
   </div>
 </header>
