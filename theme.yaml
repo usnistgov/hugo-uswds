@@ -5,7 +5,7 @@ description: "A hugo theme based on the United States Web Design System (USWDS) 
 homepage: "https://github.com/usnistgov/hugo-uswds"
 tags:
 features:
-min_version: "0.58.3"
+min_version: "0.83.1"
 author:
   name: "David Waltermire"
   homepage: "https://www.nist.gov/people/david-waltermire"

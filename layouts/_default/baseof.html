@@ -17,8 +17,32 @@
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
 
-  {{ $uswdsCSS := resources.Get "scss/hugo-uswds.scss" | resources.ExecuteAsTemplate "uswds.scss" . | toCSS }}
-  {{ $siteCSS := slice $uswdsCSS }}
+  {{ $inServerMode := .Site.IsServer }}
+  {{ $scss         := resources.Get "scss/hugo-uswds.scss" | resources.ExecuteAsTemplate "uswds.scss" . }}
+  {{ $cssTarget    := "css/hugo-uswds.css" }}
+  {{ $cssOpts      := cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
+    
+  {{ if .Site.IsServer }}
+  {{ $css := $scss | toCSS $cssOpts }}
+  <link rel="stylesheet" href="{{ $css.Permalink | absURL }}">
+  {{ else }}
+  {{ $css := $scss | toCSS $cssOpts | resources.Fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $css.Permalink | absURL }}" integrity="{{ $css.Data.Integrity }}">
+  {{ end }}
+
+  {{- with .Site.Params.custom_css -}}
+  {{- range . -}}
+    {{ $siteCSS := resources.Get . }}
+    {{ if .Site.IsServer }}
+    <link rel="stylesheet" href="{{ $siteCSS.Permalink | absURL }}">
+    {{ else }}
+    {{ $siteCSS = $siteCSS | resources.Fingerprint "sha512" }}
+    <link rel="stylesheet" href="{{ $siteCSS.Permalink | absURL }}" integrity="{{ $siteCSS.Data.Integrity }}">
+    {{ end }}
+  {{- end -}}
+  {{- end -}}
+
+  {{/*}}
   {{ range .Site.Params.custom_css -}}
     {{ $style := resources.Get . }}
     {{ $siteCSS = $siteCSS | append $style }}
@@ -26,6 +50,7 @@
   {{ $siteCSSmin := $siteCSS | resources.Concat "/css/site.css" | minify }}
   {{ $siteCSSminSecure := $siteCSSmin | resources.Fingerprint "sha512" }}
   <link rel="stylesheet" href="{{ $siteCSSmin.Permalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
+  {{*/}}
 
 {{ block "head" . }}
   {{ partialCached "head.html" . }}
