@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   {{ range .AlternativeOutputFormats -}}
-      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Page.Title | safeHTML }}
+      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink $.Page.Title | safeHTML }}
   {{ end -}}
 
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
@@ -24,20 +24,21 @@
     
   {{ if .Site.IsServer }}
   {{ $css := $scss | toCSS $cssOpts }}
-  <link rel="stylesheet" href="{{ $css.Permalink | absURL }}">
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
   {{ else }}
-  {{ $css := $scss | toCSS $cssOpts | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $css.Permalink | absURL }}" integrity="{{ $css.Data.Integrity }}">
+  {{ $css := $scss | toCSS $cssOpts }}
+  {{ $cssFingerprint := $css | resources.Fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
   {{ end }}
 
   {{- with .Site.Params.custom_css -}}
   {{- range . -}}
     {{ $siteCSS := resources.Get . }}
     {{ if .Site.IsServer }}
-    <link rel="stylesheet" href="{{ $siteCSS.Permalink | absURL }}">
+    <link rel="stylesheet" href="{{ $siteCSS.RelPermalink }}">
     {{ else }}
-    {{ $siteCSS = $siteCSS | resources.Fingerprint "sha512" }}
-    <link rel="stylesheet" href="{{ $siteCSS.Permalink | absURL }}" integrity="{{ $siteCSS.Data.Integrity }}">
+    {{ $siteCSSFingerprint := $siteCSS | resources.Fingerprint "sha512" }}
+    <link rel="stylesheet" href="{{ $siteCSS.RelPermalink }}" integrity="{{ $siteCSSFingerprint.Data.Integrity }}">
     {{ end }}
   {{- end -}}
   {{- end -}}
@@ -61,7 +62,7 @@
   {{ $style := resources.Get . }}
   {{ $pageCSSmin := $style | minify }}
   {{ $pageCSSminSecure := $pageCSSmin | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $pageCSSmin.Permalink }}" integrity="{{ $pageCSSminSecure.Data.Integrity }}" />
+  <link rel="stylesheet" href="{{ $pageCSSminSecure.RelPermalink }}" integrity="{{ $pageCSSminSecure.Data.Integrity }}" />
 {{- end }}
 {{ end }}
 </head>
@@ -96,14 +97,14 @@
 {{- end }}
 {{ $siteJSmin := $siteJS | resources.Concat "/js/site.js" | minify }}
 {{ $siteJSminSecure := $siteJSmin | resources.Fingerprint "sha512" }}
-<script type="text/javascript" src="{{ $siteJSmin.Permalink }}" integrity="{{ $siteJSminSecure.Data.Integrity }}"></script>
+<script type="text/javascript" src="{{ $siteJSmin.RelPermalink }}" integrity="{{ $siteJSminSecure.Data.Integrity }}"></script>
 
 {{ with .Page.Params.custom_js }}
 {{ range . -}}
   {{ $js := resources.Get . }}
   {{ $pageJSmin := $js | minify }}
   {{ $pageJSminSecure := $pageJSmin | resources.Fingerprint "sha512" }}
-  <script src="{{ $pageJSmin.Permalink }}" integrity="{{ $pageJSminSecure.Data.Integrity }}"></script>
+  <script src="{{ $pageJSmin.RelPermalink }}" integrity="{{ $pageJSminSecure.Data.Integrity }}"></script>
 {{- end }}
 {{ end }}
 

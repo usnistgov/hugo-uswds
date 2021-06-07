@@ -112,7 +112,7 @@
     {{- $extraClasses = (print $extraClasses " active-page usa-current") -}}
   {{- end -}}
 
-  <a class="usa-sidenav__item{{ with $extraClasses }}{{ . }}{{ end }}" href="{{ $page.Permalink }}">{{ with $page.Params.sidenav.title }}{{ . }}{{ else }}{{ $page.Title }}{{ end }}</a>
+  <a class="usa-sidenav__item{{ with $extraClasses }}{{ . }}{{ end }}" href="{{ $page.RelPermalink }}">{{ with $page.Params.sidenav.title }}{{ . }}{{ else }}{{ $page.Title }}{{ end }}</a>
 {{- end -}}
 
 {{- define "sidenav-anchor-debug" -}}
