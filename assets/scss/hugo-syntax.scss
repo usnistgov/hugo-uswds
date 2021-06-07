@@ -64,6 +64,11 @@ div.highlight {
 
   code {
     @include u-font-family('mono');
+    background-color: inherit;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  
   }
 
   .chroma {
