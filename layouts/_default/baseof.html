@@ -15,7 +15,7 @@
   <script
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous"></script>
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   {{ $inServerMode := .Site.IsServer }}
   {{ $scss         := resources.Get "scss/hugo-uswds.scss" | resources.ExecuteAsTemplate "uswds.scss" . }}
@@ -85,12 +85,11 @@
   {{ end }}
 {{ end }}
 {{ if $tocEnabled }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.12.0/tocbot.min.js" integrity="sha384-roIHE2HuL+PZHzo8X7MgpHu256WMUJvsKqI2GaUJY3moVp06oLtx0QvZnvZJdcCb" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.12.0/tocbot.min.js" integrity="sha384-roIHE2HuL+PZHzo8X7MgpHu256WMUJvsKqI2GaUJY3moVp06oLtx0QvZnvZJdcCb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {{end}}
 
 {{ $uswdsJS := resources.Get "/js/uswds.min.js" }}
-{{ $rwdImgMaps := resources.Get "/js/jquery.rwdImageMaps.js" }}
-{{ $siteJS := slice $uswdsJS $rwdImgMaps }}
+{{ $siteJS := slice $uswdsJS }}
 {{ range .Site.Params.custom_js -}}
   {{ $js := resources.Get . }}
   {{ $siteJS = $siteJS | append $js }}
@@ -108,17 +107,19 @@
 {{- end }}
 {{ end }}
 
-{{ $usingMermaid := .HasShortcode "mermaid"}}
+{{ $usingImageMap := .HasShortcode "imagemap" }}
+{{- if $usingImageMap }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-rwdImageMaps/1.6/jquery.rwdImageMaps.min.js" integrity="sha512-eZB7hQa0bRlrKMQ2njpP0d/Klu6o30Gsr8e5FUCjUT3fSlnVkm/1J14n58BuwgaMuObrGb7SvUfQuF8qFsPU4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{{ end -}}
 
+{{ $usingMermaid := .HasShortcode "mermaid"}}
 {{ if $usingMermaid }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js" integrity="sha256-JEqEejGt4tR35L0a1zodzsV0/PJ6GIf7J4yDtywdrH8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js" integrity="sha256-JEqEejGt4tR35L0a1zodzsV0/PJ6GIf7J4yDtywdrH8=" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {{ end }}
 
 {{ block "foot" . }}
 {{ partialCached "foot.html" . }}
 {{ end }}
-
-{{ $usingImageMap := .HasShortcode "imagemap" }}
 
 {{ if or $usingMermaid $usingImageMap }}
 $(document).ready(function(e) {
@@ -161,31 +162,13 @@ tocbot.init({
   collapseDepth: {{- $collapseDepth -}},
   hasInnerContainers: true,
   orderedList: false,
-
   listClass: 'usa-sidenav',
 //  activeListItemClass: 'usa-current',
   extraLinkClasses: 'usa-sidenav__item',
   activeLinkClass: 'usa-current',
-
   headingsOffset: 1,
   scrollSmoothOffset: 0
 });
-/*
-tocbot.init({
-  tocSelector: '#js-toc',
-  contentSelector: '#main-content',
-  headingSelector: 'h1,h2.toc1,h3.toc2',
-  includeHtml: false,
-  collapseDepth: 0,
-  hasInnerContainers: true,
-  orderedList: false,
-  listClass: 'usa-sidenav',
-  extraLinkClasses: 'usa-sidenav__item',
-  activeLinkClass: 'usa-current',
-  headingsOffset: 1,
-  scrollSmoothOffset: 20
-});
-*/
 </script>
 {{ end -}}
 </body>
