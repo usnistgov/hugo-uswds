@@ -108,27 +108,37 @@
 {{- end }}
 {{ end }}
 
-{{ if .HasShortcode "mermaid" }}
+{{ $usingMermaid := .HasShortcode "mermaid"}}
+
+{{ if $usingMermaid }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/8.4.4/mermaid.min.js" integrity="sha256-JEqEejGt4tR35L0a1zodzsV0/PJ6GIf7J4yDtywdrH8=" crossorigin="anonymous"></script>
 {{ end }}
 
-<script>
+{{ block "foot" . }}
+{{ partialCached "foot.html" . }}
+{{ end }}
 
+{{ $usingImageMap := .HasShortcode "imagemap" }}
+
+{{ if or $usingMermaid $usingImageMap }}
 $(document).ready(function(e) {
-  {{ if .HasShortcode "mermaid" }}
+  {{ if $usingMermaid }}
   mermaid.initialize();
   {{ end }}
-  {{ if .HasShortcode "imagemap" }}
+  {{ if $usingImageMap }}
   $('img[usemap]').rwdImageMaps();
   {{ end }}
 });
+{{ end }}
+
 {{ $tocEnabled := true }}
 {{- with .Page.Params.toc -}}
   {{ if isset . "enabled" }}
     {{ $tocEnabled = .enabled }}
   {{ end }}
 {{- end -}}
-{{- if $tocEnabled -}}
+{{- if $tocEnabled }}
+<script>
   {{ $headingselectors := "h2,h3,h4" }}
   {{ $includeHtml := false }}
   {{ $collapseDepth := 0 }}
@@ -176,10 +186,7 @@ tocbot.init({
   scrollSmoothOffset: 20
 });
 */
-{{- end -}}
 </script>
-{{ block "foot" . }}
-{{ partialCached "foot.html" . }}
-{{ end }}
+{{ end -}}
 </body>
 </html>
