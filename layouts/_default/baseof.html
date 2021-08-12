@@ -76,7 +76,7 @@
   </main>
 {{ end }}
 
-<p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentrepopath }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.contentRepoPath }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
+<p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.page_repo_path }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.page_repo_path }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
 
 {{ $tocEnabled := false }}
 {{ with .Page.Params.toc }}
