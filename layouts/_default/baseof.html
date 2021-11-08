@@ -70,6 +70,7 @@
 
 {{ block "main" . }}
   {{ with .Params.usabanner }}{{ partialCached "components/banner.html" . }}{{ end }}
+  {{ with .Params.draftbanner }}{{ partialCached "components/draft-banner.html" . }}{{ end }}
   {{ partialCached "components/header-basic.html" . }}
   <main class="usa-layout-docs usa-section" id="main-content">
     {{ .Content }}
