@@ -50,7 +50,7 @@
   {{- end }}
   {{ $siteCSSmin := $siteCSS | resources.Concat "/css/site.css" | minify }}
   {{ $siteCSSminSecure := $siteCSSmin | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $siteCSSmin.Permalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
+  <link rel="stylesheet" href="{{ $siteCSSmin.RelPermalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
   {{*/}}
 
 {{ block "head" . }}
