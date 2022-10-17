@@ -3,8 +3,8 @@
 {{ end }}
 
 {{ define "main" }}
-{{ with .Params.usabanner }}{{ partialCached "components/banner.html" . }}{{ end }}
-{{ with .Params.draftbanner }}{{ partialCached "components/draft-banner.html" . }}{{ end }}
+{{ with .Param "usabanner" }}{{ partialCached "components/banner.html" . }}{{ end }}
+{{ with .Param "draftbanner" }}{{ partialCached "components/draft-banner.html" . }}{{ end }}
 {{ partialCached "components/header-basic.html" . }}
 <main class="usa-layout-docs padding-top-2">
   <div class="grid-container grid-container-widescreen">
