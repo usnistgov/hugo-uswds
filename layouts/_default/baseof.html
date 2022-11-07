@@ -123,6 +123,7 @@
 {{ end }}
 
 {{ if or $usingMermaid $usingImageMap }}
+<script>
 $(document).ready(function(e) {
   {{ if $usingMermaid }}
   mermaid.initialize();
@@ -131,6 +132,7 @@ $(document).ready(function(e) {
   $('img[usemap]').rwdImageMaps();
   {{ end }}
 });
+</script>
 {{ end }}
 
 {{ $tocEnabled := true }}
