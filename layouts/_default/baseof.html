@@ -135,12 +135,6 @@ $(document).ready(function(e) {
 </script>
 {{ end }}
 
-{{ $tocEnabled := true }}
-{{- with .Page.Params.toc -}}
-  {{ if isset . "enabled" }}
-    {{ $tocEnabled = .enabled }}
-  {{ end }}
-{{- end -}}
 {{- if $tocEnabled }}
 <script>
   {{ $headingselectors := "h2,h3,h4" }}
