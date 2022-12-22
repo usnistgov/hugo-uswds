@@ -1,6 +1,6 @@
-$theme-font-path:   '{{ $.Site.BaseURL }}/fonts';
-$theme-image-path:  '{{ $.Site.BaseURL }}/img';
-$theme-hero-image:  '{{ $.Site.BaseURL }}/img/hero.png';
+$theme-font-path:   '{{ "fonts" | absURL }}';
+$theme-image-path:  '{{ "img" | absURL }}';
+$theme-hero-image:  '{{ "img/hero.png" | absURL }}';
 
 @import 'hugo-uswds-settings';
 @import 'hugo-uswds-theme';

@@ -6,8 +6,7 @@
 {{ if not ($buttonURL) }}{{ errorf "missing value for param 'buttonURL': %s" .Position }}{{ end }}
 {{ $buttonText := .Get "buttonText"}}
 {{ if not ($buttonText) }}{{ errorf "missing value for param 'buttonText': %s" .Position }}{{ end }}
-{{ $baseURL := .Site.BaseURL }}
-<section class="usa-hero"{{ with $image }} style="background-image: url('{{ $baseURL }}{{ . }}')"{{ end }}>
+<section class="usa-hero"{{ with $image }} style="background-image: url('{{ . | absURL }}')"{{ end }}>
   <div class="grid-container">
     <div class="usa-hero__callout">
       <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">{{ $calloutText | markdownify }}</span>{{ with $calloutAltText }} {{ . | markdownify }}{{end}}</h1>
