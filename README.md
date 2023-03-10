@@ -18,13 +18,13 @@ This template currently supports installation via Hugo Modules or as a Git Submo
 
 For detailed instruction, refer to the [Hugo Module documentation](https://gohugo.io/hugo-modules/).
 
-1. From you project directory, initialize Hugo Modules:
+1. From your project directory, initialize Hugo Modules:
 
     ```
     $ hugo mod init $REPOSITORY
     ```
 
-    *NOTE: here `$REPOSITORY` should be the path to your repository (e.g. `github.com/<username>/<repository>`)*
+    *NOTE: here `$REPOSITORY` should be the path to your website repository (e.g. `github.com/<username/organization>/<repository>`)*
 
 1. In your project directory, update your `config.yaml` with the following:
 
