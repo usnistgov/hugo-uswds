@@ -1,0 +1,36 @@
+name: Generate Website
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build-and-push:
+    name: Build and Push `docs/` site
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # Fetch all history for .GitInfo and .Lastmod
+          fetch-depth: 0
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "0.110.0"
+          extended: true
+      - name: Build
+        run: |
+          hugo --minify
+        working-directory: ./docs
+      - name: Deploy
+        uses: peaceiris/action-gh-pages@v3
+        # only deploy if on master branch
+        if: github.ref == 'refs/heads/master'
+        with:
+          github_token: ${{ secrets.COMMIT_TOKEN }}
+          enable_jekyll: false
+          publish_dir: ./docs/public
+          publish_branch: nist-pages
+          commit_user_name: OSCAL GitHub Actions Bot
+          commit_user_email: oscal@nist.gov
+          commit_author: OSCAL GitHub Actions Bot <oscal@nist.gov>
+          commit_message: Deploying website [ci deploy skip]
