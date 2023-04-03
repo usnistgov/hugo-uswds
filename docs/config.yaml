@@ -13,7 +13,9 @@ languages:
 # in YAML
 MetaDataFormat: "yaml"
 # Configures this theme
-theme: "uswds"
+module:
+  imports:
+    - path: "github.com/usnistgov/hugo-uswds"
 # If provided, the site will use Google Analytics
 googleAnalytics: UA-42404149-54
 # Creates absolute URLs for all links in the site
@@ -49,9 +51,9 @@ params:
 # Navigation can also be configured on any corresponding pages.
 menu:
   secondary:
-  - name: Website Github
-    url: https://github.com/usnistgov/hugo-uswds-docs
-    weight: 90
-  - name: Theme Github
-    url: https://github.com/usnistgov/hugo-uswds
-    weight: 90
+    - name: Website Github
+      url: https://github.com/usnistgov/hugo-uswds-docs
+      weight: 90
+    - name: Theme Github
+      url: https://github.com/usnistgov/hugo-uswds
+      weight: 90
