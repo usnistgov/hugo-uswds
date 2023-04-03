@@ -1,0 +1,57 @@
+# Default page title
+title: "Hugo USWDS"
+# The base URL of the site
+baseURL: https://pages.nist.gov/hugo-uswds-docs/
+# The default language provided by the site
+defaultContentLanguage: en
+languages:
+  en:
+    lang: en
+    languageName: English
+    weight: 1
+# Indicates that metadata provided in page headers is provided
+# in YAML
+MetaDataFormat: "yaml"
+# Configures this theme
+theme: "uswds"
+# If provided, the site will use Google Analytics
+googleAnalytics: UA-42404149-54
+# Creates absolute URLs for all links in the site
+canonifyurls: true
+# Establishes page file metadata based on Git commits info
+# for the associated file
+enableGitInfo: true
+# Configures the syntax Highlighting used by this theme
+pygmentsCodeFences: true
+pygmentsCodefencesGuessSyntax: true
+pygmentsUseClasses: true
+# The following custom parameters are used by the page
+# templates and components.
+params:
+  # Configures the content used in the Basic and Extended
+  # Header components.
+  header:
+    # An optional short name for the site for use on the basic
+    # Header. If not provided, the project_name will be used
+    # instead.
+    project_shortname: "USWDS Hugo Theme"
+    project_name: "United States Web Design System Hugo Theme"
+  # Used to provide the "Improve this Page" link on the bottom
+  # of each page. This setting is optional. If not provided,
+  # the "Improve this Page" link will not be provided
+  contentRepoPath: https://github.com/usnistgov/hugo-uswds-docs/tree/master/website/content
+  # Used to configure the search bar to use search.gov
+  searchAffiliate: oscal
+# There are two main navigation menus that can be configured
+# here. "primary" menu entries appear in the main navigation
+# provided by the Basic and Extended Headers. "secondary" menu
+# entries appear in the Extended Header on the homepage.
+# Navigation can also be configured on any corresponding pages.
+menu:
+  secondary:
+  - name: Website Github
+    url: https://github.com/usnistgov/hugo-uswds-docs
+    weight: 90
+  - name: Theme Github
+    url: https://github.com/usnistgov/hugo-uswds
+    weight: 90
