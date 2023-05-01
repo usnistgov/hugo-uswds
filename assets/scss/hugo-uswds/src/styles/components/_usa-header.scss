@@ -1,0 +1,19 @@
+@use "uswds-core" as *;
+
+.sticky {
+  @include at-media("desktop") {
+    @include u-z(200);
+    position: sticky;
+    top: 0;
+  }
+}
+/*
+.usa-logo {
+  @include at-media($theme-header-min-width) {
+    margin-top: units(2);
+    margin-bottom: units(2);
+    font-size: font-size($theme-header-font-family, "lg");
+    line-height: line-height($theme-header-font-family, 2);
+  }
+}
+*/

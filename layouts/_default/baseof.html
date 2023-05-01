@@ -1,121 +1,144 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  {{ range .AlternativeOutputFormats -}}
-      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink $.Page.Title | safeHTML }}
+  {{- block "meta" . }}
+  {{ partialCached "meta.html" . }}
   {{ end -}}
+
+{{- $uswdsInitJS := slice (resources.Get "/vendor/js/uswds-init.min.js") | resources.Concat "js/uswds-init.min.js" -}}
+{{- $uswdsInitJSSecure := $uswdsInitJS | resources.Fingerprint "sha512" }}
+  <script src="{{ $uswdsInitJS.RelPermalink }}" integrity="{{ $uswdsInitJSSecure.Data.Integrity }}"></script>
+
+{{- $inServerMode := .Site.IsServer -}}
+{{- $scss         := resources.Get "scss/styles.scss" -}}
+{{- $sassIncludes := (slice "assets/vendor/scss/uswds/") -}}
+{{- $vars := dict "siteBaseURL" $.Site.BaseURL -}}
+{{- $cssOpts      := dict "transpiler" "dartsass" "includePaths" $sassIncludes "vars" $vars -}}
+{{- if $inServerMode -}}
+  {{- $cssOpts := merge $cssOpts (dict "enableSourceMap" true "sourceMapIncludeSources" true) -}}
+{{- else -}}
+  {{- $cssTarget    := "css/hugo-uswds.css" -}}
+  {{- $cssOpts := merge $cssOpts (dict "targetPath" $cssTarget) -}}
+{{- end -}}
+  
+{{- if $inServerMode -}}
+  {{- $css := $scss | toCSS $cssOpts }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{- else -}}
+  {{- $css := $scss | toCSS $cssOpts | postCSS -}}
+  {{- $cssFingerprint := $css | resources.Fingerprint "sha512" }}
+  <link rel="stylesheet" href="{{ $cssFingerprint.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
+{{- end -}}
+
+{{ range .AlternativeOutputFormats }}
+  {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+{{ end -}}
 
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
 {{ template "_internal/google_analytics_async.html" . }}
 
-  <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  {{ $inServerMode := .Site.IsServer }}
-  {{ $scss         := resources.Get "scss/hugo-uswds.scss" | resources.ExecuteAsTemplate "uswds.scss" . }}
-  {{ $cssTarget    := "css/hugo-uswds.css" }}
-  {{ $cssOpts      := cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
-    
-  {{ if .Site.IsServer }}
-  {{ $css := $scss | toCSS $cssOpts }}
-  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
-  {{ else }}
-  {{ $css := $scss | toCSS $cssOpts }}
-  {{ $cssFingerprint := $css | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $cssFingerprint.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
-  {{ end }}
-
-  {{- with .Site.Params.custom_css -}}
-  {{- range . -}}
-    {{ $siteCSS := resources.Get . }}
-    {{ if .Site.IsServer }}
-    <link rel="stylesheet" href="{{ $siteCSS.RelPermalink }}">
-    {{ else }}
-    {{ $siteCSSFingerprint := $siteCSS | resources.Fingerprint "sha512" }}
-    <link rel="stylesheet" href="{{ $siteCSSFingerprint.RelPermalink }}" integrity="{{ $siteCSSFingerprint.Data.Integrity }}">
-    {{ end }}
-  {{- end -}}
-  {{- end -}}
-
-  {{/*}}
-  {{ range .Site.Params.custom_css -}}
-    {{ $style := resources.Get . }}
-    {{ $siteCSS = $siteCSS | append $style }}
-  {{- end }}
-  {{ $siteCSSmin := $siteCSS | resources.Concat "/css/site.css" | minify }}
-  {{ $siteCSSminSecure := $siteCSSmin | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $siteCSSminSecure.RelPermalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
-  {{*/}}
+{{- $jqueryJS := slice (resources.Get "/vendor/js/jquery.min.js") | resources.Concat "js/jquery.min.js" -}}
+{{- $jqueryJSSecure := $jqueryJS | resources.Fingerprint "sha512" }}
+  <script src="{{ $jqueryJS.RelPermalink }}" integrity="{{ $jqueryJSSecure.Data.Integrity }}"></script>
 
 {{ block "head" . }}
   {{ partialCached "head.html" . }}
 {{ end }}
 
-{{ with .Page.Params.custom_css }}
-{{ range . -}}
-  {{ $style := resources.Get . }}
-  {{ $pageCSSmin := $style | minify }}
-  {{ $pageCSSminSecure := $pageCSSmin | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $pageCSSminSecure.RelPermalink }}" integrity="{{ $pageCSSminSecure.Data.Integrity }}" />
-{{- end }}
-{{ end }}
+{{- range .Site.Params.custom_css }}
+  <link rel="stylesheet" href="{{ . | relURL }}" />
+{{- end -}}
+
+{{ range .Page.Params.custom_css }}
+  <link rel="stylesheet" href="{{ . | relURL }}" />
+{{- end -}}
 </head>
 <body>
 
+{{- block "top-banner" . -}}
+  {{ partialCached "top-banner.html" . }}
+{{- end -}}
+  
+{{- if .Param "usabanner" }}{{ partialCached "components/usa-banner.html" . }}{{ end -}}
+{{- with .Param "draftbanner" }}{{ partialCached "components/draft-banner.html" . }}{{ end -}}
+
+{{- block "last-banner" . -}}
+  {{ partialCached "last-banner.html" . }}
+{{- end }}
+
 {{ block "main" . }}
-  {{ with .Params.usabanner }}{{ partialCached "components/banner.html" . }}{{ end }}
-  {{ with .Params.draftbanner }}{{ partialCached "components/draft-banner.html" . }}{{ end }}
-  {{ partialCached "components/header-basic.html" . }}
+  {{ partialCached "components/usa-header-basic.html" . }}
+
+  {{- $tocEnabled := true -}}
+  {{- with .Page.Params.toc -}}
+    {{- if isset . "enabled" -}}
+      {{- $tocEnabled = true -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $tocEnabled }}
+<div class="usa-in-page-nav-container">
+  <aside class="usa-in-page-nav"
+    data-title-text="On this page"
+    data-title-heading-level="h4"
+    data-scroll-offset="0"
+    data-root-margin="0px 0px 0px 0px"
+    data-threshold="1"></aside>
+  {{ end -}}
   <main class="usa-layout-docs usa-section" id="main-content">
     {{ .Content }}
   </main>
+  {{- if $tocEnabled }}
+</div>
+  {{ end -}}
 {{ end }}
 
-<p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.page_repo_path }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.page_repo_path }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
-
+  <p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.page_repo_path }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.page_repo_path }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
+{{/*}}
 {{ $tocEnabled := false }}
 {{ with .Page.Params.toc }}
   {{ if isset . "enabled" }}
     {{ $tocEnabled = .enabled }}
-  {{ end }}
-{{ end }}
-{{ if $tocEnabled }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.12.0/tocbot.min.js" integrity="sha384-roIHE2HuL+PZHzo8X7MgpHu256WMUJvsKqI2GaUJY3moVp06oLtx0QvZnvZJdcCb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{{end}}
+  {{- end -}}
+{{- end -}}
+{{- if $tocEnabled -}}
+  {{- $tocbotJS := slice (resources.Get "/vendor/js/tocbot.min.js") | resources.Concat "js/tocbot.min.js" -}}
+  {{- $tocbotJSSecure := $tocbotJS | resources.Fingerprint "sha512" }}
+  <script src="{{ $tocbotJS.RelPermalink }}" integrity="{{ $tocbotJSSecure.Data.Integrity }}"></script>
+{{- end -}}
+{{*/}}
 
-{{ $uswdsJS := resources.Get "/js/uswds.min.js" }}
-{{ $siteJS := slice $uswdsJS }}
-{{ range .Site.Params.custom_js -}}
-  {{ $js := resources.Get . }}
-  {{ $siteJS = $siteJS | append $js }}
-{{- end }}
-{{ $siteJSmin := $siteJS | resources.Concat "/js/site.js" | minify }}
-{{ $siteJSminSecure := $siteJSmin | resources.Fingerprint "sha512" }}
-<script type="text/javascript" src="{{ $siteJSminSecure.RelPermalink }}" integrity="{{ $siteJSminSecure.Data.Integrity }}"></script>
+{{- $uswdsJSmin := slice (resources.Get "/vendor/js/uswds.min.js") | resources.Concat "js/uswds.min.js" -}}
+{{- $uswdsJSminSecure := $uswdsJSmin | resources.Fingerprint "sha512" }}
+  <script type="text/javascript" src="{{ $uswdsJSminSecure.RelPermalink }}" integrity="{{ $uswdsJSminSecure.Data.Integrity }}"></script>
 
-{{ with .Page.Params.custom_js }}
-{{ range . -}}
-  {{ $js := resources.Get . }}
-  {{ $pageJSmin := $js | minify }}
-  {{ $pageJSminSecure := $pageJSmin | resources.Fingerprint "sha512" }}
-  <script src="{{ $pageJSminSecure.RelPermalink }}" integrity="{{ $pageJSminSecure.Data.Integrity }}"></script>
-{{- end }}
-{{ end }}
+{{- range .Site.Params.custom_js }}
+  <script src="{{ . | relURL }}"></script>
+{{- end -}}
 
-{{ $usingImageMap := .HasShortcode "imagemap" }}
+{{- range .Page.Params.custom_js }}
+  <script src="{{ . | relURL }}"></script>
+{{- end -}}
+
+{{ $usingImageMap := .Page.Store.Get "hasImageMap" }}
 {{- if $usingImageMap }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-rwdImageMaps/1.6/jquery.rwdImageMaps.min.js" integrity="sha512-eZB7hQa0bRlrKMQ2njpP0d/Klu6o30Gsr8e5FUCjUT3fSlnVkm/1J14n58BuwgaMuObrGb7SvUfQuF8qFsPU4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  {{- $imageMapJS := slice (resources.Get "/vendor/js/imageMapResizer.min.js") | resources.Concat "js/imageMapResizer.min.js" -}}
+  {{- $imageMapJSSecure := $imageMapJS | resources.Fingerprint "sha512" }}
+  <script src="{{ $imageMapJS.RelPermalink }}" integrity="{{ $imageMapJSSecure.Data.Integrity }}"></script>
 {{ end -}}
 
 {{ $usingMermaid := .Page.Store.Get "hasMermaid" }}
 {{ if $usingMermaid }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.3.0/mermaid.min.js" integrity="sha512-ku2nmBrzAXY5YwohzTqLYH1/lvyMrpTVxgQKrvTabd/b/uesqltLORdmpVapYv6QhZVCLUX6wkvFaKOAY4xpUA==" crossorigin="anonymous"></script>
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/+esm'</script>
+{{/*}}
+  support vendoring mermaid
+  {{- $mermaidJS := slice (resources.Get "/vendor/js/mermaid.esm.min.mjs") | resources.Concat "js/mermaid.esm.min.js" -}}
+  {{- $mermaidJSSecure := $mermaidJS | resources.Fingerprint "sha512" }}
+  <script src="{{ $mermaidJS.RelPermalink }}" integrity="{{ $mermaidJSSecure.Data.Integrity }}"></script>
+{{*/}}
 {{ end }}
 
 {{ block "foot" . }}
@@ -129,12 +152,13 @@ $(document).ready(function(e) {
   mermaid.initialize();
   {{ end }}
   {{ if $usingImageMap }}
-  $('img[usemap]').rwdImageMaps();
+  $('img[usemap]').imageMapResize();
   {{ end }}
 });
 </script>
 {{ end }}
 
+{{/*}}
 {{- if $tocEnabled }}
 <script>
   {{ $headingselectors := "h2,h3,h4" }}
@@ -168,5 +192,6 @@ tocbot.init({
 });
 </script>
 {{ end -}}
+{{*/}}
 </body>
 </html>

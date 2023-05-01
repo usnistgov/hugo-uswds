@@ -1,0 +1,72 @@
+{
+  "name": "hugo-uswds",
+  "version": "2.0.0",
+  "description": "Hugo theme based on the United States Web Design System",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "preinstall": "rimraf static/fonts/uswds static/img/uswds assets/vendor",
+    "postinstall": "vendor-copy",
+    "assets": "rimraf static/fonts/uswds static/img/uswds assets/vendor && vendor-copy"
+  },
+  "author": "",
+  "license": "CC0-1.0",
+  "homepage": "https://github.com/usnistgov/hugo-uswds",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/usnistgov/hugo-uswds"
+  },
+  "devDependencies": {
+    "@uswds/uswds": "^3.4.1",
+    "image-map-resizer": "^1.0.10",
+    "jquery": "^3.6.4",
+    "mermaid": "^10.1.0",
+    "rimraf": "^5.0.0",
+    "tocbot": "^4.21.0",
+    "vendor-copy": "^3.0.1",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "postcss-cli": "^10.1.0",
+    "sass": "^1.62.1",
+    "sass-embedded": "^1.62.0"
+  },
+  "vendorCopy": [
+    {
+      "from": "node_modules/@uswds/uswds/dist/fonts/",
+      "to": "static/fonts/uswds/"
+    },
+    {
+      "from": "node_modules/@uswds/uswds/dist/img/",
+      "to": "static/img/uswds/"
+    },
+    {
+      "from": "node_modules/@uswds/uswds/dist/js/uswds-init.min.js",
+      "to": "assets/vendor/js/uswds-init.min.js"
+    },
+    {
+      "from": "node_modules/@uswds/uswds/dist/js/uswds.min.js",
+      "to": "assets/vendor/js/uswds.min.js"
+    },
+    {
+      "from": "node_modules/@uswds/uswds/packages/",
+      "to": "assets/vendor/scss/uswds/",
+      
+    },
+    {
+      "from": "node_modules/image-map-resizer/js/imageMapResizer.min.js",
+      "to": "assets/vendor/js/imageMapResizer.min.js"
+    },
+    {
+      "from": "node_modules/jquery/dist/jquery.min.js",
+      "to": "assets/vendor/js/jquery.min.js"
+    },
+    {
+      "from": "node_modules/mermaid/dist/mermaid.esm.min.mjs",
+      "to": "assets/vendor/js/mermaid.esm.min.mjs"
+    },
+    {
+      "from": "node_modules/tocbot/dist/tocbot.min.js",
+      "to": "assets/vendor/js/tocbot.min.js"
+    }
+  ]
+}

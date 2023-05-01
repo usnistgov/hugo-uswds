@@ -1,0 +1,31 @@
+{{ if not (.Site.Params.header.project_name) }}{{ errorf "Site.Params.header.project_name must be set in the site configuration file."}}{{ end }}
+<div class="usa-overlay"></div>
+<header class="usa-header usa-header--extended site-header">
+  <div class="usa-navbar site-header__navbar">
+    <div id="extended-logo" class="usa-logo site-logo">
+      <em class="usa-logo__text site-logo__text">
+        <a href="{{"/" | relURL }}" title="{{ .Site.Params.header.project_name }}" aria-label="Home">
+          <span class="site-title--short">{{ .Site.Params.header.project_shortname }}</span>
+          <span class="site-title--long">{{ .Site.Params.header.project_name }}</span>
+        </a>
+      </em>
+    </div>
+    <button class="usa-menu-btn">Menu</button>
+  </div>
+</header>
+<nav class="usa-nav site-nav sticky" aria-label="Primary navigation">
+  <div class="usa-nav__inner site-nav__inner">
+    <button class="usa-nav__close"><img src="{{"/img/uswds/usa-icons/close.svg" | relURL }}" role="img" alt="close"></button>
+    {{ partialCached "components/usa-header/primary-nav.html" . }}
+    <div class="usa-nav__secondary">
+      {{ if .Site.Menus.secondary }}
+      <ul class="usa-nav__secondary-links">
+        {{ range .Site.Menus.secondary }}
+        <li class="usa-nav__secondary-item"><a href="{{ .URL }}">{{ .Name }}</a></li>
+        {{ end }}
+      </ul>
+      {{ end }}
+      {{ partialCached "components/usa-search.html" . }}
+    </div>
+  </div>
+</nav>

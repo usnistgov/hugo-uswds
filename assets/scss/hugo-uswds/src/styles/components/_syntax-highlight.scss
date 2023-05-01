@@ -1,0 +1,606 @@
+@use "uswds-core" as *;
+
+div.highlight {
+//  @include u-display('flex');
+  @include u-bg('base-lightest');
+  @include u-border(1px,'solid','base-light');
+//  box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.5);
+
+  pre {
+    @include u-padding(0);
+    @include u-margin(0);
+  }
+  > pre.chroma {
+    @include u-padding-x(1);
+    @include u-padding-y(0);
+    width: max-content;
+  }
+  > div.chroma, > pre.chroma {
+    @include u-overflow-x('auto');
+    @include u-overflow-y('hidden');
+  }
+
+  /* LineTableTD */ .lntd {
+//    @include u-vertical-align('top');
+    @include u-padding(0);
+    //    @include u-margin(0);
+//    @include u-border(0);
+    @include u-border('1px','solid','base-lighter');
+    background-color: inherit;
+
+    >pre {
+      @include u-margin(0);
+    }
+
+    &:nth-child(1) {
+//      width: max-content;
+      > pre {
+        @include u-padding-right(0);
+      }
+    }
+
+    &:nth-child(2) {
+//      @include u-padding-x('05');
+//      @include u-padding-y(0);
+      width: 100%;
+      > pre {
+
+      }
+    }
+
+    .line {
+      @include u-padding-left(1);
+    }
+  }
+  /* LineTable */ .lntable {
+    @include u-padding(0);
+    @include u-margin(0);
+//    @include u-border(0);
+//    @include u-width('full');
+//    border-spacing: 0;
+    display: block;
+    td {
+      @include u-border-right('1px','solid','base-lighter');
+    }
+  }
+
+  /* LineNumbersTable */ .lnt {
+    @include u-padding-x(1);
+    @include u-padding-y(0);
+    display: block;
+  }
+
+  /* LineNumbers */ .ln {
+    @include u-padding-x(1);
+    @include u-padding-y(0);
+    @include u-margin-right(1);
+  }
+
+  code {
+    @include u-padding(0);
+    @include u-margin(0);
+    background-color: inherit;
+    box-shadow: none;
+  
+    @include u-font('mono','sm');
+    @include u-line-height('mono',5);
+//    @include u-font-family('mono');
+//    background-color: inherit;
+//    box-shadow: none;
+  }
+
+  .chroma {
+    // "light" styles
+    // ==============
+    @include u-text('gray-70');
+
+    /* Error */ .err {
+      @include u-text('white');
+      @include u-bg('red-60v');
+    }
+    /* LineHighlight */ .hl {
+      display: block;
+      width: 100%;
+      @include u-bg('yellow-5');
+    }
+    /* LineNumbersTable */ .lnt {
+      @include u-text('gray-50');
+    }
+    /* LineNumbers */ .ln {
+      @include u-text('gray-50');
+    }
+    /* Keyword */ .k {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* KeywordConstant */ .kc {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* KeywordDeclaration */ .kd {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* KeywordNamespace */ .kn {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* KeywordPseudo */ .kp {
+      @include u-text('blue-warm-50v');
+    }
+    /* KeywordReserved */ .kr {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* KeywordType */ .kt {
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* NameAttribute */ .na {
+      @include u-text('accent-cool-dark','bold');
+    }
+    /* NameBuiltin */ .nb {
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* NameBuiltinPseudo */ .bp {
+      @include u-text('indigo-warm-60');
+    }
+    /* NameClass */ .nc {
+      @include u-text('underline');
+    }
+    /* NameConstant */ .no {
+      @include u-text('blue-cool-50');
+    }
+    /* NameDecorator */ .nd {
+      @include u-text('orange-30v','bold');
+    }
+    /* NameEntity */ .ni {
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* NameException */ .ne {
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* NameFunction */ .nf {
+      @include u-text('orange-30v','bold');
+    }
+    /* NameLabel */ .nl {
+      // Check color
+      @include u-text('blue-80v','bold');
+    }
+    /* NameNamespace */ .nn {
+      @include u-text('blue-cool-50v','bold');
+    }
+    /* NameTag */ .nt {
+      @include u-text('primary','bold');
+    }
+    /* NameVariable */ .nv {
+      // Check color
+      @include u-text('violet-warm-50');
+    }
+    /* NameVariableClass */ .vc {
+      // Check color
+      @include u-text('violet-warm-50','underline');
+    }
+    /* NameVariableGlobal */ .vg {
+      // Check color
+      @include u-text('violet-warm-50','bold');
+    }
+    /* NameVariableInstance */ .vi {
+      // Check color
+      @include u-text('violet-warm-50');
+    }
+    /* LiteralString */ .s {
+      // Check color
+      @include u-text('mint-40');
+    }
+    /* LiteralStringAffix */ .sa {
+      // Check color
+      @include u-text('mint-40');
+    }
+    /* LiteralStringBacktick */ .sb {
+      // Check color
+      @include u-text('mint-40');
+    }
+    /* LiteralStringChar */ .sc {
+      // Check color
+      @include u-text('mint-40');
+    }
+    /* LiteralStringDelimiter */ .dl {
+      // Check color
+      @include u-text('mint-40');
+    }
+    /* LiteralStringDoc */ .sd {
+      @include u-text('mint-40','italic')
+    }
+    /* LiteralStringDouble */ .s2 {
+      // check color
+      @include u-text('mint-40');
+    }
+    /* LiteralStringEscape */ .se {
+      // check color
+      @include u-text('red-60v','bold');
+    }
+    /* LiteralStringHeredoc */ .sh {
+      // check color
+      @include u-text('red-60v');
+    }
+    /* LiteralStringInterpol */ .si {
+      // check color
+      @include u-text('blue-30','italic')
+    }
+    /* LiteralStringOther */ .sx {
+      @include u-text('blue-cool-50');
+    }
+    /* LiteralStringRegex */ .sr {
+      // check color
+      @include u-text('red-60v','bold');
+    }
+    /* LiteralStringSingle */ .s1 {
+      // check color
+      @include u-text('blue-cool-50');
+    }
+    /* LiteralStringSymbol */ .ss {
+      // check color
+      @include u-text('red-60v','bold');
+    }
+    /* LiteralNumber */ .m {
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* LiteralNumberBin */ .mb {
+      // check color
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* LiteralNumberFloat */ .mf {
+      // check color
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* LiteralNumberHex */ .mh {
+      // check color
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* LiteralNumberInteger */ .mi {
+      // check color
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* LiteralNumberIntegerLong */ .il {
+      // check color
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* LiteralNumberOct */ .mo {
+      // check color
+      @include u-text('indigo-warm-60','bold');
+    }
+    /* Operator */ .o {
+      @include u-text('blue-warm-50v');
+    }
+    /* OperatorWord */ .ow {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* Comment */ .c {
+      @include u-text('blue-50v','italic')
+    }
+    /* CommentHashbang */ .ch {
+      @include u-text('blue-50v','italic')
+    }
+    /* CommentMultiline */ .cm {
+      @include u-text('blue-50v','italic')
+    }
+    /* CommentSingle */ .c1 {
+      @include u-text('blue-50v','italic')
+    }
+    /* CommentSpecial */ .cs {
+      @include u-text('blue-50v');
+      @include u-bg('red-10v');
+    }
+    /* CommentPreproc */ .cp {
+      @include u-text('green-cool-50v','italic')
+    }
+    /* CommentPreprocFile */ .cpf {
+      @include u-text('green-cool-50v','italic');
+    }
+    /* GenericDeleted */ .gd {
+      @include u-border('red-60v',2px);
+      @include u-bg('red-10v');
+    }
+    /* GenericEmph */ .ge {
+      @include u-text('italic');
+    }
+    /* GenericError */ .gr {
+      @include u-text('red-50v');
+    }
+    /* GenericHeading */ .gh {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* GenericInserted */ .gi {
+      @include u-border('green-50v',2px);
+      @include u-bg('green-10v');
+    }
+    /* GenericOutput */ .go {
+      @include u-text('gray-30');
+    }
+    /* GenericPrompt */ .gp {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* GenericStrong */ .gs {
+      @include u-text('bold');
+    }
+    /* GenericSubheading */ .gu {
+      @include u-text('blue-warm-50v','bold');
+    }
+    /* GenericTraceback */ .gt {
+      @include u-text('red-50v');
+    }
+    /* GenericUnderline */ .gl {
+      @include u-text('underline');
+    }
+    /* TextWhitespace */ .w {
+      @include u-text('gray-warm-20');
+    }
+
+    p {
+      @include u-text('gray-70');  /*#000080*/
+    }
+  }
+
+  &.dark {
+    td:nth-child(1) .lnt {
+      @include u-text('white');
+    }
+    /* Background */ .chroma {
+      @include u-text('gray-5');
+      @include u-bg('gray-cool-70');
+
+      /* Error */ .err {
+        @include u-text('white');
+        @include u-bg('red-60v');
+      }
+      /* LineHighlight */ .hl {
+        @include u-bg('yellow-5');
+      }
+      /* LineNumbersTable */ .lnt {
+        @include u-text('gray-50');
+      }
+      /* LineNumbers */ .ln {
+        @include u-text('gray-50');
+      }
+      /* Keyword */ .k {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* KeywordConstant */ .kc {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* KeywordDeclaration */ .kd {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* KeywordNamespace */ .kn {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* KeywordPseudo */ .kp {
+        @include u-text('blue-warm-50v');
+      }
+      /* KeywordReserved */ .kr {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* KeywordType */ .kt {
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* NameAttribute */ .na { // done
+        @include u-text('blue-10','bold');
+      }
+      /* NameBuiltin */ .nb {
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* NameBuiltinPseudo */ .bp {
+        @include u-text('indigo-warm-60');
+      }
+      /* NameClass */ .nc {
+        @include u-text('underline');
+      }
+      /* NameConstant */ .no {
+        @include u-text('blue-cool-50');
+      }
+      /* NameDecorator */ .nd {
+        @include u-text('orange-30v','bold');
+      }
+      /* NameEntity */ .ni {
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* NameException */ .ne {
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* NameFunction */ .nf {
+        @include u-text('orange-30v','bold');
+      }
+      /* NameLabel */ .nl {
+        // Check color
+        @include u-text('blue-80v','bold');
+      }
+      /* NameNamespace */ .nn {
+        @include u-text('blue-cool-50v','bold');
+      }
+      /* NameTag */ .nt { // done
+        @include u-text('blue-cool-20v','bold');
+      }
+      /* NameVariable */ .nv {
+        // Check color
+        @include u-text('violet-warm-50');
+      }
+      /* NameVariableClass */ .vc {
+        // Check color
+        @include u-text('violet-warm-50','underline');
+      }
+      /* NameVariableGlobal */ .vg {
+        // Check color
+        @include u-text('violet-warm-50','bold');
+      }
+      /* NameVariableInstance */ .vi {
+        // Check color
+        @include u-text('violet-warm-50');
+      }
+      /* LiteralString */ .s { // done
+        // Check color
+        @include u-text('gray-20');
+      }
+      /* LiteralStringAffix */ .sa { // done
+        // Check color
+        @include u-text('gray-5');
+      }
+      /* LiteralStringBacktick */ .sb { // done
+        // Check color
+        @include u-text('gray-5');
+      }
+      /* LiteralStringChar */ .sc { // done
+        // Check color
+        @include u-text('gray-5');
+      }
+      /* LiteralStringDelimiter */ .dl { // done
+        // Check color
+        @include u-text('gray-5');
+      }
+      /* LiteralStringDoc */ .sd { // done
+        @include u-text('gray-5','italic')
+      }
+      /* LiteralStringDouble */ .s2 {
+        // check color
+        @include u-text('white');
+      }
+      /* LiteralStringEscape */ .se {
+        // check color
+        @include u-text('red-60v','bold');
+      }
+      /* LiteralStringHeredoc */ .sh {
+        // check color
+        @include u-text('red-60v');
+      }
+      /* LiteralStringInterpol */ .si {
+        // check color
+        @include u-text('blue-30','italic')
+      }
+      /* LiteralStringOther */ .sx {
+        @include u-text('blue-cool-50');
+      }
+      /* LiteralStringRegex */ .sr {
+        // check color
+        @include u-text('red-60v','bold');
+      }
+      /* LiteralStringSingle */ .s1 {
+        // check color
+        @include u-text('blue-cool-50');
+      }
+      /* LiteralStringSymbol */ .ss {
+        // check color
+        @include u-text('red-60v','bold');
+      }
+      /* LiteralNumber */ .m {
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* LiteralNumberBin */ .mb {
+        // check color
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* LiteralNumberFloat */ .mf {
+        // check color
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* LiteralNumberHex */ .mh {
+        // check color
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* LiteralNumberInteger */ .mi {
+        // check color
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* LiteralNumberIntegerLong */ .il {
+        // check color
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* LiteralNumberOct */ .mo {
+        // check color
+        @include u-text('indigo-warm-60','bold');
+      }
+      /* Operator */ .o {
+        @include u-text('blue-warm-50v');
+      }
+      /* OperatorWord */ .ow {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* Comment */ .c { // done
+        @include u-text('green-cool-20','italic')
+      }
+      /* CommentHashbang */ .ch {
+        @include u-text('blue-50v','italic')
+      }
+      /* CommentMultiline */ .cm {
+        @include u-text('blue-50v','italic')
+      }
+      /* CommentSingle */ .c1 {
+        @include u-text('blue-50v','italic')
+      }
+      /* CommentSpecial */ .cs {
+        @include u-text('blue-50v');
+        @include u-bg('red-10v');
+      }
+      /* CommentPreproc */ .cp {
+        @include u-text('green-cool-50v','italic')
+      }
+      /* CommentPreprocFile */ .cpf {
+        @include u-text('green-cool-50v','italic');
+      }
+      /* GenericDeleted */ .gd {
+        @include u-border('red-60v',2px);
+        @include u-bg('red-10v');
+      }
+      /* GenericEmph */ .ge {
+        @include u-text('italic');
+      }
+      /* GenericError */ .gr {
+        @include u-text('red-50v');
+      }
+      /* GenericHeading */ .gh {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* GenericInserted */ .gi {
+        @include u-border('green-50v',2px);
+        @include u-bg('green-10v');
+      }
+      /* GenericOutput */ .go {
+        @include u-text('gray-30');
+      }
+      /* GenericPrompt */ .gp {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* GenericStrong */ .gs {
+        @include u-text('bold');
+      }
+      /* GenericSubheading */ .gu {
+        @include u-text('blue-warm-50v','bold');
+      }
+      /* GenericTraceback */ .gt {
+        @include u-text('red-50v');
+      }
+      /* GenericUnderline */ .gl {
+        @include u-text('underline');
+      }
+      /* TextWhitespace */ .w {
+        @include u-text('gray-warm-20');
+      }
+
+      p {
+        @include u-text('gray-70');  /*#000080*/
+      }
+
+      code.language-YAML {
+        @include u-text('blue-cool-20v','bold');
+      }
+    }
+  }
+}
+
+/*
+div.highlight  > div.chroma {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+*/
+
+code.language-YAML {
+  //@include u-text('accent-cool-dark');  /*#000080*/
+  //@include u-text('bold');
+  .p {
+    @include u-text('bold');
+  }
+}

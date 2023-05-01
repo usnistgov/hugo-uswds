@@ -54,7 +54,14 @@ nav.toc-container {
     max-height: 95vh;
 
     .usa-sidenav {
+      // @include typeset('body','sm',1)
+      @include u-font-size('body','3xs');
+      @include u-padding-y('2px');
       border: none;
+
+      code {
+        @include u-font-size('body','3xs');
+      }
 
       .usa-sidenav__item {
         border: none;
@@ -67,9 +74,8 @@ nav.toc-container {
           background-color: inherit;
         }
       }
-
       a:not(.usa-button):not(button.schema-link) {
-        @include u-padding-y('05');
+        @include u-padding-y('2px');
       }
     }
     /*

@@ -3,9 +3,7 @@
 {{ end }}
 
 {{ define "main" }}
-{{ with .Param "usabanner" }}{{ partialCached "components/banner.html" . }}{{ end }}
-{{ with .Param "draftbanner" }}{{ partialCached "components/draft-banner.html" . }}{{ end }}
-{{ partialCached "components/header-extended.html" . }}
+{{ partialCached "components/usa-header-extended.html" . }}
 <main id="main-content" class="usa-layout-docs">
   {{ if or (.HasShortcode "usa-section") (.HasShortcode "usa-grid-container") (.HasShortcode "usa-hero") (.HasShortcode "usa-tagline") }}
     {{- .Content -}}
