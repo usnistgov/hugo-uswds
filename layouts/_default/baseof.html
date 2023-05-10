@@ -17,12 +17,10 @@
 {{- $scss         := resources.Get "scss/styles.scss" -}}
 {{- $sassIncludes := (slice "assets/vendor/scss/uswds/") -}}
 {{- $vars := dict "siteBaseURL" $.Site.BaseURL -}}
-{{- $cssOpts      := dict "transpiler" "dartsass" "includePaths" $sassIncludes "vars" $vars -}}
+{{- $cssTarget    := "css/hugo-uswds.css" -}}
+{{- $cssOpts      := dict "transpiler" "dartsass" "targetPath" $cssTarget "includePaths" $sassIncludes "vars" $vars -}}
 {{- if $inServerMode -}}
   {{- $cssOpts := merge $cssOpts (dict "enableSourceMap" true "sourceMapIncludeSources" true) -}}
-{{- else -}}
-  {{- $cssTarget    := "css/hugo-uswds.css" -}}
-  {{- $cssOpts := merge $cssOpts (dict "targetPath" $cssTarget) -}}
 {{- end -}}
   
 {{- if $inServerMode -}}

@@ -1,0 +1,34 @@
+@use "uswds-core" as *;
+
+@mixin generate-sidenav-nesting($list-selector,$left-padding-width, $depth, $i: 1){
+  @if $i <= $depth {
+    ul.#{$list-selector} {
+      @include typeset($theme-sidenav-font-family, "2xs", 3);
+      a {
+        padding-left: #{$left-padding-width * $i}rem;
+      }
+      @include generate-sidenav-nesting($list-selector,$left-padding-width, $depth, $i + 1);
+    }
+  }
+}
+
+ul.usa-sidenav {
+  @include typeset($theme-sidenav-font-family, "2xs", 3);
+  @include generate-sidenav-nesting('usa-sidenav__sublist',0.90, 6);
+
+  > li.usa-sidenav__item.usa-subnav__top-level > a {
+    @include u-text('bold');
+    background-color: color('base-lightest');
+    padding-left: 0.90rem;
+  }
+
+}
+
+// fix extra line
+ul.usa-sidenav ul.usa-sidenav {
+  border-bottom: none;
+}
+ 
+.usa-sidenav .active-page, .usa-sidenav_sublist .active-page {
+  background-color: color('primary-lighter');
+}

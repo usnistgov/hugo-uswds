@@ -1,0 +1,25 @@
+<nav class="usa-breadcrumb" aria-label="Breadcrumbs">
+  <ol class="usa-breadcrumb__list">
+    {{- range $index, $page := append .Page $.Ancestors.Reverse -}}
+      {{- if gt $index 0 -}}
+        {{- template "usa-breadcrumb-item" (dict "page" . "activePage" .Page) -}}
+      {{- end -}}
+    {{- end -}}
+  </ol>
+</nav>
+
+{{- define "usa-breadcrumb-item" -}}
+  {{- $activePage := .activePage -}}
+  {{- $page := .page -}}
+
+  {{- $itemClasses := slice "usa-breadcrumb__list-item" -}}
+  {{- $anchorClasses := slice "usa-breadcrumb__link" -}}
+
+  {{- if eq $page $activePage -}}
+    {{- $itemClasses = append "usa-current" $itemClasses -}}
+  {{- end -}}
+
+  <li class="{{ delimit $itemClasses " " }}">
+    <a href="{{ $page.RelPermalink }}" class="{{ delimit $anchorClasses " " }}"{{ if eq $page $activePage }} aria-current="page"{{end}}><span>{{ $page.LinkTitle }}</span></a>
+  </li>
+{{- end -}}

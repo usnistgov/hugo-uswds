@@ -4,6 +4,24 @@
 
 {{ define "main" }}
 {{ partialCached "components/usa-header-extended.html" . }}
+
+<div class="site-content-container">
+  <aside id="page-side-navigation" class="sidenav site-sidenav usa-layout-docs__sidenav ">
+    {{ partial "components/usa-sidenav.html" . }}
+  </aside>
+  <div class="usa-in-page-nav-container">
+    <aside class="usa-in-page-nav" aria-label="On this page" data-scroll-offset="-120" data-root-margin="48px 0px -90% 0px" data-threshold="1">
+    </aside>
+    <main id="main-content" class="main-content usa-prose">
+      <header>
+        {{ partial "components/usa-breadcrumb.html" . }}
+        {{ if isset .Params "heading" }}<h1 id="header" class="site-page-title">{{ .Params.heading }}</h1>{{else}}<h1>{{ .Title }}</h1>{{ end }}
+      </header>
+      {{ .Content }}
+    </main>
+  </div>
+</div>
+{{/*}}
 <main class="usa-layout-docs padding-top-2">
   <div class="grid-container">
     <div class="grid-row grid-gap">
@@ -45,6 +63,7 @@
     </div>
   </div>
 </main>
+{{*/}}
 {{ end }}
 
 {{ define "foot" }}

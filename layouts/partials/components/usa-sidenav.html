@@ -32,6 +32,7 @@
 
 {{- /* if the nav hierarchy has pages or if include top level, render them */ -}}
 {{- if or ($includeTopLevel) (and (ne $activePage $activePage.FirstSection) (gt (len $pages) 0)) -}}
+<nav aria-label="Secondary navigation">
 <ul class="usa-sidenav">
   {{- if $includeTopLevel }}
     {{- template "sidenav-item" (dict "page" $page "activePage" $activePage "parentRenderDepth" -1 "extraClasses" "subnav-top-level" "debug" $debug) -}}
@@ -42,6 +43,7 @@
     {{- end -}}
   {{- end -}}
 </ul>
+</nav>
 {{- end -}}
 
 
@@ -61,13 +63,13 @@
     {{- end -}}
   {{- end -}}
 
-  {{- $extraClasses := $page.Kind -}}
+  {{- $extraClasses := slice $page.Kind -}}
 
   {{- if eq $page $page.FirstSection -}}
-    {{- $extraClasses = printf "subnav-top-level %s" $extraClasses -}}
+    {{- $extraClasses = append "usa-subnav__top-level" $extraClasses -}}
   {{- end -}}
 
-  {{- $pageRenderDepth := partial "components/get-render-depth.html" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth) -}}
+  {{- $pageRenderDepth := partial "components/usa-sidenav/get-render-depth.html" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth) -}}
 
   {{- /* add page to sidenav if the page is enabled.
        * A page is active if all of the following are true:
@@ -78,8 +80,10 @@
        *    - the render depth is greater than 0
        */ -}}
   {{- if and ($pageEnabled) (or ($page.IsAncestor $activePage) (le $pageRenderDepth -1) (gt $pageRenderDepth 0)) -}}
-<li {{ if $debug -}}title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth "extraClasses" $extraClasses) }}"{{ end }}>
-    {{- template "sidenav-anchor" (dict "page" $page "activePage" $activePage "extraClasses" $extraClasses) -}}
+
+  <li class="usa-sidenav__item {{ with $extraClasses }}{{ delimit . " " }}{{ end }}"
+    {{- if $debug }} title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth "extraClasses" $extraClasses) }}"{{- end -}}>
+    {{- template "sidenav-anchor" (dict "page" $page "activePage" $activePage) -}}
 
     {{- if and (eq $page.Kind "section") -}}
       {{- $pages := .page.Pages -}}
@@ -96,9 +100,8 @@
     {{- end }}
   </li>
   {{- else if $debug -}}
-    {{- $extraClasses = printf "%s bg-secondary-darker other" $extraClasses -}}
   <li {{ if $debug -}}title="{{ template "sidenav-anchor-debug" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth "extraClasses" $extraClasses) }}"{{ end }}>
-    {{- template "sidenav-anchor" (dict "page" $page "activePage" $activePage "extraClasses" $extraClasses) -}}
+    {{- template "sidenav-anchor" (dict "page" $page "activePage" $activePage) -}}
   </li>
   {{- end -}}
 {{- end -}}
@@ -106,22 +109,26 @@
 {{- define "sidenav-anchor" -}}
   {{- $page := .page -}}
   {{- $activePage := .activePage -}}
-  {{- $extraClasses := (print " " .extraClasses) -}}
 
-  {{- if eq $page $activePage -}}
-    {{- $extraClasses = (print $extraClasses " active-page usa-current") -}}
+  {{- /* Determine the nav title using the first match as follows.
+       * 1. The Page.LinkTitle
+       * 2. The Page.Params.sidenav.title (fallback to legacy behavior)
+       * 3. The Page.Title
+       */ -}}
+  {{- $navTitle := $page.LinkTitle -}}
+  {{- with $page.Params.sidenav.title -}}
+    {{- $navTitle = . }}
   {{- end -}}
-
-  <a class="usa-sidenav__item{{ with $extraClasses }}{{ . }}{{ end }}" href="{{ $page.RelPermalink }}">{{ with $page.Params.sidenav.title }}{{ . }}{{ else }}{{ $page.Title }}{{ end }}</a>
+  <a{{ if eq $page $activePage }} class="usa-current"{{ end }} href="{{ $page.RelPermalink }}">{{ $navTitle }}</a>
 {{- end -}}
 
 {{- define "sidenav-anchor-debug" -}}
   {{- $page := .page -}}
   {{- $activePage := .activePage -}}
   {{- $parentRenderDepth := .parentRenderDepth -}}
-  {{- $extraClasses := (print " " .extraClasses) -}}
+  {{- $extraClasses := .extraClasses -}}
 
-  {{- $pageRenderDepth := partial "components/get-render-depth.html" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth) -}}
+  {{- $pageRenderDepth := partial "components/usa-sidenav/get-render-depth.html" (dict "page" $page "activePage" $activePage "parentRenderDepth" $parentRenderDepth) -}}
 
   VisitedPage: ({{ $page.Kind }}){{ $page }}
   activePage: ({{ $activePage.Kind }}){{ $activePage }}
@@ -136,7 +143,7 @@
   Parent RD: {{ $parentRenderDepth }}
   Page RD: {{ $pageRenderDepth }}
   Sidenav: {{ $page.Params.sidenav }}
-  Extra Classes: {{ $extraClasses }}
+  Extra Classes: {{ delimit $extraClasses " " }}
 
   Parent: {{ $page.Parent }}
 {{- end -}}

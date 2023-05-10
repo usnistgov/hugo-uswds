@@ -4,6 +4,7 @@
 
 {{ define "main" }}
 {{ partialCached "components/usa-header-extended.html" . }}
+
 <main id="main-content" class="usa-layout-docs">
   {{ if or (.HasShortcode "usa-section") (.HasShortcode "usa-grid-container") (.HasShortcode "usa-hero") (.HasShortcode "usa-tagline") }}
     {{- .Content -}}

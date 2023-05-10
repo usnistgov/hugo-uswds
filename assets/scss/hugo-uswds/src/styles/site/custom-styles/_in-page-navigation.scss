@@ -1,0 +1,22 @@
+@use "uswds-core" as *;
+@use "usa-in-page-navigation" as *;
+
+.site-usa-in-page-nav {
+  @extend .usa-in-page-nav;
+}
+
+.usa-in-page-nav__list {
+  a:not(.usa-button) {
+    &.usa-current {
+      &::after {
+        background-color: inherit;
+      }
+    }
+  }
+
+  &.usa-current {
+    &::after {
+      background-color: inherit;
+    }
+  }
+}

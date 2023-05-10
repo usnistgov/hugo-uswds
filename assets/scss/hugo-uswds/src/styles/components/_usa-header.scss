@@ -1,12 +1,5 @@
 @use "uswds-core" as *;
 
-.sticky {
-  @include at-media("desktop") {
-    @include u-z(200);
-    position: sticky;
-    top: 0;
-  }
-}
 /*
 .usa-logo {
   @include at-media($theme-header-min-width) {

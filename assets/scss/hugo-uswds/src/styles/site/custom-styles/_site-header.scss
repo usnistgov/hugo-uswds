@@ -1,15 +1,16 @@
 @use "uswds-core" as *;
+@use "../variables" as *;
 
-$site-border-width: 2px;
 $site-navbar-height: 10;
 $site-secondary-nav-input-height: 38px;
 
-$site-base-transparent-light: "black-transparent-10";
-$site-primary-family: "blue-warm";
-$site-primary-vivid: "#{$site-primary-family}-50v";
-$site-ink: "black-transparent-80";
-$height-nav-secondary: 6;
-$z-nav-secondary: 100;
+.sticky {
+  @include at-media("desktop") {
+    @include u-z(200);
+    position: sticky;
+    top: 0;
+  }
+}
 
 .site-header__navbar,
 .site-nav__inner,

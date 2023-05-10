@@ -4,6 +4,43 @@
 
 {{ define "main" }}
 {{ partialCached "components/usa-header-extended.html" . }}
+<div class="site-content-container">
+  <aside id="page-side-navigation" class="sidenav site-sidenav" aria-label="Section navigation">
+    {{ partial "components/usa-sidenav.html" . }}
+  </aside>
+  <div class="usa-in-page-nav-container">
+    <aside class="usa-in-page-nav" aria-label="On this page" data-scroll-offset="-120" data-root-margin="48px 0px -90% 0px" data-threshold="1">
+{{/*}}
+    <aside class="site-usa-in-page-nav" aria-label="On this page" data-scroll-offset="-120" data-root-margin="48px 0px -90% 0px" data-threshold="1">
+      <nav class="usa-in-page-nav__nav" aria-label="On this page">
+        <h4 class="usa-in-page-nav__heading" tabindex="0">On this page</h4>
+        <ul class="usa-in-page-nav__list">
+          <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 1: A</a></li>
+          <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 1: B</a>
+            <ul class="usa-in-page-nav__list">
+              <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link">Level 2: B.1</a>
+              <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 2: B.2</a>
+                <ul class="usa-in-page-nav__list">
+                  <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link">Level 3: B.2.a</a>
+                  <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 2: B.2.b</a>
+                </ul>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+{{*/}}
+    </aside>
+    <main id="main-content" class="main-content usa-prose">
+      <header>
+        {{ partial "components/usa-breadcrumb.html" . }}
+        {{ if isset .Params "heading" }}<h1 id="header" class="site-page-title">{{ .Params.heading }}</h1>{{else}}<h1>{{ .Title }}</h1>{{ end }}
+      </header>
+      {{ .Content }}
+    </main>
+  </div>
+</div>
+
+{{/*}}
 <main class="usa-layout-docs padding-top-2">
   <div class="grid-container">
     <div class="grid-row grid-gap">
@@ -12,8 +49,8 @@
 {{- $gridMainWidescreenSize := 12 -}}
 {{- $gridMainDesktopSize := 12 -}}
 
-{{/* includeTopLevel is used to determine if the top-level section should appear
-  in the side navigation */}}
+// includeTopLevel is used to determine if the top-level section should appear
+  in the side navigation //
 {{ $includeTopLevel := true }}
 {{ with .Site.Params.sidenav }}
   {{ if isset . "includetoplevel" }}
@@ -21,9 +58,9 @@
   {{ end }}
 {{ end }}
 {{ if and .Page.FirstSection (or ($includeTopLevel) (gt (len .Page.FirstSection.Pages) 0)) }}
-      <nav aria-label="Secondary Navigation" class="usa-layout-docs__sidenav widescreen:grid-col-3 desktop:grid-col-2">
-        {{ partial "components/sidenav.html" . }}
-      </nav>
+      <aside class="usa-layout-docs__sidenav widescreen:grid-col-3 desktop:grid-col-2">
+        {{ partial "components/usa-sidenav.html" . }}
+      </aside>
   {{- $gridMainWidescreenSize = sub $gridMainWidescreenSize 3 -}}
   {{- $gridMainDesktopSize = sub $gridMainDesktopSize 2 -}}
 {{ end -}}
@@ -64,6 +101,7 @@
     </div>
   </div>
 </main>
+{{*/}}
 {{ end }}
 
 {{ define "foot" }}

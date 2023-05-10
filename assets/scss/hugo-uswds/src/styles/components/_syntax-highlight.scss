@@ -6,6 +6,10 @@ div.highlight {
   @include u-border(1px,'solid','base-light');
 //  box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.5);
 
+  a:visited {
+    color: inherit;
+  }
+
   pre {
     @include u-padding(0);
     @include u-margin(0);
