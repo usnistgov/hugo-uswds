@@ -97,6 +97,6 @@ body{
   }
 }
 
-h4 code {
+h4 code, h6 code {
   text-transform: none !important; // undo default uppercase
 }

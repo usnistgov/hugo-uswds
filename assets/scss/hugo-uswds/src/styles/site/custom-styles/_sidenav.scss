@@ -22,8 +22,8 @@
   }
 }
 
-.site-sidenav.usa-sidenav {
-  @include typeset("lang", "xs", 3);
+.site-sidenav .usa-sidenav {
+  @include typeset($theme-sidenav-font-family, "2xs", 3);
   background-color: color("white");
   border: units($site-border-width) solid color("black-transparent-10");
   border-radius: radius("md");
@@ -72,6 +72,12 @@
     line-height: lh("lang", 3);
     position: relative;
 
+    &.usa-subnav__top-level > a {
+      @include u-text('bold');
+      background-color: color('base-lightest');
+      padding-left: 0.90rem;
+    }
+
     & + .usa-sidenav__item {
       a {
         // TODO: use 'black-transparent-5' when value changes
@@ -89,7 +95,7 @@
   }
 
   .usa-sidenav__sublist {
-    font-size: font-size("lang", "3xs");
+    @include typeset($theme-sidenav-font-family, "2xs", 3);
     a {
       border-top: units(1px) solid rgba(0, 0, 0, 0.05);
       padding-left: units(2);

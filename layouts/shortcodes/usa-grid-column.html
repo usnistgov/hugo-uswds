@@ -3,5 +3,5 @@
   {{ $class = (print $class " grid-col") }}
 {{end}}
 <div class="{{$class}}">
-  {{- .Inner -}}
+  {{- .Inner | markdownify | safeHTML -}}
 </div>

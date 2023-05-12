@@ -1,4 +1,8 @@
 {{ $class := .Get "class" }}
-<div class="grid-container{{ with $class }} {{ . }}{{ end }}">
-  {{- .Inner -}}
+{{ $extraClasses := "" }}
+{{ if $class }}
+  {{ $extraClasses = printf " %v" $class }}
+{{ end }}
+<div class="grid-container{{ $extraClasses }}">
+{{ .Inner }}
 </div>
