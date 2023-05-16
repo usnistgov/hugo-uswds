@@ -24,7 +24,7 @@
 {{- end -}}
   
 {{- if $inServerMode -}}
-  {{- $css := $scss | toCSS $cssOpts }}
+  {{- $css := $scss | toCSS $cssOpts | postCSS }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{- else -}}
   {{- $css := $scss | toCSS $cssOpts | postCSS -}}

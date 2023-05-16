@@ -41,29 +41,62 @@ $site-secondary-nav-input-height: 38px;
         $logo-size-mobile: 3;
         $logo-size-desktop: 3;
         @include u-font("lang", "xs");
-        line-height: units(5);
+//        line-height: units(5);
 
         @include at-media("desktop") {
           @include typeset("lang", "lg", 1);
-          line-height: units(9);
+//          line-height: units(9);
           display: inherit;
           letter-spacing: ls(-1);
         }
       }
     }
 
-  .usa-menu-btn {
-    font-size: fs("lang", "3xs");
+    .usa-menu-btn {
+      font-size: fs("lang", "3xs");
+    }
+
+    &__navbar {
+      border-bottom: none !important;
+
+      @include at-media("desktop") {
+        height: units($site-navbar-height) !important;
+      }
+    }
   }
 
   &__navbar {
-    border-bottom: none !important;
+    display: flex !important;
+  }
 
+    // Search and CTA buttons
+  .site-nav-secondary {
+    display: none;
     @include at-media("desktop") {
-      height: units($site-navbar-height) !important;
+      display: flex;
+      position: relative;
+      bottom: initial;
+      right: initial;
+      margin-left: auto;
+  //    align-items: center;
+  //    display: flex;
+  //    flex-direction: row;
+  //    height: units($site-navbar-height);
+      margin-top: 0;
+  //    bottom: px-to-rem(46px);
+    }
+
+    .usa-button {
+      display: block;
+    }
+
+    .site-search__button,
+    .site-button-github {
+      &:hover {
+        background-color: color("primary-vivid");
+      }
     }
   }
-}
 }
 
 .site-title {
@@ -165,29 +198,6 @@ $site-secondary-nav-input-height: 38px;
 
     &:hover {
       color: color($site-ink);
-    }
-  }
-}
-
-// Search and CTA buttons
-.usa-nav__secondary {
-  @include at-media("desktop") {
-    align-items: center;
-//    display: flex;
-//    flex-direction: row;
-    height: units($site-navbar-height);
-    margin-top: 0;
-    bottom: px-to-rem(46px);
-  }
-
-  .usa-button {
-    display: block;
-  }
-
-  .site-search__button,
-  .site-button-github {
-    &:hover {
-      background-color: color("primary-vivid");
     }
   }
 }

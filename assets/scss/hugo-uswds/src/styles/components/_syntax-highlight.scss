@@ -15,15 +15,27 @@ div.highlight {
     @include u-margin(0);
   }
   > pre.chroma {
-    @include u-padding-x(1);
-    @include u-padding-y(0);
-    width: max-content;
+//    width: max-content;
   }
   > div.chroma, > pre.chroma {
     @include u-overflow-x('auto');
     @include u-overflow-y('hidden');
   }
 
+  code {
+    @include u-padding-y(0);
+    @include u-padding-x(1);
+    @include u-margin(0);
+    display: block;
+    background-color: inherit;
+    box-shadow: none;
+  
+    @include u-font('mono','sm');
+    @include u-line-height('mono',5);
+//    @include u-font-family('mono');
+//    background-color: inherit;
+//    box-shadow: none;
+  }
   /* LineTableTD */ .lntd {
 //    @include u-vertical-align('top');
     @include u-padding(0);
@@ -34,6 +46,9 @@ div.highlight {
 
     >pre {
       @include u-margin(0);
+      >code {
+        @include u-padding-x(0);
+      }
     }
 
     &:nth-child(1) {
@@ -78,19 +93,6 @@ div.highlight {
     @include u-padding-x(1);
     @include u-padding-y(0);
     @include u-margin-right(1);
-  }
-
-  code {
-    @include u-padding(0);
-    @include u-margin(0);
-    background-color: inherit;
-    box-shadow: none;
-  
-    @include u-font('mono','sm');
-    @include u-line-height('mono',5);
-//    @include u-font-family('mono');
-//    background-color: inherit;
-//    box-shadow: none;
   }
 
   .chroma {
