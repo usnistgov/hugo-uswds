@@ -22,12 +22,13 @@
 {{- if $inServerMode -}}
   {{- $cssOpts := merge $cssOpts (dict "enableSourceMap" true "sourceMapIncludeSources" true) -}}
 {{- end -}}
-  
+{{- $postCSSOpts      := dict "use" "autoprefixer" -}}
+
 {{- if $inServerMode -}}
-  {{- $css := $scss | toCSS $cssOpts | postCSS }}
+  {{- $css := $scss | toCSS $cssOpts | postCSS $postCSSOpts }}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{- else -}}
-  {{- $css := $scss | toCSS $cssOpts | postCSS -}}
+  {{- $css := $scss | toCSS $cssOpts | postCSS $postCSSOpts -}}
   {{- $cssFingerprint := $css | resources.Fingerprint "sha512" }}
   <link rel="stylesheet" href="{{ $cssFingerprint.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
 {{- end -}}
