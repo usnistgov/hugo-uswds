@@ -1,6 +1,21 @@
 @use "uswds-core" as *;
 @use "../variables" as *;
 
+$heading-icon-defaults: (
+  "color": "#{$theme-link-color}",
+  "svg-height": 20,
+  "svg-width": 20,
+  "height": units(5),
+  "container-width": 6,
+);
+
+$heading-icon: map-merge(
+  $heading-icon-defaults,
+  (
+    "name": "link",
+  )
+);
+
 body{
   text-rendering: optimizeLegibility;
 }
@@ -17,7 +32,6 @@ body{
   position: relative;
   width: 100%;
   max-width: units($theme-grid-container-max-width);
-  overflow: auto;
 
   @include at-media("desktop") {
     width: calc(100% - #{units($width-nav-sidebar)});
@@ -94,6 +108,11 @@ body{
       padding-top: units(1);
       margin-top: units(0.5);
     }
+  }
+
+  a.site-anchorize {
+    color: inherit;
+    text-decoration: none;
   }
 }
 

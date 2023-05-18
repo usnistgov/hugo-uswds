@@ -1,0 +1,35 @@
+
+{{- $headings := .headings -}}
+{{- $headingMap := .headingMap -}}
+{{- $minLevel := .minLevel | default 2 -}}
+{{- $maxLevel := .maxLevel | default 6 -}}
+
+{{- $results := slice -}}
+
+{{- range $headings -}}
+  {{- $childResult := slice }}
+  {{- with .Headings -}}
+    {{- $childResult = partial "components/usa-in-page-nav/filter-headings.html" (dict "headings" . "headingMap" $headingMap "minLevel" $minLevel "maxLevel" $maxLevel) -}}
+  {{- end -}}
+  {{- if ne .ID "" -}}
+    {{- $result := dict "ID" .ID "Title" .Title "Level" (index $headingMap .ID) -}}
+    {{- with $childResult -}}
+      {{- $result = merge (dict "Headings" .) $result -}}
+    {{- end -}}
+    {{- $results = $results | append $result -}}
+  {{- else if $childResult -}}
+    {{- $results = $results | append $childResult -}}
+  {{- end -}}
+{{- end -}}
+
+{{/*}}
+{{- if not (eq .ID "") -}}
+{{- end -}}
+{{- if .Headings -}}
+{{- $headingsResult := partial "components/usa-in-page-nav/filter-headings.html" (dict "headings" .Headings "headingMap" $headingMap) -}}
+{{- $headingResult = merge $headingResult (dict "Headings" $headingsResult) -}}
+{{- end -}}
+{{*/}}
+
+{{- return $results -}}
+

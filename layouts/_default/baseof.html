@@ -69,46 +69,13 @@
   {{ partialCached "last-banner.html" . }}
 {{- end }}
 
-{{ block "main" . }}
-  {{ partialCached "components/usa-header-basic.html" . }}
-
-  {{- $tocEnabled := true -}}
-  {{- with .Page.Params.toc -}}
-    {{- if isset . "enabled" -}}
-      {{- $tocEnabled = true -}}
-    {{- end -}}
-  {{- end -}}
-  {{- if $tocEnabled }}
-<div class="usa-in-page-nav-container">
-  <aside class="usa-in-page-nav"
-    data-title-text="On this page"
-    data-title-heading-level="h4"
-    data-scroll-offset="0"
-    data-root-margin="0px 0px 0px 0px"
-    data-threshold="1"></aside>
-  {{ end -}}
-  <main class="usa-layout-docs usa-section" id="main-content">
-    {{ .Content }}
-  </main>
-  {{- if $tocEnabled }}
-</div>
-  {{ end -}}
-{{ end }}
+{{- block "main" . -}}
+<div>baseOf</div>
+{{- partialCached "components/usa-header-extended.html" . -}}
+{{- partial "site-content.html" . -}}
+{{- end -}}
 
   <p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.page_repo_path }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.page_repo_path }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
-{{/*}}
-{{ $tocEnabled := false }}
-{{ with .Page.Params.toc }}
-  {{ if isset . "enabled" }}
-    {{ $tocEnabled = .enabled }}
-  {{- end -}}
-{{- end -}}
-{{- if $tocEnabled -}}
-  {{- $tocbotJS := slice (resources.Get "/vendor/js/tocbot.min.js") | resources.Concat "js/tocbot.min.js" -}}
-  {{- $tocbotJSSecure := $tocbotJS | resources.Fingerprint "sha512" }}
-  <script src="{{ $tocbotJS.RelPermalink }}" integrity="{{ $tocbotJSSecure.Data.Integrity }}"></script>
-{{- end -}}
-{{*/}}
 
 {{- $uswdsJSmin := slice (resources.Get "/vendor/js/uswds.min.js") | resources.Concat "js/uswds.min.js" -}}
 {{- $uswdsJSminSecure := $uswdsJSmin | resources.Fingerprint "sha512" }}
@@ -132,12 +99,6 @@
 {{ $usingMermaid := .Page.Store.Get "hasMermaid" }}
 {{ if $usingMermaid }}
   <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/+esm'</script>
-{{/*}}
-  support vendoring mermaid
-  {{- $mermaidJS := slice (resources.Get "/vendor/js/mermaid.esm.min.mjs") | resources.Concat "js/mermaid.esm.min.js" -}}
-  {{- $mermaidJSSecure := $mermaidJS | resources.Fingerprint "sha512" }}
-  <script src="{{ $mermaidJS.RelPermalink }}" integrity="{{ $mermaidJSSecure.Data.Integrity }}"></script>
-{{*/}}
 {{ end }}
 
 {{ block "foot" . }}
@@ -157,40 +118,5 @@ $(document).ready(function(e) {
 </script>
 {{ end }}
 
-{{/*}}
-{{- if $tocEnabled }}
-<script>
-  {{ $headingselectors := "h2,h3,h4" }}
-  {{ $includeHtml := false }}
-  {{ $collapseDepth := 0 }}
-  {{ with .Page.Params.toc }}
-    {{ if isset . "headingselectors" }}
-      {{ $headingselectors = .headingselectors }}
-    {{ end }}
-    {{ with .includehtml }}
-      {{ $includeHtml = . }}
-    {{ end }}
-    {{ if isset . "collapsedepth" }}
-      {{ $collapseDepth = .collapsedepth }}
-    {{ end }}
-  {{ end }}
-tocbot.init({
-  tocSelector: '#js-toc',
-  contentSelector: '#main-content',
-  headingSelector: '{{ $headingselectors }}',
-  includeHtml: {{ $includeHtml }},
-  collapseDepth: {{- $collapseDepth -}},
-  hasInnerContainers: true,
-  orderedList: false,
-  listClass: 'usa-sidenav',
-//  activeListItemClass: 'usa-current',
-  extraLinkClasses: 'usa-sidenav__item',
-  activeLinkClass: 'usa-current',
-  headingsOffset: 1,
-  scrollSmoothOffset: 0
-});
-</script>
-{{ end -}}
-{{*/}}
 </body>
 </html>

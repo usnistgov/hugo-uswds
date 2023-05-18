@@ -34,6 +34,7 @@
   }
   .usa-current {
     border-left: units("05") solid #005ea2;
+    margin-left: calc(-1 * units("05"));
 
     &::after {
       display: none;

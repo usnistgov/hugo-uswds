@@ -1,8 +1,24 @@
 @use "uswds-core" as *;
 @use "usa-in-page-navigation" as *;
 
+
+@mixin generate-in-page-nav-nesting($list-selector,$left-padding-width, $depth, $i: 1){
+  @if $i <= $depth {
+    ul.#{$list-selector} {
+      .usa-in-page-nav__item a {
+        padding-left: #{$left-padding-width * $i}rem;
+      }
+      @include generate-in-page-nav-nesting($list-selector,$left-padding-width, $depth, $i + 1);
+    }
+  }
+}
+
 .site-usa-in-page-nav {
   @extend .usa-in-page-nav;
+  max-height: 95vh;
+  overflow-y: auto;
+
+  @include generate-in-page-nav-nesting('usa-in-page-nav__list',0.90, 12);
 }
 
 .usa-in-page-nav__list {

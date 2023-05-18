@@ -1,0 +1,6 @@
+{{- $headingMap := findRESubmatch `<h([1-6])(?:\s+\S+="[^"]+")?\s+id="([^"]+)"` . }}
+{{- $result := dict }}
+{{- range $headingMap -}}
+  {{- $result = merge $result (dict (index . 2) (index . 1)) }}
+{{- end -}}
+{{- return $result -}}
