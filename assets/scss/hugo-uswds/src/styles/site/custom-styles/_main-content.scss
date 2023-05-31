@@ -1,21 +1,6 @@
 @use "uswds-core" as *;
 @use "../variables" as *;
 
-$heading-icon-defaults: (
-  "color": "#{$theme-link-color}",
-  "svg-height": 20,
-  "svg-width": 20,
-  "height": units(5),
-  "container-width": 6,
-);
-
-$heading-icon: map-merge(
-  $heading-icon-defaults,
-  (
-    "name": "link",
-  )
-);
-
 body{
   text-rendering: optimizeLegibility;
 }
@@ -110,9 +95,14 @@ body{
     }
   }
 
-  a.site-anchorize {
-    color: inherit;
-    text-decoration: none;
+  h1,h2,h3,h4,h5,h6 {
+    a {
+      text-decoration: inherit;
+      color:inherit;
+      &:visited {
+        color:inherit;
+      }
+    }
   }
 }
 

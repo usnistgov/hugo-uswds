@@ -1,8 +1,8 @@
 @use "hugo:vars" as h;
 
 @use "uswds-core" with (
-  $theme-font-path:   '#{h.$siteBaseURL}fonts/uswds',
-  $theme-image-path:  '#{h.$siteBaseURL}img/uswds',
+  $theme-font-path:   '#{h.$siteBaseURL}vendor/uswds/fonts',
+  $theme-image-path:  '#{h.$siteBaseURL}vendor/uswds/img',
 
   $theme-show-notifications: false,
 

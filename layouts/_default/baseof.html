@@ -9,9 +9,7 @@
   {{ partialCached "meta.html" . }}
   {{ end -}}
 
-{{- $uswdsInitJS := slice (resources.Get "/vendor/js/uswds-init.min.js") | resources.Concat "js/uswds-init.min.js" -}}
-{{- $uswdsInitJSSecure := $uswdsInitJS | resources.Fingerprint "sha512" }}
-  <script src="{{ $uswdsInitJS.RelPermalink }}" integrity="{{ $uswdsInitJSSecure.Data.Integrity }}"></script>
+  <script src="/vendor/js/uswds/uswds-init.min.js"></script>
 
 {{- $inServerMode := .Site.IsServer -}}
 {{- $scss         := resources.Get "scss/styles.scss" -}}
@@ -40,9 +38,7 @@
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
 {{ template "_internal/google_analytics_async.html" . }}
 
-{{- $jqueryJS := slice (resources.Get "/vendor/js/jquery.min.js") | resources.Concat "js/jquery.min.js" -}}
-{{- $jqueryJSSecure := $jqueryJS | resources.Fingerprint "sha512" }}
-  <script src="{{ $jqueryJS.RelPermalink }}" integrity="{{ $jqueryJSSecure.Data.Integrity }}"></script>
+  <script src="/vendor/js/jquery/jquery.min.js"></script>
 
 {{ block "head" . }}
   {{ partialCached "head.html" . }}
@@ -77,10 +73,6 @@
 
   <p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.page_repo_path }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.page_repo_path }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
 
-{{- $uswdsJSmin := slice (resources.Get "/vendor/js/uswds.min.js") | resources.Concat "js/uswds.min.js" -}}
-{{- $uswdsJSminSecure := $uswdsJSmin | resources.Fingerprint "sha512" }}
-  <script type="text/javascript" src="{{ $uswdsJSminSecure.RelPermalink }}" integrity="{{ $uswdsJSminSecure.Data.Integrity }}"></script>
-
 {{- range .Site.Params.custom_js }}
   <script src="{{ . | relURL }}"></script>
 {{- end -}}
@@ -88,6 +80,9 @@
 {{- range .Page.Params.custom_js }}
   <script src="{{ . | relURL }}"></script>
 {{- end -}}
+
+  <script src="/vendor/js/uswds/uswds.min.js"></script>
+  <script src="/js/hugo-uswds.min.js"></script>
 
 {{ $usingImageMap := .Page.Store.Get "hasImageMap" }}
 {{- if $usingImageMap }}

@@ -13,3 +13,5 @@ assets/vendor/scss/**/src/img/
 assets/vendor/scss/**/src/test/
 assets/vendor/scss/**/src/assets/
 assets/vendor/scss/**/src/js/
+/tmp/js
+/uswds

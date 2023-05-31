@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+//    "noEmit": true,
+//    "allowJs": true,
+//    "checkJs": true,
+//    "noUnusedLocals": true,
+//    "noUnusedParameters": true,
+    "noImplicitAny": true,
+//    "strictNullChecks": true,
+//    "strictPropertyInitialization": true,
+//    "sourceMap": true,
+    "module": "commonjs",
+//    "lib": ["es6", "DOM"],
+//    "types": ["node"],
+    "forceConsistentCasingInFileNames": false,
+    "moduleResolution": "node",
+    "target": "es6"
+  },
+  "include": ["src/*.ts"]
+}

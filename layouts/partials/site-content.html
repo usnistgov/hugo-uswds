@@ -8,7 +8,7 @@
       {{- $displayToc = .enabled -}}
     {{- end -}}
   {{- end -}}
-  {{- $headings := partial "components/usa-in-page-nav/filter-headings.html"  (dict "headings" .Fragments.Headings) }}
+  {{- $headings := partial "components/usa-in-page-nav/filter-headings.html" . }}
   {{- if and
     ($displayToc)
     (gt (len $headings) 0) -}}

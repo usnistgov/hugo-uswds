@@ -1,6 +1,8 @@
-{{- $headingMap := findRESubmatch `<h([1-6])(?:\s+\S+="[^"]+")?\s+id="([^"]+)"` . }}
+{{/*}}
+{{- $headings := findRESubmatch `<h([1-6])(?:\s+\S+="[^"]+")?\s+id="([^"]+)"[^>]*>(.+)<\/h[1-6]>` . }}
 {{- $result := dict }}
 {{- range $headingMap -}}
   {{- $result = merge $result (dict (index . 2) (index . 1)) }}
 {{- end -}}
 {{- return $result -}}
+{{*/}}

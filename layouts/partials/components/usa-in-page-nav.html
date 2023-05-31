@@ -1,0 +1,61 @@
+{{/*}}
+<aside class="usa-in-page-nav site-usa-in-page-nav" aria-label="On this page" data-scroll-offset="-120" data-root-margin="48px 0px -90% 0px" data-threshold="1">
+</aside>
+{{*/}}
+
+{{- $headings := partial "components/usa-in-page-nav/filter-headings.html" . }}
+{{- if (gt (len $headings) 0) -}}
+  {{- $minLevel := .Param "toc.minLevel" | default 2 -}}
+  {{- $maxLevel := .Param "toc.maxLevel" | default 6 -}}
+  {{- $headingLevels := slice -}}
+  {{- range seq $minLevel $maxLevel -}}
+    {{- $headingLevels = $headingLevels | append (printf "h%d" . ) -}}
+  {{- end -}}
+  {{- $headingSelectors := delimit $headingLevels ", " -}}
+<aside class="site-usa-in-page-nav" aria-label="On this page" data-heading-selectors="{{$headingSelectors}}" data-scroll-offset="-120" data-root-margin="48px 0px -90% 0px" data-threshold="1">
+  <nav class="usa-in-page-nav__nav" aria-label="On this page">
+    <h4 class="usa-in-page-nav__heading" tabindex="0">On this page</h4>
+    {{- template "in-page-nav-list" (dict "page" .Page "headings" $headings) -}}
+  </nav>
+</aside>
+{{- end -}}
+{{/*}}
+    <aside class="site-usa-in-page-nav" aria-label="On this page" data-heading-selectors="h2" data-scroll-offset="-120" data-root-margin="48px 0px -90% 0px" data-threshold="1">
+      <nav class="usa-in-page-nav__nav" aria-label="On this page">
+        <h4 class="usa-in-page-nav__heading" tabindex="0">On this page</h4>
+        <ul class="usa-in-page-nav__list">
+          <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 1: A</a></li>
+          <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 1: B</a>
+            <ul class="usa-in-page-nav__list">
+              <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link">Level 2: B.1</a>
+              <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 2: B.2</a>
+                <ul class="usa-in-page-nav__list">
+                  <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link">Level 3: B.2.a</a>
+                  <li class="usa-in-page-nav__item"><a href="#" class="usa-in-page-nav__link usa-current">Level 2: B.2.b</a>
+                </ul>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+{{*/}}
+
+{{- /* ============================== */ -}}
+{{- /* = Rendering of sidenav items = */ -}}
+{{- /* ============================== */ -}}
+{{- define "in-page-nav-list" -}}
+  {{- $page := .page -}}
+  {{- $headings := .headings -}}
+  {{- $headingMap := .headingMap -}}
+
+  <ul class="usa-in-page-nav__list">
+  {{- range $headings -}}
+  <li class="usa-in-page-nav__item{{ if ge .Level 3 }} usa-in-page-nav__item--sub-item{{end}}">
+    {{- $anchor := printf "#%s" .ID | safeURL -}}
+    <a href="{{$anchor}}" class="site-usa-in-page-nav__link h{{ .Level }}">{{ .Title | safeHTML }}</a>
+    {{- if .Headings -}}
+      {{- template "in-page-nav-list" (dict "page" $page "headings" .Headings) -}}
+    {{- end -}}
+  </li>
+  {{- end -}}
+  </ul>
+{{- end -}}

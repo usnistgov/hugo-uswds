@@ -13,17 +13,39 @@
   }
 }
 
+.usa-in-page-nav__item {
+  a:not(.usa-button) {
+//    padding: units(0.5) units($sidenav-level-1-inset);
+  }
+  code {
+    @include typeset('mono', "2xs", 3);
+  }
+}
+
 .site-usa-in-page-nav {
   @extend .usa-in-page-nav;
   max-height: 95vh;
   overflow-y: auto;
 
-  @include generate-in-page-nav-nesting('usa-in-page-nav__list',0.90, 12);
+//  @include generate-in-page-nav-nesting('usa-in-page-nav__list',0.90, 12);
+}
+
+.site-usa-in-page-nav__link {
+  @extend .usa-in-page-nav__link !optional;
 }
 
 .usa-in-page-nav__list {
+  /* revert background left border */
   a:not(.usa-button) {
+    &:not(.usa-current) {
+      color: inherit;
+      &:visited {
+        color: inherit;
+      }
+    }
     &.usa-current {
+      color: #005ea2;
+      font-weight: bold;
       &::after {
         background-color: inherit;
       }

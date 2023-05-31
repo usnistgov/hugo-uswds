@@ -2,13 +2,6 @@
   {{- warnf "In %q, a level 1 heading must be provided in the content. Use '# heading text' for markdown or '<h1>heading text</h1>' for html." .Page.Path -}}
 {{- end -}}
 <main id="main-content" class="main-content usa-prose">
-  {{- $headingMap := partial "components/usa-in-page-nav/generate-heading-level-map.html" .Content -}}
-  <h1>Filtered Headings</h1>
-  <pre>{{ partial "components/usa-in-page-nav/filter-headings.html" (dict "headings" .Fragments.Headings "headingMap" $headingMap) | jsonify (dict "indent" "  ") }}</pre>
-  <h1>Heading Map</h1>
-  <pre>{{ $headingMap | jsonify (dict "indent" "  ") }}</pre>
-  <h1>Headings</h1>
-  <pre>{{ .Fragments.Headings | jsonify (dict "indent" "  ") }}</pre>
   <header>
     {{ partial "components/usa-breadcrumb.html" . }}
 {{/*}}
@@ -19,7 +12,7 @@
   {{- if and (eq .Kind "section") (not (.Param "suppresstopiclist" | default false)) -}}
   {{ $pages := .Pages }}
   {{ if gt (len $pages) 0 }}
-  <h1>This section contains the following topics:</h1>
+  <h2>This section contains the following topics:</h2>
   <ul>
   {{ range $index, $page := .Pages }}
     <li><a class="usa-link" href="{{.RelPermalink}}"><b>{{.Title}}{{ if .Description }}:{{end}}</b></a>{{ if .Description }} {{ .Description | markdownify }}{{end}}</li>
