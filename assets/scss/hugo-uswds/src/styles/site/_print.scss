@@ -72,7 +72,11 @@
     }
   }
 
-  #main-improve-page {
-    display: none;
+  .usa-breadcrumb, .usa-banner {
+    display: none !important;
+  }
+
+  code {
+    box-shadow: none;
   }
 }

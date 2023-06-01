@@ -22,16 +22,32 @@
   }
 }
 
-.site-usa-in-page-nav {
+.site-in-page-nav {
   @extend .usa-in-page-nav;
   max-height: 95vh;
-  overflow-y: auto;
+  overflow-y: hidden;
 
 //  @include generate-in-page-nav-nesting('usa-in-page-nav__list',0.90, 12);
 }
 
-.site-usa-in-page-nav__link {
+.site-in-page-nav__link {
   @extend .usa-in-page-nav__link !optional;
+
+  &.h3 {
+    margin-left: units(1);
+  }
+
+  &.h4 {
+    margin-left: units(2);
+  }
+
+  &.h5 {
+    margin-left: units(3);
+  }
+
+  &.h6 {
+    margin-left: units(4);
+  }
 }
 
 .usa-in-page-nav__list {

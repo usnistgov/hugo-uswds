@@ -109,3 +109,17 @@ body{
 h4 code, h6 code {
   text-transform: none !important; // undo default uppercase
 }
+
+img[usemap] {
+  border: none;
+  height: auto;
+  max-width: 100%;
+  width: auto;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block;
+}
+
+div.mermaid svg {
+  width: 100%;
+}

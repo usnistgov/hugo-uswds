@@ -29,7 +29,10 @@ import * as jQuery from "jquery";
 import { Constants } from "./constants";
 import { InPageNav } from "./in-page-nav";
 
+declare var window : any;
+window.$ = window.jQuery = jQuery;
+
 jQuery(() => {
-  const main = $(`${Constants.SELECTOR_MAIN_ELEMENT}`);
+  const main = jQuery(`${Constants.SELECTOR_MAIN_ELEMENT}`);
   InPageNav.init(main);
 });

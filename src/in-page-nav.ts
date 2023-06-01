@@ -1,38 +1,79 @@
-//const uswds = require("./components");
-
-//const behavior = require("packages/uswds-core/src/js/utils/behavior");
-
-
-const CURRENT_CLASS = `usa-current`;
-const IN_PAGE_NAV_HEADING_SELECTORS = "h2, h3, h4";
-
 import * as jQuery from "jquery";
 
 export namespace InPageNav {
-  export const CLASS = "site-usa-in-page-nav";
-  export const LINK_CLASS = "site-usa-in-page-nav__link";
-  export const SCROLL_OFFSET: number = 0;
+  const CLASS = "site-in-page-nav";
+  const LINK_CLASS = "site-in-page-nav__link";
+  const SCROLL_OFFSET: number = -120;
+  const CURRENT_CLASS = `usa-current`;
+  const IN_PAGE_NAV_HEADING_SELECTORS = "h2, h3, h4";
 
   export function init(main: JQuery<HTMLElement>) {
+    let sectionId = scrollToCurrentSection();
     jQuery(`.${CLASS}`).each((_, nav) => {
-      new Nav(nav, main);
+      let currentNav = new Nav(nav, main);
+      if (sectionId) {
+        currentNav.scrollNavToSectionId(sectionId);
+      }
     });
+  }
+
+  /**
+   * Scrolls the page to the section corresponding to the current hash fragment, if one exists.
+   */
+  function scrollToCurrentSection() : (string | undefined) {
+    let sectionId = getSectionIdFromFragment(window.location.hash);
+    if (sectionId) {
+      let heading = document.getElementById(sectionId);
+      if (heading) {
+        scrollToSection(heading);
+        return sectionId;
+      }
+    }
+    return undefined;
+  }
+
+  function getContentScrollOffset() : number {
+//    return (this.nav.dataset.scrollOffset || SCROLL_OFFSET) as number;
+    return SCROLL_OFFSET;
+  }
+
+  /**
+   * Scroll smoothly to a section based on the passed in element
+   *
+   * @param el - Id value with the number sign removed
+   */
+  function scrollToSection(el: HTMLElement) {
+    let scrollOffset = getContentScrollOffset();
+
+    window.scroll({
+      behavior: "smooth",
+      top: el.offsetTop - scrollOffset,
+    });
+    
+    if (window.location.hash.slice(1) !== el.id) {
+      window.history.pushState(null, "", `#${el.id}`);
+    }
+  }
+
+  function getSectionIdFromAnchor(element: HTMLAnchorElement) : string {
+    return getSectionIdFromFragment(element.hash);
+  }
+
+  function getSectionIdFromFragment(text: string) : string {
+    return text.slice(1);
   }
 
   export class Nav {
     private readonly nav: HTMLElement;
     private readonly content: JQuery<HTMLElement>;
+    private intersections: Map<string, number>;
 
     constructor(nav: HTMLElement, content: JQuery<HTMLElement>) {
       this.nav = nav;
       this.content = content;
-
+      
       this.initLinks();
-      this.initObserver();
-    }
-
-    getContentScrollOffset() : number {
-      return (this.nav.dataset.scrollOffset || SCROLL_OFFSET) as number;
+      this.intersections = this.initObserver();
     }
 
     initLinks() {
@@ -41,12 +82,12 @@ export namespace InPageNav {
         .on("keypress",(ev) => { this.handleKeypress(ev)});
     }
 
-    handleClick(event: JQuery.ClickEvent) {
+    protected handleClick(event: JQuery.ClickEvent) {
       event.preventDefault();
       this.handleClickFromLink(event.currentTarget);
     }
   
-    handleKeypress(event: JQuery.KeyPressEvent) {
+    protected handleKeypress(event: JQuery.KeyPressEvent) {
       let code = event.keyCode || event.which;
       if (code == 13) { /* enter */
         event.preventDefault();
@@ -54,67 +95,122 @@ export namespace InPageNav {
       }
     }
 
-    getSectionHeadings() : JQuery<HTMLElement> {
+    private getSectionHeadings() : JQuery<HTMLElement> {
       let headingSelectors = this.nav.dataset.headingSelectors || IN_PAGE_NAV_HEADING_SELECTORS;
       return this.content.find(`${headingSelectors}`);
     }
 
-    initObserver() : IntersectionObserver {
-      const options = {
+    private initObserver() : Map<string, number> {
+      const options : IntersectionObserverInit = {
         root: document,
         threshold: 1,
-        rootMargin: "0px 0px 0px 0px"
+        rootMargin: "48px 0px 0px 0px"
       };
         
-      let observeSections = new window.IntersectionObserver((entries) => {
+      let observer = new window.IntersectionObserver((entries) => {
         this.handleIntersection(entries);
         }, options);
         
       let sectionHeadings = this.getSectionHeadings();
-      console.trace(sectionHeadings.get());
-      sectionHeadings.each((_, element) => observeSections.observe(element));
-      return observeSections;
+//      console.trace(sectionHeadings.get());
+
+      let result = new Map<string, number>();
+      sectionHeadings.each((_, element) => {
+        observer.observe(element);
+
+        let key = element.id;
+        result.set(key, 0);
+      });
+      return result;
     }
 
-    handleIntersection(entries: IntersectionObserverEntry[]) {
+    getNavAnchorBySectionId(id: string) : (HTMLAnchorElement | undefined) {
+      let fragment = encodeURI(`#${id}`);
+      return jQuery(this.nav).find(`a[href='${fragment}'`)[0] as HTMLAnchorElement;
+    }
+
+    protected handleIntersection(entries: IntersectionObserverEntry[]) {
       let nav = jQuery(this.nav);
       let allLinks = nav.find(`.${LINK_CLASS}`);
       let spied = entries.map((entry) => {
-//        console.warn(`Intersection of ${entry.target.id}: ${entry.intersectionRatio}`);
         if (entry.isIntersecting === true && entry.intersectionRatio >= 1) {
           let id = entry.target.id;
-          allLinks.removeClass(CURRENT_CLASS);
-
-          let fragment = encodeURI(`#${id}`);
-          let spy = nav.find(`a[href='${fragment}'`);
+//          console.warn(`Intersection of ${id}: ${entry.intersectionRatio}`);
+//          allLinks.removeClass(CURRENT_CLASS);
+          let spy = this.getNavAnchorBySectionId(id);
+//          spy.classList.add(CURRENT_CLASS);
+          return spy;
+        }
+        return undefined;
+      }).find((spy) => spy !== undefined);
+/*
+      let spied = entries.map((entry) => {
+        let id = entry.target.id;
+        console.warn(`Intersection of ${id}: ${entry.intersectionRatio}`);
+        let spy = this.getNavAnchorBySectionId(id);
+        if (entry.isIntersecting === true && entry.intersectionRatio == 1) {
           spy.addClass(CURRENT_CLASS);
           return spy[0];
         }
+        spy.removeClass(CURRENT_CLASS);
         return undefined;
-      }).filter((spy) => spy !== undefined) as HTMLElement[];
-      
-      if (spied.length > 0) {
-        this.handleScrollNav(spied.pop() as HTMLElement);
+      }).find((spy) => spy !== undefined);
+*/
+      if (spied) {
+        this.makeActive(getSectionIdFromAnchor(spied));
+//        this.scrollNavToActive();
+      }
+/*
+      if (spied !== undefined) {
+        this.scrollNavToAnchor(spied);
+      }
+*/
+    }
+
+    scrollNavToSectionId(sectionId: string) : void {
+      let el = this.getNavAnchorBySectionId(sectionId);
+      if (el) {
+        this.scrollNavToAnchor(el);
       }
     }
 
-    handleScrollNav(el: HTMLElement) {
+    scrollNavToActive() : void {
+      let nav = jQuery(this.nav);
+      let anchor = nav.find(`a.${CURRENT_CLASS}`);
+      if (anchor.length > 0) {
+        this.scrollNavToAnchor(anchor[0] as HTMLAnchorElement);
+      }
+    }
+
+    makeActive(sectionId: string) {
+      let nav = jQuery(this.nav);
+      nav.find(`.${LINK_CLASS}`).removeClass(CURRENT_CLASS);
+      let anchor = this.getNavAnchorBySectionId(sectionId);
+      anchor.classList.add(CURRENT_CLASS);
+      this.scrollNavToAnchor(anchor);
+    }
+
+    /**
+     * Scroll the in-page-nav to the active element
+     * @param el the active navigation anchor
+     */
+    scrollNavToAnchor(el: HTMLAnchorElement) : void {
       let nav = jQuery(this.nav);
 
       let navPosition = this.findPosition(this.nav);
       let elPosition = this.findPosition(el);
       let elOffset = elPosition - navPosition;
-      console.info(`${el} offset: ${elOffset} nav: ${navPosition} anchor: ${elPosition}`);
+//      console.info(`${el} offset: ${elOffset} nav: ${navPosition} anchor: ${elPosition}`);
 
       let halfHeight =  nav.innerHeight() / 2;
 
       let position;
       if (elOffset < halfHeight) {
         position = 0;
-        console.info(`above: y: ${elOffset}, half: ${halfHeight}, position: ${position}`);
+//        console.info(`above: y: ${elOffset}, half: ${halfHeight}, position: ${position}`);
       } else {
         position = elOffset - halfHeight;
-        console.info(`below: y: ${elOffset}, half: ${halfHeight}, position: ${position}`);
+//        console.info(`below: y: ${elOffset}, half: ${halfHeight}, position: ${position}`);
       }
 
       this.nav.scroll({
@@ -123,7 +219,7 @@ export namespace InPageNav {
       });
     }
 
-    findPosition(el: HTMLElement) {
+    private findPosition(el: HTMLElement) {
       let result = 0;
       if (el.offsetParent) {
         let obj : (undefined | HTMLElement) = el;
@@ -137,53 +233,15 @@ export namespace InPageNav {
     }
 
     /**
-     * Scroll smoothly to a section based on the passed in element
-     *
-     * @param {HTMLElement} el - Id value with the number sign removed
-     */
-    handleScrollToSection(el: HTMLElement) {
-      let scrollOffset = this.getContentScrollOffset();
-
-      window.scroll({
-        behavior: "smooth",
-        top: el.offsetTop - scrollOffset,
-      });
-    
-      if (window.location.hash.slice(1) !== el.id) {
-        window.history.pushState(null, "", `#${el.id}`);
-      }
-    }
-    
-    /**
-     * Scrolls the page to the section corresponding to the current hash fragment, if one exists.
-     */
-    scrollToCurrentSection() {
-      let hashFragment = window.location.hash.slice(1);
-      if (hashFragment) {
-        let anchorTag = document.getElementById(hashFragment);
-        if (anchorTag) {
-          this.handleScrollToSection(anchorTag);
-        }
-      }
-    }
-
-    getSectionIdFromAnchor(element: HTMLAnchorElement) : string {
-      return this.getSectionIdFromString(element.hash);
-    }
-  
-    getSectionIdFromString(text: string) : string {
-      return text.replace("#", "");
-    }
-
-    /**
      * Handle click from link
      *
      * @param {JQuery<HTMLElement>} el An element within the in-page nav component
      */
-    handleClickFromLink(anchor: HTMLAnchorElement) {
-      let id = this.getSectionIdFromAnchor(anchor);
+    protected handleClickFromLink(anchor: HTMLAnchorElement) {
+      let id = getSectionIdFromAnchor(anchor);
       let target = document.getElementById(id) as HTMLElement;
-      this.handleScrollToSection(target);
+      scrollToSection(target);
+//      this.makeActive(id);
     }
 
     /**
@@ -191,8 +249,8 @@ export namespace InPageNav {
      *
      * @param {KeyboardEvent} event An event within the in-page nav component
      */
-    handleEnterFromLink(anchor: HTMLAnchorElement) {
-      let id = this.getSectionIdFromAnchor(anchor);
+    protected handleEnterFromLink(anchor: HTMLAnchorElement) {
+      let id = getSectionIdFromAnchor(anchor);
       let target = document.getElementById(id) as HTMLElement;
       
       if (target.parentElement) {
@@ -201,7 +259,8 @@ export namespace InPageNav {
         parent.focus();
         jQuery(parent).one("blur", () => parent.tabIndex = -1);
       }
-      this.handleScrollToSection(target);
+      scrollToSection(target);
+//      this.makeActive(id);
     }
   }
 }

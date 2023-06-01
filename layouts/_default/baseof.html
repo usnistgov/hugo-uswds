@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html{{ with site.LanguageCode | default site.Language.Lang }} lang="{{ . }}"{{ end }}>
 <head>
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,35 +10,18 @@
   {{ end -}}
 
   <script src="/vendor/js/uswds/uswds-init.min.js"></script>
+  <link rel="preload" href="/vendor/js/uswds/uswds.min.js" as="script">
 
-{{- $inServerMode := .Site.IsServer -}}
-{{- $scss         := resources.Get "scss/styles.scss" -}}
-{{- $sassIncludes := (slice "assets/vendor/scss/uswds/") -}}
-{{- $vars := dict "siteBaseURL" $.Site.BaseURL -}}
-{{- $cssTarget    := "css/hugo-uswds.css" -}}
-{{- $cssOpts      := dict "transpiler" "dartsass" "targetPath" $cssTarget "includePaths" $sassIncludes "vars" $vars -}}
-{{- if $inServerMode -}}
-  {{- $cssOpts := merge $cssOpts (dict "enableSourceMap" true "sourceMapIncludeSources" true) -}}
-{{- end -}}
-{{- $postCSSOpts      := dict "use" "autoprefixer" -}}
+  {{ partialCached "scss.html" . }}
 
-{{- if $inServerMode -}}
-  {{- $css := $scss | toCSS $cssOpts | postCSS $postCSSOpts }}
-  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
-{{- else -}}
-  {{- $css := $scss | toCSS $cssOpts | postCSS $postCSSOpts -}}
-  {{- $cssFingerprint := $css | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $cssFingerprint.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
-{{- end -}}
-
-{{ range .AlternativeOutputFormats }}
-  {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
-{{ end -}}
+  {{ range .AlternativeOutputFormats }}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+  {{ end -}}
 
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
 {{ template "_internal/google_analytics_async.html" . }}
 
-  <script src="/vendor/js/jquery/jquery.min.js"></script>
+  <script defer src="/js/hugo-uswds.min.js"></script>
 
 {{ block "head" . }}
   {{ partialCached "head.html" . }}
@@ -81,14 +64,9 @@
   <script src="{{ . | relURL }}"></script>
 {{- end -}}
 
-  <script src="/vendor/js/uswds/uswds.min.js"></script>
-  <script src="/js/hugo-uswds.min.js"></script>
-
 {{ $usingImageMap := .Page.Store.Get "hasImageMap" }}
 {{- if $usingImageMap }}
-  {{- $imageMapJS := slice (resources.Get "/vendor/js/imageMapResizer.min.js") | resources.Concat "js/imageMapResizer.min.js" -}}
-  {{- $imageMapJSSecure := $imageMapJS | resources.Fingerprint "sha512" }}
-  <script src="{{ $imageMapJS.RelPermalink }}" integrity="{{ $imageMapJSSecure.Data.Integrity }}"></script>
+  <script defer src="/vendor/js/image-map-resizer/imageMapResizer.min.js"></script>
 {{ end -}}
 
 {{ $usingMermaid := .Page.Store.Get "hasMermaid" }}
@@ -96,19 +74,23 @@
   <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/+esm'</script>
 {{ end }}
 
+  <script src="/vendor/js/uswds/uswds.min.js"></script>
+
 {{ block "foot" . }}
-{{ partialCached "foot.html" . }}
+{{ partial "foot.html" . }}
 {{ end }}
 
 {{ if or $usingMermaid $usingImageMap }}
 <script>
-$(document).ready(function(e) {
-  {{ if $usingMermaid }}
-  mermaid.initialize();
-  {{ end }}
-  {{ if $usingImageMap }}
-  $('img[usemap]').imageMapResize();
-  {{ end }}
+document.addEventListener('DOMContentLoaded', function(){
+  $(document).ready(function(e) {
+    {{ if $usingMermaid }}
+    mermaid.initialize();
+    {{ end }}
+    {{ if $usingImageMap }}
+    $('img[usemap]').imageMapResize();
+    {{ end }}
+  });
 });
 </script>
 {{ end }}
