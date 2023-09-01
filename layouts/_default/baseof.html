@@ -28,7 +28,7 @@
   {{ else }}
   {{ $css := $scss | toCSS $cssOpts }}
   {{ $cssFingerprint := $css | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
+  <link rel="stylesheet" href="{{ $cssFingerprint.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
   {{ end }}
 
   {{- with .Site.Params.custom_css -}}
@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="{{ $siteCSS.RelPermalink }}">
     {{ else }}
     {{ $siteCSSFingerprint := $siteCSS | resources.Fingerprint "sha512" }}
-    <link rel="stylesheet" href="{{ $siteCSS.RelPermalink }}" integrity="{{ $siteCSSFingerprint.Data.Integrity }}">
+    <link rel="stylesheet" href="{{ $siteCSSFingerprint.RelPermalink }}" integrity="{{ $siteCSSFingerprint.Data.Integrity }}">
     {{ end }}
   {{- end -}}
   {{- end -}}
@@ -50,7 +50,7 @@
   {{- end }}
   {{ $siteCSSmin := $siteCSS | resources.Concat "/css/site.css" | minify }}
   {{ $siteCSSminSecure := $siteCSSmin | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $siteCSSmin.RelPermalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
+  <link rel="stylesheet" href="{{ $siteCSSminSecure.RelPermalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
   {{*/}}
 
 {{ block "head" . }}
@@ -97,14 +97,14 @@
 {{- end }}
 {{ $siteJSmin := $siteJS | resources.Concat "/js/site.js" | minify }}
 {{ $siteJSminSecure := $siteJSmin | resources.Fingerprint "sha512" }}
-<script type="text/javascript" src="{{ $siteJSmin.RelPermalink }}" integrity="{{ $siteJSminSecure.Data.Integrity }}"></script>
+<script type="text/javascript" src="{{ $siteJSminSecure.RelPermalink }}" integrity="{{ $siteJSminSecure.Data.Integrity }}"></script>
 
 {{ with .Page.Params.custom_js }}
 {{ range . -}}
   {{ $js := resources.Get . }}
   {{ $pageJSmin := $js | minify }}
   {{ $pageJSminSecure := $pageJSmin | resources.Fingerprint "sha512" }}
-  <script src="{{ $pageJSmin.RelPermalink }}" integrity="{{ $pageJSminSecure.Data.Integrity }}"></script>
+  <script src="{{ $pageJSminSecure.RelPermalink }}" integrity="{{ $pageJSminSecure.Data.Integrity }}"></script>
 {{- end }}
 {{ end }}
 
