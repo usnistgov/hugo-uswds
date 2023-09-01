@@ -1,3 +1,5 @@
 <div class="mermaid">
   {{.Inner}}
 </div>
+{{ warnf "In %q, use of the {{<mermaid>}} shortcode is deprecated. Use a fenced codeblock instead e.g. ```mermaid" .Page.Path }}
+{{ .Page.Store.Set "hasMermaid" true }}
