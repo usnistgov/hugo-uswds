@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-//    "noEmit": true,
-//    "allowJs": true,
-//    "checkJs": true,
-//    "noUnusedLocals": true,
-//    "noUnusedParameters": true,
-    "noImplicitAny": true,
-//    "strictNullChecks": true,
-//    "strictPropertyInitialization": true,
-//    "sourceMap": true,
+    "target": "es5",
     "module": "commonjs",
-//    "lib": ["es6", "DOM"],
-//    "types": ["node"],
-    "forceConsistentCasingInFileNames": false,
-    "moduleResolution": "node",
-    "target": "es6"
+    "lib": ["es6", "DOM"],
+    "allowJs": true,
+    "outDir": "build",
+    "rootDir": "src",
+    "strict": true,
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true
   },
   "include": ["src/*.ts"]
 }

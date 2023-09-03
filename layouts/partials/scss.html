@@ -1,9 +1,10 @@
 {{- $inServerMode := .Site.IsServer -}}
-{{- $scss         := resources.Get "scss/styles.scss" -}}
-{{- $sassIncludes := (slice "assets/vendor/scss/uswds/") -}}
+{{- $sassIncludes := (slice "dist/scss/") -}}
+{{- $scss         := resources.Get "scss/module/hugo-uswds/styles.scss" -}}
 {{- $vars := dict "siteBaseURL" $.Site.BaseURL -}}
 {{- $cssTarget    := "css/hugo-uswds.css" -}}
-{{- $cssOpts      := dict "transpiler" "dartsass" "targetPath" $cssTarget "includePaths" $sassIncludes "outputStyle" "compressed" "vars" $vars -}}
+{{- $cssOpts      := dict "transpiler" "dartsass" "targetPath" $cssTarget "outputStyle" "compressed" "vars" $vars -}}
+{{- $cssOpts      := merge $cssOpts (dict "includePaths" $sassIncludes) -}}
 {{- if $inServerMode -}}
   {{- $cssOpts := merge $cssOpts (dict "enableSourceMap" true "sourceMapIncludeSources" true) -}}
 {{- end -}}

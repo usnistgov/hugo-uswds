@@ -1,4 +1,6 @@
-import * as jQuery from "jquery";
+const jQuery = require('jquery')
+
+const $: JQueryStatic = jQuery;
 
 export namespace InPageNav {
   const CLASS = "site-in-page-nav";
@@ -9,7 +11,7 @@ export namespace InPageNav {
 
   export function init(main: JQuery<HTMLElement>) {
     let sectionId = scrollToCurrentSection();
-    jQuery(`.${CLASS}`).each((_, nav) => {
+    $(`.${CLASS}`).each((_, nav) => {
       let currentNav = new Nav(nav, main);
       if (sectionId) {
         currentNav.scrollNavToSectionId(sectionId);
@@ -77,7 +79,7 @@ export namespace InPageNav {
     }
 
     initLinks() {
-      jQuery(this.nav).find(`.${LINK_CLASS}`)
+      $(this.nav).find(`.${LINK_CLASS}`)
         .on("click",(ev) => { this.handleClick(ev)})
         .on("keypress",(ev) => { this.handleKeypress(ev)});
     }
@@ -126,11 +128,11 @@ export namespace InPageNav {
 
     getNavAnchorBySectionId(id: string) : (HTMLAnchorElement | undefined) {
       let fragment = encodeURI(`#${id}`);
-      return jQuery(this.nav).find(`a[href='${fragment}'`)[0] as HTMLAnchorElement;
+      return $(this.nav).find(`a[href='${fragment}'`)[0] as HTMLAnchorElement;
     }
 
     protected handleIntersection(entries: IntersectionObserverEntry[]) {
-      let nav = jQuery(this.nav);
+      let nav = $(this.nav);
       let allLinks = nav.find(`.${LINK_CLASS}`);
       let spied = entries.map((entry) => {
         if (entry.isIntersecting === true && entry.intersectionRatio >= 1) {
@@ -175,7 +177,7 @@ export namespace InPageNav {
     }
 
     scrollNavToActive() : void {
-      let nav = jQuery(this.nav);
+      let nav = $(this.nav);
       let anchor = nav.find(`a.${CURRENT_CLASS}`);
       if (anchor.length > 0) {
         this.scrollNavToAnchor(anchor[0] as HTMLAnchorElement);
@@ -183,9 +185,14 @@ export namespace InPageNav {
     }
 
     makeActive(sectionId: string) {
-      let nav = jQuery(this.nav);
+      let nav = $(this.nav);
       nav.find(`.${LINK_CLASS}`).removeClass(CURRENT_CLASS);
       let anchor = this.getNavAnchorBySectionId(sectionId);
+
+      if (anchor === undefined) {
+        return;
+      }
+
       anchor.classList.add(CURRENT_CLASS);
       this.scrollNavToAnchor(anchor);
     }
@@ -195,14 +202,20 @@ export namespace InPageNav {
      * @param el the active navigation anchor
      */
     scrollNavToAnchor(el: HTMLAnchorElement) : void {
-      let nav = jQuery(this.nav);
+      let nav = $(this.nav);
 
       let navPosition = this.findPosition(this.nav);
       let elPosition = this.findPosition(el);
+      let navInnerHeight = nav.innerHeight();
+
+      if (navPosition === undefined || elPosition === undefined || navInnerHeight === undefined) {
+        return;
+      }
+
       let elOffset = elPosition - navPosition;
 //      console.info(`${el} offset: ${elOffset} nav: ${navPosition} anchor: ${elPosition}`);
 
-      let halfHeight =  nav.innerHeight() / 2;
+      let halfHeight =  navInnerHeight / 2;
 
       let position;
       if (elOffset < halfHeight) {
@@ -257,7 +270,7 @@ export namespace InPageNav {
         let parent : HTMLElement = target.parentElement;
         parent.tabIndex = 0;
         parent.focus();
-        jQuery(parent).one("blur", () => parent.tabIndex = -1);
+        $(parent).one("blur", () => parent.tabIndex = -1);
       }
       scrollToSection(target);
 //      this.makeActive(id);

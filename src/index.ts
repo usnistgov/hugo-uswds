@@ -25,7 +25,7 @@ const inPageNavigation = behavior(
 );
 */
 
-import * as jQuery from "jquery";
+const jQuery = require('jquery')
 import { Constants } from "./constants";
 import { InPageNav } from "./in-page-nav";
 

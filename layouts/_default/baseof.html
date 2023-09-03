@@ -9,8 +9,8 @@
   {{ partialCached "meta.html" . }}
   {{ end -}}
 
-  <script type="text/javascript" src="/vendor/js/uswds/uswds-init.min.js"></script>
-  <link rel="preload" href="/vendor/js/uswds/uswds.min.js" as="script">
+  <script type="text/javascript" src="/js/module/hugo-uswds/uswds-init.min.js"></script>
+  <link rel="preload" href="/js/module/hugo-uswds/uswds.min.js" as="script">
 
   {{ partialCached "scss.html" . }}
 
@@ -21,7 +21,8 @@
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
 {{ template "_internal/google_analytics_async.html" . }}
 
-  <script type="text/javascript" defer src="/js/hugo-uswds.min.js"></script>
+<script type="text/javascript" src="/js/module/hugo-uswds/jquery.min.js"></script>
+<script type="text/javascript" defer src="/js/module/hugo-uswds/hugo-uswds.min.js"></script>
 
 {{ block "head" . }}
   {{ partialCached "head.html" . }}
@@ -66,7 +67,7 @@
 
 {{ $usingImageMap := .Page.Store.Get "hasImageMap" }}
 {{- if $usingImageMap }}
-  <script defer type="text/javascript" src="/vendor/js/image-map-resizer/imageMapResizer.min.js"></script>
+  <script defer type="text/javascript" src="/js/module/hugo-uswds/image-map-resizer/imageMapResizer.min.js"></script>
 {{ end -}}
 
 {{ $usingMermaid := .Page.Store.Get "hasMermaid" }}
@@ -74,7 +75,7 @@
   <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/+esm'</script>
 {{ end }}
 
-  <script type="text/javascript" src="/vendor/js/uswds/uswds.min.js"></script>
+  <script type="text/javascript" src="/js/module/hugo-uswds/uswds.min.js"></script>
 
 {{ block "foot" . }}
 {{ partial "foot.html" . }}

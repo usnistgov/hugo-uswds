@@ -21,18 +21,16 @@ module:
     min: 0.111.0
     extended: true
   mounts:
-  - source: vendor/static
-    target: static/vendor
-  - source: vendor/assets/js
-    target: assets/js/vendor
-  - source: vendor/assets/scss
-    target: assets/scss/vendor
+  - source: dist/js
+    target: static/js/module/hugo-uswds
+  - source: dist/scss/styles.scss
+    target: assets/scss/module/hugo-uswds/styles.scss
+  - source: dist/img
+    target: static/module/hugo-uswds/img
+  - source: dist/fonts
+    target: static/module/hugo-uswds/fonts
   - source: layouts
     target: layouts
   - source: archetypes
-    target: archetypes
-  - source: static
-    target: static
-  - source: assets
-    target: assets
-
+    target: archetypes/module/hugo-uswds
+    
