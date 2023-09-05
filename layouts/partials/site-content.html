@@ -1,0 +1,22 @@
+<div class="site-content-container">
+  <aside id="page-side-navigation" class="sidenav site-sidenav" aria-label="Section navigation">
+    {{ partial "components/usa-sidenav.html" . }}
+  </aside>
+  {{- $displayToc := .Param "toc.display" | default false -}}
+  {{- with .Page.Params.toc -}}
+    {{- if isset . "enabled" -}}
+      {{- $displayToc = .enabled -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $headings := partial "components/usa-in-page-nav/filter-headings.html" . }}
+  {{- if and
+    ($displayToc)
+    (gt (len $headings) 0) -}}
+  <div class="usa-in-page-nav-container">
+    {{- partial "components/usa-in-page-nav.html" . -}}
+    {{- partial "main-content.html" . -}}
+  </div>
+  {{- else -}}
+    {{- partial "main-content.html" . -}}
+  {{- end -}}
+</div>

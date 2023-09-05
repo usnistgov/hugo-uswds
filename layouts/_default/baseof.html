@@ -1,172 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html{{ with site.LanguageCode | default site.Language.Lang }} lang="{{ . }}"{{ end }}>
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  {{ range .AlternativeOutputFormats -}}
-      {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink $.Page.Title | safeHTML }}
+  {{- block "meta" . }}
+  {{ partialCached "meta.html" . }}
+  {{ end -}}
+
+  <script type="text/javascript" src="/js/module/hugo-uswds/uswds-init.min.js"></script>
+  <link rel="preload" href="/js/module/hugo-uswds/uswds.min.js" as="script">
+
+  {{ partialCached "scss.html" . }}
+
+  {{ range .AlternativeOutputFormats }}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
   {{ end -}}
 
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
 {{ template "_internal/google_analytics_async.html" . }}
 
-  <script
-    src="https://code.jquery.com/jquery-3.4.1.min.js"
-    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-  {{ $inServerMode := .Site.IsServer }}
-  {{ $scss         := resources.Get "scss/hugo-uswds.scss" | resources.ExecuteAsTemplate "uswds.scss" . }}
-  {{ $cssTarget    := "css/hugo-uswds.css" }}
-  {{ $cssOpts      := cond ($inServerMode) (dict "targetPath" $cssTarget "enableSourceMap" true) (dict "targetPath" $cssTarget "outputStyle" "compressed") }}
-    
-  {{ if .Site.IsServer }}
-  {{ $css := $scss | toCSS $cssOpts }}
-  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
-  {{ else }}
-  {{ $css := $scss | toCSS $cssOpts }}
-  {{ $cssFingerprint := $css | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $cssFingerprint.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}">
-  {{ end }}
-
-  {{- with .Site.Params.custom_css -}}
-  {{- range . -}}
-    {{ $siteCSS := resources.Get . }}
-    {{ if .Site.IsServer }}
-    <link rel="stylesheet" href="{{ $siteCSS.RelPermalink }}">
-    {{ else }}
-    {{ $siteCSSFingerprint := $siteCSS | resources.Fingerprint "sha512" }}
-    <link rel="stylesheet" href="{{ $siteCSSFingerprint.RelPermalink }}" integrity="{{ $siteCSSFingerprint.Data.Integrity }}">
-    {{ end }}
-  {{- end -}}
-  {{- end -}}
-
-  {{/*}}
-  {{ range .Site.Params.custom_css -}}
-    {{ $style := resources.Get . }}
-    {{ $siteCSS = $siteCSS | append $style }}
-  {{- end }}
-  {{ $siteCSSmin := $siteCSS | resources.Concat "/css/site.css" | minify }}
-  {{ $siteCSSminSecure := $siteCSSmin | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $siteCSSminSecure.RelPermalink }}" integrity="{{ $siteCSSminSecure.Data.Integrity }}" />
-  {{*/}}
+<script type="text/javascript" src="/js/module/hugo-uswds/jquery.min.js"></script>
+<script type="text/javascript" defer src="/js/module/hugo-uswds/hugo-uswds.min.js"></script>
 
 {{ block "head" . }}
   {{ partialCached "head.html" . }}
 {{ end }}
 
-{{ with .Page.Params.custom_css }}
-{{ range . -}}
-  {{ $style := resources.Get . }}
-  {{ $pageCSSmin := $style | minify }}
-  {{ $pageCSSminSecure := $pageCSSmin | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $pageCSSminSecure.RelPermalink }}" integrity="{{ $pageCSSminSecure.Data.Integrity }}" />
-{{- end }}
-{{ end }}
+{{- range .Site.Params.custom_css }}
+  <link rel="stylesheet" href="{{ . | relURL }}" />
+{{- end -}}
+
+{{ range .Page.Params.custom_css }}
+  <link rel="stylesheet" href="{{ . | relURL }}" />
+{{- end -}}
 </head>
 <body>
 
-{{ block "main" . }}
-  {{ with .Params.usabanner }}{{ partialCached "components/banner.html" . }}{{ end }}
-  {{ with .Params.draftbanner }}{{ partialCached "components/draft-banner.html" . }}{{ end }}
-  {{ partialCached "components/header-basic.html" . }}
-  <main class="usa-layout-docs usa-section" id="main-content">
-    {{ .Content }}
-  </main>
-{{ end }}
+{{- block "top-banner" . -}}
+  {{ partialCached "top-banner.html" . }}
+{{- end -}}
+  
+{{- if .Param "usabanner" }}{{ partialCached "components/usa-banner.html" . }}{{ end -}}
+{{- with .Param "draftbanner" }}{{ partialCached "components/draft-banner.html" . }}{{ end -}}
 
-<p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.page_repo_path }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.page_repo_path }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
-
-{{ $tocEnabled := false }}
-{{ with .Page.Params.toc }}
-  {{ if isset . "enabled" }}
-    {{ $tocEnabled = .enabled }}
-  {{ end }}
-{{ end }}
-{{ if $tocEnabled }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.12.0/tocbot.min.js" integrity="sha384-roIHE2HuL+PZHzo8X7MgpHu256WMUJvsKqI2GaUJY3moVp06oLtx0QvZnvZJdcCb" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-{{end}}
-
-{{ $uswdsJS := resources.Get "/js/uswds.min.js" }}
-{{ $siteJS := slice $uswdsJS }}
-{{ range .Site.Params.custom_js -}}
-  {{ $js := resources.Get . }}
-  {{ $siteJS = $siteJS | append $js }}
+{{- block "last-banner" . -}}
+  {{ partialCached "last-banner.html" . }}
 {{- end }}
-{{ $siteJSmin := $siteJS | resources.Concat "/js/site.js" | minify }}
-{{ $siteJSminSecure := $siteJSmin | resources.Fingerprint "sha512" }}
-<script type="text/javascript" src="{{ $siteJSminSecure.RelPermalink }}" integrity="{{ $siteJSminSecure.Data.Integrity }}"></script>
 
-{{ with .Page.Params.custom_js }}
-{{ range . -}}
-  {{ $js := resources.Get . }}
-  {{ $pageJSmin := $js | minify }}
-  {{ $pageJSminSecure := $pageJSmin | resources.Fingerprint "sha512" }}
-  <script src="{{ $pageJSminSecure.RelPermalink }}" integrity="{{ $pageJSminSecure.Data.Integrity }}"></script>
-{{- end }}
-{{ end }}
+{{- block "main" . -}}
+<div>baseOf</div>
+{{- partialCached "components/usa-header-extended.html" . -}}
+{{- partial "site-content.html" . -}}
+{{- end -}}
 
-{{ $usingImageMap := .HasShortcode "imagemap" }}
+  <p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.page_repo_path }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.page_repo_path }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button usa-button--accent-cool">Improve this Page</button>{{ end }}</p>
+
+{{- range .Site.Params.custom_js }}
+  <script type="text/javascript" src="{{ . | relURL }}"></script>
+{{- end -}}
+
+{{- range .Page.Params.custom_js }}
+  <script type="text/javascript" src="{{ . | relURL }}"></script>
+{{- end -}}
+
+{{ $usingImageMap := .Page.Store.Get "hasImageMap" }}
 {{- if $usingImageMap }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-rwdImageMaps/1.6/jquery.rwdImageMaps.min.js" integrity="sha512-eZB7hQa0bRlrKMQ2njpP0d/Klu6o30Gsr8e5FUCjUT3fSlnVkm/1J14n58BuwgaMuObrGb7SvUfQuF8qFsPU4g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script defer type="text/javascript" src="/js/module/hugo-uswds/image-map-resizer/imageMapResizer.min.js"></script>
 {{ end -}}
 
 {{ $usingMermaid := .Page.Store.Get "hasMermaid" }}
 {{ if $usingMermaid }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.3.0/mermaid.min.js" integrity="sha512-ku2nmBrzAXY5YwohzTqLYH1/lvyMrpTVxgQKrvTabd/b/uesqltLORdmpVapYv6QhZVCLUX6wkvFaKOAY4xpUA==" crossorigin="anonymous"></script>
+  <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/+esm'</script>
 {{ end }}
 
+  <script type="text/javascript" src="/js/module/hugo-uswds/uswds.min.js"></script>
+
 {{ block "foot" . }}
-{{ partialCached "foot.html" . }}
+{{ partial "foot.html" . }}
 {{ end }}
 
 {{ if or $usingMermaid $usingImageMap }}
 <script>
-$(document).ready(function(e) {
-  {{ if $usingMermaid }}
-  mermaid.initialize();
-  {{ end }}
-  {{ if $usingImageMap }}
-  $('img[usemap]').rwdImageMaps();
-  {{ end }}
+document.addEventListener('DOMContentLoaded', function(){
+  $(document).ready(function(e) {
+    {{ if $usingMermaid }}
+    mermaid.initialize();
+    {{ end }}
+    {{ if $usingImageMap }}
+    $('img[usemap]').imageMapResize();
+    {{ end }}
+  });
 });
 </script>
 {{ end }}
 
-{{- if $tocEnabled }}
-<script>
-  {{ $headingselectors := "h2,h3,h4" }}
-  {{ $includeHtml := false }}
-  {{ $collapseDepth := 0 }}
-  {{ with .Page.Params.toc }}
-    {{ if isset . "headingselectors" }}
-      {{ $headingselectors = .headingselectors }}
-    {{ end }}
-    {{ with .includehtml }}
-      {{ $includeHtml = . }}
-    {{ end }}
-    {{ if isset . "collapsedepth" }}
-      {{ $collapseDepth = .collapsedepth }}
-    {{ end }}
-  {{ end }}
-tocbot.init({
-  tocSelector: '#js-toc',
-  contentSelector: '#main-content',
-  headingSelector: '{{ $headingselectors }}',
-  includeHtml: {{ $includeHtml }},
-  collapseDepth: {{- $collapseDepth -}},
-  hasInnerContainers: true,
-  orderedList: false,
-  listClass: 'usa-sidenav',
-//  activeListItemClass: 'usa-current',
-  extraLinkClasses: 'usa-sidenav__item',
-  activeLinkClass: 'usa-current',
-  headingsOffset: 1,
-  scrollSmoothOffset: 0
-});
-</script>
-{{ end -}}
 </body>
 </html>

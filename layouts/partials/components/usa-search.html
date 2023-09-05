@@ -1,0 +1,13 @@
+<section aria-label="Search component">
+  <form class="usa-search usa-search--small" role="search" action="https://search.usa.gov/search">
+    <input id="affiliate" name="affiliate" type="hidden" value="{{ .Site.Params.searchAffiliate }}" />
+    <input name="utf8" type="hidden" value="&#x2713;" />
+    <label class="usa-sr-only" for="search-field-en-small">Search</label>
+    <input class="usa-input" id="search-field-en-small" type="search" name="query">
+    <button class="usa-button" type="submit"><img
+      src="/module/hugo-uswds/img/usa-icons-bg/search--white.svg"
+      class="usa-search__submit-icon"
+      alt="Search"
+    /></button>
+  </form>
+</section>

@@ -1,0 +1,54 @@
+{{/*}}
+{{- $headingMap := findRESubmatch `<h([1-6])(?:\s+\S+="[^"]+")?\s+id="([^"]+)"[^>]*>(.+)<\/h[1-6]>` . }}
+<h1>Headings</h1>
+<pre>{{ $headingMap | jsonify (dict "indent" "  ") }}</pre>
+{{- partial
+  "partials/components/usa-in-page-nav/generate-headings/recurse.html"
+  (dict "headings" $headingMap "index" 0) -}}
+
+{{- $result := slice }}
+{{- $stack := slice (dict "level" 0 "headings" $result )}}
+{{- range $headingMap -}}
+  {{- $headLen := len $stack}}
+  {{- $head := index $stack (sub $stackLen 1) -}}
+  {{- $headLevel := $head.level -}}
+  {{- $headData := $head.headings -}}
+
+  <pre>{{ $head | jsonify (dict "indent" "  ") }}</pre>
+
+  {{- $item := dict "ID" (index . 2) "Title" (index . 3) "Level" (index . 1) }}
+  {{- $headData = $headData | append $item -}}
+{{- end -}}
+<h1>Result</h1>
+<pre>{{ $result | jsonify (dict "indent" "  ") }}</pre>
+{{*/}}
+{{- /* return $result */ -}}
+
+{{ define "partials/components/usa-in-page-nav/generate-headings/recurse.html" }}
+  {{- $headings := .headings -}}
+  {{- $len := len $headings -}}
+  {{- $index := int .index -}}
+
+  {{- if lt $index $len -}}
+    {{- $heading := index $headings $index -}}
+
+    {{- $item := dict "ID" (index $heading 2) "Title" (index $heading 3) "Level" (index $heading 1) }}
+    <pre>{{ $item | jsonify (dict "indent" "  ") }}</pre>
+
+    {{- $context := .context | default (slice (dict "level" 0 "headings" slice)) }}
+    {{- $headLen := len $context}}
+    {{- $head := index $context (sub $headLen 1) -}}
+    {{- $headLevel := $head.level -}}
+
+    {{- if eq ($headLevel 0) -}}
+      {{/* append to context */}}
+      
+    {{- end -}}
+
+    {{- $retval := slice -}}
+
+    {{- partial
+        "partials/components/usa-in-page-nav/generate-headings/recurse.html"
+        (dict "headings" $headings "index" (add $index 1)) -}}
+  {{- end -}}
+{{ end }}

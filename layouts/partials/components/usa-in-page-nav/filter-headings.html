@@ -1,0 +1,25 @@
+
+{{- $headings := findRESubmatch `<h([1-6])(?:\s+[^=]+="[^"]+")?\s+id="([^"]+)"[^>]*>(?:<a[^>]*>)?(.+)(?:</a>)?</h[1-6]>` .Content -}}
+{{- $minLevel := .Param "toc.minLevel" | default 2 -}}
+{{- $maxLevel := .Param "toc.maxLevel" | default 6 -}}
+
+{{- $results := slice -}}
+
+{{- range $headings -}}
+  {{- $heading := . -}}
+  {{- $level := index $heading 1 -}}
+
+  {{- if and (ge $level $minLevel) (le $level $maxLevel) -}}
+    {{- $id := index $heading 2 -}}
+    {{- $title := index $heading 3 -}}
+    {{- /* remove anchors */ -}}
+    {{- $title = replaceRE `<a[^>]*>|</a[^>]*>` "" $title -}}
+
+    {{- $item := dict "ID" $id "Title" $title "Level" $level -}}
+
+    {{- $results = $results | append $item -}}
+  {{- end -}}
+{{- end -}}
+
+{{- return $results -}}
+

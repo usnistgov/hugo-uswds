@@ -1,0 +1,7 @@
+@use "uswds-core" as *;
+
+.usa-logo {
+  @include at-media($theme-header-min-width) {
+    line-height: line-height($theme-header-font-family, 2);
+  }
+}

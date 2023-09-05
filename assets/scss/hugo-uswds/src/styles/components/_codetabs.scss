@@ -1,0 +1,75 @@
+@use "uswds-core" as *;
+
+$tab-icon-defaults: (
+  "color": currentColor,
+  "svg-height": 20,
+  "svg-width": 20,
+  "height": units(2.5),
+);
+$tab-icon-expand-more: map-merge(
+  $tab-icon-defaults,
+  (
+    "name": "expand_more",
+  )
+);
+$tab-icon-expand-less: map-merge(
+  $tab-icon-defaults,
+  (
+    "name": "expand_less",
+  )
+);
+
+div.codetabs {
+  list-style-type: none;
+  > ul {
+    @include u-display('flex');
+    @include u-margin-bottom(0);
+    list-style-type: none;
+
+    li.codetab {
+      @include u-margin-bottom(0);
+
+      button.usa-accordion__button {
+        @include button-unstyled;
+        @include u-padding(1.5, 2);
+        background-image: none;
+        text-decoration: none;
+
+        &[aria-expanded=false] { /* stylelint-disable-line selector-no-qualifying-type */
+          @include place-icon($tab-icon-expand-less, "after", 2px);
+
+        }
+
+        &[aria-expanded=true] { /* stylelint-disable-line selector-no-qualifying-type */
+          @include u-text('white');
+          @include u-bg('primary-darker');
+          @include place-icon($tab-icon-expand-more, "after", 2px);
+          pointer-events: none;
+        }
+
+        &:hover {
+          @include u-text('primary');
+          @include u-bg('base-lightest');
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  div.codetab-content {
+//    @include u-display('block') ;
+//    box-sizing: content-box;
+
+    div.codetab-content-item {
+//      box-sizing: content-box;
+      .highlight {
+        > .chroma {
+          margin-top: 0;
+          width: inherit;
+        }
+        display: block;
+      }
+    }
+
+  }
+}

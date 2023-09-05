@@ -10,7 +10,7 @@
 <section class="usa-hero"{{ with $image }} style="background-image: url('{{ $baseURL }}{{ . }}')"{{ end }}>
   <div class="grid-container">
     <div class="usa-hero__callout">
-      <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">{{ $calloutText | markdownify }}</span>{{ with $calloutAltText }} {{ . | markdownify }}{{end}}</h1>
+      <h1 class="usa-hero__heading"><span class="usa-hero__heading--alt">{{ $calloutAltText | markdownify }}</span>{{ with $calloutText }} {{ . | markdownify }}{{end}}</h1>
       <p>{{ .Inner }}</p><a class="usa-button" href="{{ $buttonURL | relURL }}">{{ $buttonText | markdownify }}</a>
     </div>
   </div>

@@ -1,3 +1,4 @@
+{{ warnf "In %q, use of the {{<codetab>}} shortcode is deprecated. Use the {{<tab>}} shortcode instead." .Page.Path }}
 {{- if ne .Parent.Name "codetabs" -}}
 {{- errorf "codetab must be used within a codetabs shortcode" -}}
 {{- end -}}
@@ -16,7 +17,7 @@
 {{- $codeLang := default $tabName (.Get "lang") -}}
 {{- $codeOptions := default "" (.Get "options") -}}
 {{- $code := trim .Inner "\r\n" -}}
-<div id="{{ $tabId }}" class="hugo-tab-content-item">
+<div id="{{ $tabId }}" class="codetab-content-item">
 {{- $style := default "light" (.Get "style") -}}
 {{- highlight $code $codeLang $codeOptions | replaceRE "^<div class=\"highlight\">" (printf "<div class=\"highlight %s\">" $style) | safeHTML -}}
 </div>

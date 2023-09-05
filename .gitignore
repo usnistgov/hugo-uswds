@@ -1,0 +1,9 @@
+# NodeJS files
+node_modules/
+build/
+_bundles/
+# Hugo files
+_vendor/
+public/
+resources/_gen
+.hugo_build.lock

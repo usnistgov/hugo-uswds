@@ -1,0 +1,23 @@
+{{- if and (not (strings.Contains .Content "<h1" )) (ne .Kind "taxonomy") -}}
+  {{- warnf "In %q, a level 1 heading must be provided in the content. Use '# heading text' for markdown or '<h1>heading text</h1>' for html." .Page.Path -}}
+{{- end -}}
+<main id="main-content" class="main-content usa-prose">
+  <header>
+    {{ partial "components/usa-breadcrumb.html" . }}
+{{/*}}
+    <h1 id="header" class="site-page-title">{{ if isset .Params "heading" }}{{ .Params.heading }}{{else}}{{ .Title }}{{ end }}</h1>
+{{*/}}
+  </header>
+  {{ .Content }}
+  {{- if and (eq .Kind "section") (not (.Param "suppresstopiclist" | default false)) -}}
+  {{ $pages := .Pages }}
+  {{ if gt (len $pages) 0 }}
+  <h2>This section contains the following topics:</h2>
+  <ul>
+  {{ range $index, $page := .Pages }}
+    <li><a class="usa-link" href="{{.RelPermalink}}"><b>{{.Title}}{{ if .Description }}:{{end}}</b></a>{{ if .Description }} {{ .Description | markdownify }}{{end}}</li>
+  {{ end }}
+  </ul>
+  {{ end }}
+{{ end }}
+</main>

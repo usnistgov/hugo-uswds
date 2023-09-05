@@ -1,0 +1,22 @@
+@use "uswds-core" as *;
+
+.usa-dark-background {
+  background-color: color("base-darker");
+
+  p,
+  span {
+    color: color($theme-text-reverse-color);
+  }
+
+  a {
+    color: color($theme-link-reverse-color);
+
+    &:visited {
+      color: color($theme-link-reverse-color);
+    }
+
+    &:hover {
+      color: color($theme-link-reverse-hover-color);
+    }
+  }
+}
