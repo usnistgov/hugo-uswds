@@ -12,10 +12,16 @@
 
 {{- if $inServerMode -}}
   {{- $css := $scss | toCSS $cssOpts | postCSS $postCSSOpts }}
+  {{- if hugo.IsProduction -}}
+    {{- $css = $css | resources.PostProcess -}}
+  {{- end -}}
   <link rel="stylesheet" href="{{ $css.RelPermalink }}">
 {{- else -}}
   {{- $css := $scss | toCSS $cssOpts | postCSS $postCSSOpts -}}
-  {{- $cssFingerprint := $css | resources.Fingerprint "sha512" }}
-  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $cssFingerprint.Data.Integrity }}" crossorigin="anonymous">
+  {{- $css = $css | resources.Fingerprint "sha512" }}
+  {{- if hugo.IsProduction -}}
+    {{- $css = $css | resources.PostProcess -}}
+  {{- end -}}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" crossorigin="anonymous">
 {{- end -}}
 
