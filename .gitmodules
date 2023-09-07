@@ -1,4 +1,0 @@
-[submodule "uswds"]
-	path = uswds
-	url = https://github.com/david-waltermire-nist/uswds.git
-	branch = make-paths-relative

@@ -1,5 +1,5 @@
 {{- $inServerMode := .Site.IsServer -}}
-{{- $sassIncludes := (slice "./_vendor/github.com/usnistgov/hugo-uswds/dist/scss") -}}
+{{- $sassIncludes := (slice "./_vendor/github.com/usnistgov/hugo-uswds/dist/scss/") -}}
 {{- $scss         := resources.Get "scss/module/hugo-uswds/styles.scss" -}}
 {{- $vars         := dict "siteBaseURL" $.Site.BaseURL -}}
 {{- $cssTarget    := "css/hugo-uswds.css" -}}
