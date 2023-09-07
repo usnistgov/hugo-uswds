@@ -23,8 +23,8 @@ module:
   mounts:
   - source: dist/js
     target: static/js/module/hugo-uswds
-  - source: dist/scss/styles.scss
-    target: assets/scss/module/hugo-uswds/styles.scss
+  - source: dist/scss
+    target: assets/scss/module/hugo-uswds
   - source: dist/img
     target: static/module/hugo-uswds/img
   - source: dist/fonts

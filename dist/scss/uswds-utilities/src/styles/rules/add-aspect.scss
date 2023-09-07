@@ -16,9 +16,9 @@ example:
 ----------------------------------------
 */
 @use "sass:map";
-@use "uswds-core/src/styles/settings" as *;
-@use "uswds-core/src/styles/variables/aspect-ratios" as *;
-@use "uswds-core/src/styles/mixins/general/add-aspect" as *;
+@use "../../../../uswds-core/src/styles/settings" as *;
+@use "../../../../uswds-core/src/styles/variables/aspect-ratios" as *;
+@use "../../../../uswds-core/src/styles/mixins/general/add-aspect" as *;
 
 $add-aspect: (
   add-aspect: (

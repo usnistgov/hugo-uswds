@@ -7,7 +7,7 @@ utilities to reference.
 
 @use "sass:map";
 @use "sass:list";
-@use "uswds-core" as *;
+@use "../../../uswds-core" as *;
 
 $if-important: "";
 

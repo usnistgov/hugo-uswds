@@ -26,8 +26,8 @@ example:
 ----------------------------------------
 */
 
-@use "uswds-core/src/styles/settings" as *;
-@use "uswds-core/src/styles/functions" as *;
+@use "../../../../uswds-core/src/styles/settings" as *;
+@use "../../../../uswds-core/src/styles/functions" as *;
 @use "../functions/" as *;
 
 $u-font: (

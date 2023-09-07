@@ -1,5 +1,5 @@
-@use "uswds-core/src/styles/functions/general/map-collect" as *;
-@use "uswds-core/src/styles/tokens/color" as *;
+@use "../../../../../uswds-core/src/styles/functions/general/map-collect" as *;
+@use "../../../../../uswds-core/src/styles/tokens/color" as *;
 
 $tokens-color-orange-warm-light: (
   "orange-warm-5": $color-orange-warm-5,

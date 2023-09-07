@@ -1,4 +1,4 @@
-@use "uswds-core" as *;
+@use "../../../../uswds-core" as *;
 
 @mixin generate-sidenav-nesting($list-selector,$left-padding-width, $depth, $i: 1){
   @if $i <= $depth {

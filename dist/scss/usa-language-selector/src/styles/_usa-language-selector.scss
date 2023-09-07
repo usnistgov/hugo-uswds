@@ -1,4 +1,4 @@
-@use "uswds-core" as *;
+@use "../../../uswds-core" as *;
 
 .usa-language {
   @include u-flex("row", "align-center", "justify-end");
