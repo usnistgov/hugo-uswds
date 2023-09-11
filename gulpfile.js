@@ -13,11 +13,7 @@ uswds.settings.version = 3;
  * Set as many as you need
  */
 
-uswds.paths.dist.css = './assets/css';
-uswds.paths.dist.theme = './sass';
-
-//uswds.paths.src.theme = './theme-src/scss'
-//uswds.paths.dist.css = './dist/css';
+uswds.paths.dist.css = './dist/css';
 uswds.paths.dist.img = './dist/img';
 uswds.paths.dist.fonts = './dist/fonts';
 uswds.paths.dist.js = './dist/js';
@@ -27,6 +23,7 @@ uswds.paths.dist.js = './dist/js';
  * Add as many as you need
  */
 
-exports.init = uswds.init;
 exports.compile = uswds.compile;
+exports.watch = uswds.watch;
 exports.update = uswds.updateUswds;
+exports.default = uswds.watch;

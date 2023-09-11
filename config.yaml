@@ -22,9 +22,9 @@ module:
     extended: true
   mounts:
   - source: dist/js
-    target: static/js/module/hugo-uswds
-  - source: dist/scss
-    target: assets/scss/module/hugo-uswds
+    target: static/module/hugo-uswds/js
+  - source: dist/css
+    target: static/module/hugo-uswds/css
   - source: dist/img
     target: static/module/hugo-uswds/img
   - source: dist/fonts

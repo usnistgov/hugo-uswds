@@ -1,4 +1,4 @@
-@use "../../../../../uswds-core" as *;
+@use "uswds-core" as *;
 @use "../variables" as *;
 
 $site-navbar-height: 10;
@@ -12,19 +12,27 @@ $site-secondary-nav-input-height: 38px;
   }
 }
 
-.site-header__navbar,
-.site-nav__inner,
-.site-header__navcontainer {
-  max-width: none !important;
-}
+
 
 .site-header {
   @include typeset("lang");
   margin-top: units(1);
-  max-width: units($theme-grid-container-max-width);
 
   @include at-media("desktop") {
     border-bottom: none;
+    background-color: color($theme-body-background-color);
+  }
+
+  &__navbar {
+    border-bottom: none !important;
+    display: flex !important;
+
+    @include at-media("desktop") {
+      max-width: units($theme-grid-container-max-width);
+      height: units($site-navbar-height) !important;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   &.usa-header--extended {
@@ -56,18 +64,6 @@ $site-secondary-nav-input-height: 38px;
     .usa-menu-btn {
       font-size: fs("lang", "3xs");
     }
-
-    &__navbar {
-      border-bottom: none !important;
-
-      @include at-media("desktop") {
-        height: units($site-navbar-height) !important;
-      }
-    }
-  }
-
-  &__navbar {
-    display: flex !important;
   }
 
     // Search and CTA buttons
@@ -125,11 +121,20 @@ $site-secondary-nav-input-height: 38px;
   border-bottom: units($site-border-width) solid
     color($site-base-transparent-light);
   padding-left: units(2);
+  max-width: none !important;
 
   @include at-media("desktop") {
     float: none;
     height: units($height-nav-secondary);
     z-index: z-index($z-nav-secondary);
+  }
+
+  &__inner {
+    @include at-media("desktop") {
+      max-width: units("widescreen");
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   // Search input gets cutoff on mobile.

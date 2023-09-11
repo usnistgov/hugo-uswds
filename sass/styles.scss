@@ -1,5 +1,3 @@
-@use "hugo:vars" as h;
-
 @use "uswds-core" with (
   $theme-font-path:   '../fonts',
   $theme-image-path:  '../img',
@@ -44,4 +42,3 @@
 
 @forward "uswds";
 @forward "hugo-uswds";
-@forward "hugo-uswds-custom-styles";
