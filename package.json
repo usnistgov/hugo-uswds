@@ -25,6 +25,7 @@
     "@types/jquery": "^3.5.16",
     "@uswds/compile": "^1.0.0",
     "cpy-cli": "^5.0.0",
+    "markdown-link-check": "^3.11.2",
     "rimraf": "^5.0.1",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",
