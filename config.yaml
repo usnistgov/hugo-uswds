@@ -5,17 +5,13 @@ description: "A hugo theme based on the United States Web Design System (USWDS) 
 homepage: "https://github.com/usnistgov/hugo-uswds"
 tags:
 features:
-min_version: "0.111.3"
 author:
   name: "David Waltermire"
   homepage: "https://www.nist.gov/people/david-waltermire"
-
-# If porting an existing theme
 original:
   name: "The United States Web Design System (USWDS) 2.0"
   homepage: "https://designsystem.digital.gov/"
   repo: "https://github.com/uswds/uswds"
-
 module:
   hugoVersion:
     min: 0.111.0
@@ -33,4 +29,3 @@ module:
     target: layouts
   - source: archetypes
     target: archetypes/module/hugo-uswds
-    
