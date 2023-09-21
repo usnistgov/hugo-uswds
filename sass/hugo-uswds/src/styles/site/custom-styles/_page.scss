@@ -1,0 +1,13 @@
+@use "uswds-core" as *;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.site-content-container {
+  @include at-media("desktop") {
+    max-width: units("widescreen");
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

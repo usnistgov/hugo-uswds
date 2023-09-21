@@ -2,7 +2,16 @@
 {{- $activePage := .activePage -}}
 {{- $parentRenderDepth := .parentRenderDepth -}}
 
+{{- /*
+  A negative renderDepth is unlimited.
+  A render depth of 0 indicates the target page is not rendered.
+  A positive N render depth will cause the current page to render, and N - 1 children.
 
+  The following page parameters affect the render depth calculation.
+  1. sidenav.activerenderdepth applies to the current page and index ancestors of the active page.
+  2. sidenav.focusrenderdepth applies to descendants of the current page only if the current page is an index.
+  3. sidenav.inactiverenderdepth applies to pages that are not direct ancestor or descendant of the current page.
+*/ -}}
 {{- $renderDepth := -100 -}}
 
 {{- /* derive the current render depth based on the parent */ -}}

@@ -1,0 +1,43 @@
+{
+  "ignorePatterns": [
+        {
+            "pattern": "https://docs.github.com"
+        },
+        {
+            "pattern": "https://guides.github.com"
+        },
+        {
+            "pattern": "https://help.github.com"
+        },
+        {
+            "pattern": "https://www.bottlecaps.de/rex/"
+        },
+        {
+            "pattern": "https://www.sorkintype.com/"
+        },
+        {
+            "pattern": "https://www.congress.gov/"
+        },
+        {
+            "pattern": "https://pages.nist.gov/hugo-uswds/"
+        }
+  ],
+  "replacementPatterns": [
+        {
+            "pattern": "^../../issues",
+            "replacement": "https://github.com/usnistgov/hugo-uswds/issues"
+        },
+        {
+            "pattern": "^../../projects",
+            "replacement": "https://github.com/usnistgov/hugo-uswds/projects"
+        },
+        {
+            "pattern": "^../../releases",
+            "replacement": "https://github.com/usnistgov/hugo-uswds/releases"
+        },
+        {
+            "pattern": "^../../tree",
+            "replacement": "https://github.com/usnistgov/hugo-uswds/tree"
+        }
+    ]
+}

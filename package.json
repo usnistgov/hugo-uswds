@@ -4,18 +4,15 @@
   "description": "Hugo theme based on the United States Web Design System",
   "main": "index.js",
   "scripts": {
-    "postinstall": "npm run -s copy",
-    "copy": "npm run -s copy:uswds:scss && npm run -s copy:uswds:js && npm run -s copy:uswds:img && npm run -s copy:uswds:fonts && npm run -s copy:image-map-resizer:js && npm run -s copy:jquery:js && npm run -s copy:module:scss",
-    "copy:uswds:scss": "npx cpy \"node_modules/@uswds/uswds/packages/**/*.scss\" dist/scss",
-    "copy:module:scss": "npx cpy \"assets/scss/**/*.scss\" dist/scss",
-    "copy:uswds:js": "npx cpy \"node_modules/@uswds/uswds/dist/js/*.min.js\" dist/js --flat",
-    "copy:uswds:img": "npx cpy \"node_modules/@uswds/uswds/dist/img/**/*.svg\" \"node_modules/@uswds/uswds/dist/img/**/*.png\" \"node_modules/@uswds/uswds/dist/img/**/*.jpg\" \"node_modules/@uswds/uswds/dist/img/**/*.ico\" \"node_modules/@uswds/uswds/dist/img/**/*.gif\" dist/img",
-    "copy:uswds:fonts": "npx cpy \"node_modules/@uswds/uswds/dist/fonts/**\" dist/fonts",
+    "copy": "npm run -s copy:module:js && npm run -s copy:image-map-resizer:js && npm run -s copy:jquery:js",
+    "uswds": "npx gulp update",
+    "copy:module:js": "npx cpy '_bundles/*.min.{js,js.map}' dist/js",
     "copy:image-map-resizer:js": "npx cpy node_modules/image-map-resizer/js/imageMapResizer.min.js dist/js --flat",
-    "copy:jquery:js": "npx cpy node_modules/jquery/dist/jquery.min.js dist/js --flat",
-    "copy:hugo-uswds": "npx cpy \"_bundles/*.min.js\" \"_bundles/*.min.js.LICENSE.txt\" dist/js",
+    "copy:jquery:js": "npx cpy 'node_modules/jquery/dist/jquery.min.{js,map}' dist/js --flat",
     "build": "npx rimraf ./build && npx tsc",
-    "bundle": "npx rimraf ./build _bundles && npx tsc && npx webpack --mode production"
+    "bundle": "npx rimraf ./build _bundles && npx tsc && npx webpack --mode production",
+    "clean": "npx rimraf ./build ./dist ./_bundles",
+    "prepare": "npm run clean && npm run bundle && npm run uswds && npm run copy"
   },
   "author": "David Waltermire <david.waltermire@nist.gov>",
   "license": "CC0-1.0",
@@ -28,6 +25,7 @@
     "@types/jquery": "^3.5.16",
     "@uswds/compile": "^1.0.0",
     "cpy-cli": "^5.0.0",
+    "markdown-link-check": "^3.11.2",
     "rimraf": "^5.0.1",
     "terser-webpack-plugin": "^5.3.9",
     "ts-loader": "^9.4.4",
@@ -39,7 +37,6 @@
     "@uswds/uswds": "^3.6.0",
     "image-map-resizer": "^1.0.10",
     "jquery": "^3.6.4",
-    "mermaid": "^10.1.0",
-    "uswds": "^2.14.0"
+    "mermaid": "^10.1.0"
   }
 }
