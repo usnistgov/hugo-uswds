@@ -11,6 +11,15 @@
         },
         {
             "pattern": "https://www.bottlecaps.de/rex/"
+        },
+        {
+            "pattern": "https://www.sorkintype.com/"
+        },
+        {
+            "pattern": "https://www.congress.gov/"
+        },
+        {
+            "pattern": "https://pages.nist.gov/hugo-uswds/"
         }
   ],
   "replacementPatterns": [

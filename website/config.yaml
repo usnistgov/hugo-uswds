@@ -1,7 +1,7 @@
 # Default page title
 title: "Hugo USWDS"
 # The base URL of the site
-baseURL: https://pages.nist.gov/hugo-uswds-docs/
+baseURL: https://pages.nist.gov/hugo-uswds/
 # The default language provided by the site
 defaultContentLanguage: en
 languages:
