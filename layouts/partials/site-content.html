@@ -1,8 +1,11 @@
+{{- $displayToc := .Param "toc.display" | default false -}}
+{{- $displaySideNav := .Param "sidenav.display" | default true -}}
 <div class="site-content-container">
+  {{- if $displaySideNav -}}
   <aside id="page-side-navigation" class="sidenav site-sidenav" aria-label="Section navigation">
     {{ partial "components/usa-sidenav.html" . }}
   </aside>
-  {{- $displayToc := .Param "toc.display" | default false -}}
+  {{- end -}}
   {{- with .Page.Params.toc -}}
     {{- if isset . "enabled" -}}
       {{- $displayToc = .enabled -}}
