@@ -9,10 +9,10 @@
   {{ partialCached "meta.html" . }}
   {{ end -}}
 
-  <script type="text/javascript" src="/module/hugo-uswds/js/uswds-init.min.js"></script>
-  <link rel="preload" href="/module/hugo-uswds/js/uswds.min.js" as="script">
+  <script type="text/javascript" src="{{ absURL "./module/hugo-uswds/js/uswds-init.min.js" }}"></script>
+  <link rel="preload" href="{{ absURL "./module/hugo-uswds/js/uswds.min.js" }}" as="script">
 
-  <link rel="stylesheet" href="/module/hugo-uswds/css/styles.css">
+  <link rel="stylesheet" href="{{ absURL "./module/hugo-uswds/css/styles.css" }}">
 
   {{ range .AlternativeOutputFormats }}
     {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
@@ -21,8 +21,8 @@
   <title>{{ block "title" . }}{{ .Title }}{{ end }}</title>
 {{ template "_internal/google_analytics_async.html" . }}
 
-<script type="text/javascript" src="/module/hugo-uswds/js/jquery.min.js"></script>
-<script type="text/javascript" defer src="/module/hugo-uswds/js/hugo-uswds.min.js"></script>
+<script type="text/javascript" src="{{ absURL "./module/hugo-uswds/js/jquery.min.js" }}"></script>
+<script type="text/javascript" defer src="{{ absURL "./module/hugo-uswds/js/hugo-uswds.min.js" }}"></script>
 
 {{ block "head" . }}
   {{ partialCached "head.html" . }}
@@ -55,7 +55,9 @@
 {{- partial "site-content.html" . -}}
 {{- end -}}
 
+{{- if ne .Kind "404" }}
   <p class="font-sans-sm text-center" style="margin: 1.5rem auto">This page was last updated on {{ .Lastmod.Format "January 2, 2006" }}.{{ if .Site.Params.contentrepopath }} <button id="main-improve-page" onclick="window.location.href = '{{ .Site.Params.contentrepopath }}/{{ with .File }}{{ .Path }}{{ end }}';" class="usa-button">Improve this Page</button>{{ end }}</p>
+{{- end -}}
 
 {{- range .Site.Params.custom_js }}
   <script type="text/javascript" src="{{ . | relURL }}"></script>
@@ -67,7 +69,7 @@
 
 {{ $usingImageMap := .Page.Store.Get "hasImageMap" }}
 {{- if $usingImageMap }}
-  <script defer type="text/javascript" src="/module/hugo-uswds/js/imageMapResizer.min.js"></script>
+  <script defer type="text/javascript" src="{{ absURL "./module/hugo-uswds/js/imageMapResizer.min.js" }}"></script>
 {{ end -}}
 
 {{ $usingMermaid := .Page.Store.Get "hasMermaid" }}
@@ -75,7 +77,7 @@
   <script type="module">import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/+esm'</script>
 {{ end }}
 
-  <script type="text/javascript" src="/module/hugo-uswds/js/uswds.min.js"></script>
+  <script type="text/javascript" src="{{ absURL "./module/hugo-uswds/js/uswds.min.js" }}"></script>
 
 {{ block "foot" . }}
 {{ partial "foot.html" . }}

@@ -15,18 +15,15 @@ body{
   @include u-pin("right");
   @include u-pin("bottom");
   @include add-responsive-site-margins;
-  display: inline-block; // starting: not scrolled
   margin-top: units(2); // align horizontal edge; starting: not scrolled
   margin-bottom: units(6);
   padding-left: units(2);
   padding-right: units(2);
-  position: relative;
-  width: 100%;
   max-width: units($theme-grid-container-max-width);
 
-  .lt-ie9 & {
-    width: 75%;
-  }
+  display: block;
+  width: initial;
+  position: relative;
 
   header {
     > nav.usa-breadcrumb {
@@ -73,7 +70,6 @@ body{
 
   > h4 {
     @include typeset("lang", "2xs", 3);
-//    @include u-text("uppercase", $site-ink, "normal", "ls-2");
     margin-top: units(3);
 
     & + p,

@@ -13,10 +13,32 @@
   }
 }
 
+.usa-in-page-nav-container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  main {
+    @include u-minw(15);
+    width: initial;
+  }
+}
+
 .site-in-page-nav {
   @extend .usa-in-page-nav;
   max-height: 95vh;
   overflow-y: hidden;
+  margin-left: 0;
+
+  @include at-media("widescreen") {
+    display: block;
+    order: 2;
+    width: 100%;
+    margin-top: 0;
+    flex-shrink: 0;
+    flex-grow: 1;
+  }
 
   &__link {
     @extend .usa-in-page-nav__link !optional;
@@ -40,10 +62,11 @@
 }
 
 .usa-in-page-nav {
+  &__nav {
+    padding: 0;
+  }
+
   &__item {
-    a:not(.usa-button) {
-  //    padding: units(0.5) units($sidenav-level-1-inset);
-    }
     code {
       @include typeset('mono', "2xs", 3);
     }
