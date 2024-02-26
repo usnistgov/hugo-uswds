@@ -111,7 +111,7 @@ jobs:
     - name: Run Hugo
       run: |
         hugo mod vendor
-        hugo -e production --logLevel debug --minify
+        hugo -e production --logLevel debug --minify -d public/hugo-uswds
       working-directory: ${{ github.workspace }}/website
     - name: Zip Artifacts for Upload
       run: |
@@ -128,7 +128,7 @@ jobs:
       name: Link Checker
       uses: lycheeverse/lychee-action@ec3ed119d4f44ad2673a7232460dc7dff59d2421
       with:
-        args: --exclude-file .github/workflows/config/.lycheeignore --verbose --no-progress --accept 200,206,429 './website/public/**/*.html' --remap "https://pages.nist.gov/hugo-uswds/ file://${GITHUB_WORKSPACE}/website/public/" --exclude-mail
+        args: --exclude-file .github/workflows/config/.lycheeignore --verbose --no-progress --accept 200,206,429 './website/public/**/*.html' --remap "https://pages.nist.gov/hugo-uswds/ file://${GITHUB_WORKSPACE}/website/public/hugo-uswds/" --exclude-mail
         format: markdown
         output: html-link-report.md
         debug: true
