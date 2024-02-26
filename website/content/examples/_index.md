@@ -1,11 +1,18 @@
 ---
-title: "Page Examples"
+title: "Use Examples"
 menu:
   primary:
     identifier: examples
     name: Page Examples
     weight: 50
+toc:
+  display: false
 ---
 
-<a href="https://github.com/">Test</a>
-TBD
+# Page Examples
+
+This section contains examples of using this theme.
+
+## Home Page
+
+- [homepage](homepage/)

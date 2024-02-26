@@ -105,29 +105,41 @@ li code, p code, td > code, td > a > code, div.callout code {
 */
 
 /* fix code highlighting in alerts */
-.usa-alert--success {
-  p code {
-    background-color: color('success-light');
+@include at-media("desktop") {
+  .usa-alert .usa-alert__body {
+    @include u-padding-x(5)
   }
 }
-.usa-alert--warning {
-  p code {
-    background-color: color('warning-light');
+@include at-media("desktop") {
+  .usa-alert--no-icon .usa-alert__body {
+    @include u-padding-x(2)
   }
 }
-.usa-alert--error {
-  p code {
-    background-color: color('error-light');
+.usa-alert {
+  &--success {
+    p code {
+      background-color: color('success-light');
+    }
   }
-}
-.usa-alert--info {
-  p code {
-    background-color: color('info-light');
+  &--warning {
+    p code {
+      background-color: color('warning-light');
+    }
   }
-}
-.usa-alert--emergency {
-  p code {
-    background-color: color('emergency');
+  &--error {
+    p code {
+      background-color: color('error-light');
+    }
+  }
+  &--info {
+    p code {
+      background-color: color('info-light');
+    }
+  }
+  &--emergency {
+    p code {
+      background-color: color('emergency');
+    }
   }
 }
 
@@ -136,5 +148,5 @@ li code, p code, td > code, td > a > code, div.callout code {
 }
 
 .usa-prose > * + h1, .usa-prose > * + h2, .usa-prose > * + h3, .usa-prose > * + h4, .usa-prose > * + h5, .usa-prose > * + h6, * + h1, * + h2, * + h3, * + h4, * + h5, * + h6 {
-  margin-top: 1em;
+  margin-top: 0.5em;
 }

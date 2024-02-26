@@ -149,11 +149,12 @@ $site-secondary-nav-input-height: 38px;
   }
 
   .usa-nav__primary button {
-    line-height: lh("lang", 2);
+    line-height: lh($theme-navigation-font-family, 1);
+    padding: units(2);
   }
 
   .usa-nav__submenu-item {
-    @include typeset("lang", "2xs", 2);
+    @include typeset($theme-navigation-font-family, "2xs", 2);
   }
 }
 

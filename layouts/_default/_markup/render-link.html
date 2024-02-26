@@ -1,0 +1,2 @@
+<a href="{{ .Destination | safeURL }}"{{- with .Title }} title="{{ . }}"{{ end -}}>{{- with .Text | safeHTML }}{{ . }}{{ end -}}XX</a>
+{{- /* chomp trailing newline */ -}}
