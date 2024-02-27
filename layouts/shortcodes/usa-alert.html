@@ -1,24 +1,26 @@
+<!--
+  parameters:
+    type: one of: info, error, warning, success
+    heading: the heading text
+    class: extra alert classes
+    body-class: extra alert boy classes
+  Inner: the alert text
+-->
 {{ $type := .Get "type" | default "info" }}
+{{ $heading := .Get "heading" }}
 {{ $validTypes := slice "info" "error" "warning" "success" }}
 {{ if not (in $validTypes $type ) }}
   {{ errorf "Invalid type %#v. Must be one of: info, error, warning, or success" $type }}
 {{ end }}
-{{ $heading := .Get "heading" }}
 {{ if not ($heading) }}{{ errorf "missing value for param 'heading': %s" .Position }}{{ end }}
 {{ $class := .Get "class" }}
 {{ $bodyClass := .Get "body-class" }}
-<div class="usa-alert usa-alert--{{ $type }}{{ if $class }} {{$class}}{{end}}" >
+<div class="usa-alert usa-alert--{{ $type }}{{ if $class }} {{$class}}{{end}}">
   <div class="usa-alert__body">
-    <h1 class="usa-alert__heading">{{ $heading | markdownify }}</h3>
-    {{ $markdown := .Inner | markdownify }}
-    {{ if findRE "<p>" $markdown }}
-      {{ if $bodyClass }}
-      {{- $markdown | replaceRE "<p>" (printf "<p class=\"usa-alert__text %s\">" $bodyClass) | safeHTML -}}
-      {{ else }}
-      {{- .Inner | markdownify | replaceRE "<p>" "<p class=\"usa-alert__text\">" | safeHTML -}}
-      {{ end }}
-    {{ else }}
-    <p class="usa-alert__text{{ if $bodyClass }} {{$bodyClass}}{{end}}">{{ $markdown }}</p>
-    {{ end }}
+  <h3 class="usa-alert__heading">{{ $heading | markdownify }}</h3>
+<div class="usa-alert__text{{ if $bodyClass }} {{$bodyClass}}{{end}}">
+
+{{ .Inner }}
+</div>
   </div>
 </div>

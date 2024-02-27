@@ -17,7 +17,6 @@ The following configuration needs to be made regardless of the installation meth
 In your project directory, update your `config.yaml` with the following:
 
 ```yaml
-relativeURLs: true # rewrites URLs to a relative form supporting link offline checking
 enableGitInfo: true # enable to get page modification dates for a site stored in Git
 params:
   header:
@@ -75,3 +74,25 @@ For detailed instruction, refer to the [Hugo Module documentation](https://gohug
     - uswds
     ```
 1. The theme is used the next time you run `hugo serve`.
+
+## Development of this theme
+
+When working on modifications to this theme, the following commands can be used to test and build the theme.
+
+For initializing the module:
+
+```bash
+npm install
+```
+
+For live editing:
+
+```bash
+npx gulp
+```
+
+For building prior to release:
+
+```bash
+npm run prepare
+```

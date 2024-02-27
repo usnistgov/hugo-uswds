@@ -13,62 +13,88 @@
   }
 }
 
-.site-in-page-nav {
-  @extend .usa-in-page-nav;
-  max-height: 95vh;
-  overflow-y: hidden;
+.usa-in-page-nav-container {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
 
-  &__link {
-    @extend .usa-in-page-nav__link !optional;
+  main {
+    @include u-minw(15);
+  }
 
-    &.h3 {
-      margin-left: units(1);
+  .site-in-page-nav {
+    @extend .usa-in-page-nav;
+    max-height: 95vh;
+    overflow-y: hidden;
+    margin-left: 0;
+
+    @include at-media("widescreen") {
+      display: block;
+      order: 2;
+      width: 100%;
+      margin-top: 0;
+      flex-shrink: 0;
+      flex-grow: 1;
     }
 
-    &.h4 {
-      margin-left: units(2);
-    }
+    &__link {
+      @extend .usa-in-page-nav__link !optional;
 
-    &.h5 {
-      margin-left: units(3);
-    }
+      &.h3 {
+        margin-left: units(1);
+      }
 
-    &.h6 {
-      margin-left: units(4);
+      &.h4 {
+        margin-left: units(2);
+      }
+
+      &.h5 {
+        margin-left: units(3);
+      }
+
+      &.h6 {
+        margin-left: units(4);
+      }
     }
   }
-}
 
-.usa-in-page-nav {
-  &__item {
-    a:not(.usa-button) {
-  //    padding: units(0.5) units($sidenav-level-1-inset);
+  .usa-in-page-nav {
+    &__heading {
+      margin-top: units(2);
     }
-    code {
-      @include typeset('mono', "2xs", 3);
+
+    &__nav {
+      padding: 0;
     }
-  }
-  &__list {
-    /* revert background left border */
-    a:not(.usa-button) {
-      &:not(.usa-current) {
-        color: inherit;
-        &:visited {
+
+    &__item {
+      code {
+        @include typeset('mono', "2xs", 3);
+      }
+    }
+    &__list {
+      /* revert background left border */
+      a:not(.usa-button) {
+        &:not(.usa-current) {
           color: inherit;
+          &:visited {
+            color: inherit;
+          }
+        }
+        &.usa-current {
+          color: #005ea2;
+          font-weight: bold;
+          &::after {
+            background-color: inherit;
+          }
         }
       }
+
       &.usa-current {
-        color: #005ea2;
-        font-weight: bold;
         &::after {
           background-color: inherit;
         }
-      }
-    }
-
-    &.usa-current {
-      &::after {
-        background-color: inherit;
       }
     }
   }
