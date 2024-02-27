@@ -1,2 +1,2 @@
-<a {{ printf "href=%q" .Destination | safeHTMLAttr }}{{- with .Title }} title="{{ . }}"{{ end -}}>{{- with .Text | safeHTML }}{{ . }}{{ end -}}XX</a>
+<a {{ printf "href=%q" .Destination | safeHTMLAttr }}{{- with .Title }} title="{{ . }}"{{ end -}}>{{- with .Text | safeHTML }}{{ . }}{{ end -}}</a>
 {{- /* chomp trailing newline */ -}}
