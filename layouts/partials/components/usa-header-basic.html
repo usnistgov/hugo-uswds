@@ -7,7 +7,7 @@
     <div class="usa-navbar">
       <div id="basic-logo" class="usa-logo">
         <em class="usa-logo__text">
-          <a href="{{"/" | relURL }}" title="{{ .Site.Params.header.project_name }}" aria-label="Home">
+          <a href="{{ urls.Ref .Page "/" | relURL }}" title="{{ .Site.Params.header.project_name }}" aria-label="Home">
             <span class="site-title--short">{{ .Site.Params.header.project_shortname }}</span>
             <span class="site-title--long">{{ .Site.Params.header.project_name }}</span>
           </a>

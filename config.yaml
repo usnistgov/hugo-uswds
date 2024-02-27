@@ -14,7 +14,7 @@ original:
   repo: "https://github.com/uswds/uswds"
 module:
   hugoVersion:
-    min: 0.111.0
+    min: 0.120.0
     extended: true
   mounts:
   - source: dist/js
@@ -23,6 +23,8 @@ module:
     target: static/module/hugo-uswds/css
   - source: dist/img
     target: static/module/hugo-uswds/img
+  - source: dist/img
+    target: assets/module/hugo-uswds/img
   - source: dist/fonts
     target: static/module/hugo-uswds/fonts
   - source: layouts

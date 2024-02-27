@@ -150,3 +150,10 @@ li code, p code, td > code, td > a > code, div.callout code {
 .usa-prose > * + h1, .usa-prose > * + h2, .usa-prose > * + h3, .usa-prose > * + h4, .usa-prose > * + h5, .usa-prose > * + h6, * + h1, * + h2, * + h3, * + h4, * + h5, * + h6 {
   margin-top: 0.5em;
 }
+
+/* highlight broken links */
+a.broken {
+  background: #ff0;
+  border: 2px solid #f00;
+  padding: 0.1em 0.2em;
+}
